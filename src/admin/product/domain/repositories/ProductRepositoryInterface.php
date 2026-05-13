@@ -8,13 +8,13 @@ interface ProductRepositoryInterface
 {
     public function save(Product $product): void;
 
-    public function findById(int $id): ?Product;
-    
+    public function findById(int $id): Product;
+
     public function searchAll(): array;
-    
+
     public function delete(int $id): void;
-    
-    public function findBySlug(string $slug): ?Product;
+
+    public function findBySlug(string $slug): Product;
     
     public function search(string $query): array;
 }

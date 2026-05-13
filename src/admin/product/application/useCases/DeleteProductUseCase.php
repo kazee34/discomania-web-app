@@ -2,7 +2,6 @@
 
 namespace Src\admin\product\application\useCases;
 
-use Src\admin\product\domain\exceptions\ProductNotFoundException;
 use Src\admin\product\domain\repositories\ProductRepositoryInterface;
 
 class DeleteProductUseCase
@@ -15,13 +14,7 @@ class DeleteProductUseCase
     {
         $product = $this->repository->findById($id);
 
-        if (!$product) {
-            throw new ProductNotFoundException($id);
-        }
-
         $product->delete();
         $this->repository->delete($id);
-
-        // Dispatch events
     }
 }

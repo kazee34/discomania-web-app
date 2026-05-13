@@ -10,7 +10,7 @@ use Src\admin\product\application\dto\ProductRequest;
 class CreateProductUseCase
 {
     public function __construct(
-        private ProductRepositoryInterface $repository
+        private ProductRepositoryInterface $repository, 
     ) {}
 
     public function execute(ProductRequest $request): CreateProductResult

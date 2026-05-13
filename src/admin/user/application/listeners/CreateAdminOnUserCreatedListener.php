@@ -17,11 +17,11 @@ class CreateAdminOnUserCreatedListener
         try {
             // Only create admin if role is provided
             if ($event->role === null) {
-                logger()->info('No role provided for user, skipping admin creation', [
+                logger()->error('No role provided for user, skipping admin creation', [
                     'user_id' => $event->id,
                 ]);
 
-                return;
+                throw new \Exception('No role provided for user, skipping admin creation');
             }
 
             $this->createAdminUseCase->execute(

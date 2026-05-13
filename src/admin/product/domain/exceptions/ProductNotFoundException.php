@@ -10,4 +10,9 @@ class ProductNotFoundException extends Exception
     {
         parent::__construct("Product with ID {$productId} not found.");
     }
+
+    // public function __construct(string $slug)
+    // {
+    //     parent::__construct("Product with slug '{$slug}' not found.");
+    // }
 }

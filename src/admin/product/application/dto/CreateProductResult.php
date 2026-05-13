@@ -11,13 +11,13 @@ class CreateProductResult
         public readonly string $albumTitle,
         public readonly float $price,
         public readonly int $stock,
-        public readonly string $slug,
-        public readonly string $genre,
-        public readonly int $releaseYear,
-        public readonly string $country,
-        public readonly string $label,
-        public readonly string $description,
-        public readonly string $coverImageUrl
+        public readonly ?string $slug,
+        public readonly ?string $genre,
+        public readonly ?int $releaseYear,
+        public readonly ?string $country,
+        public readonly ?string $label,
+        public readonly ?string $description,
+        public readonly ?string $coverImageUrl
     ) {}
 
     public static function fromProduct(Product $product): self

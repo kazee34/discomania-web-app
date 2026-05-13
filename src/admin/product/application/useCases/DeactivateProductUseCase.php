@@ -2,19 +2,19 @@
 
 namespace Src\admin\product\application\useCases;
 
-use Src\admin\product\application\dto\FindProductResult;
 use Src\admin\product\domain\repositories\ProductRepositoryInterface;
 
-class FindProductUseCase
+class DeactivateProductUseCase
 {
     public function __construct(
         private ProductRepositoryInterface $repository
     ) {}
 
-    public function execute(int $id): FindProductResult
+    public function execute(int $id): void
     {
         $product = $this->repository->findById($id);
 
-        return FindProductResult::fromProduct($product);
+        $product->deactivate();
+        $this->repository->save($product);
     }
 }

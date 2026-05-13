@@ -6,6 +6,7 @@ Route::prefix('v1')->group(function () {
     
     Route::prefix('admin')->group(function () {
         require base_path('src/admin/user/infrastructure/routes/api.php');
+        require base_path('src/admin/product/infrastructure/routes/api.php');
     });
 
     Route::prefix('customer')->group(function () {

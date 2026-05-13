@@ -2,7 +2,7 @@
 
 namespace Src\admin\user\application\listeners;
 
-use src\admin\user\application\DeleteUserUseCase;
+use src\admin\user\application\useCases\DeleteUserUseCase;
 use Src\admin\user\domain\events\AdminDeletedEvent;
 
 class DeleteUserOnAdminDeletedListener

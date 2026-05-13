@@ -56,7 +56,7 @@ class ProductModel extends Model
         'country',
         'label',
         'price',
-        'stock',
+        'stock_quantity',
         'description',
         'cover_image_url',
         'is_active',
@@ -64,7 +64,7 @@ class ProductModel extends Model
 
     protected $casts = [
         'price' => 'decimal:2',
-        'stock' => 'integer',
+        'stock_quantity' => 'integer',
         'release_year' => 'integer',
         'is_active' => 'boolean',
     ];
