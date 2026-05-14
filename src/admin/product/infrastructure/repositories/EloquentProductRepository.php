@@ -2,10 +2,10 @@
 
 namespace Src\admin\product\infrastructure\repositories;
 
-use Src\admin\product\domain\entities\Product;
-use Src\admin\product\domain\exceptions\ProductNotFoundException;
-use Src\admin\product\domain\repositories\ProductRepositoryInterface;
 use App\Models\ProductModel;
+use Src\admin\product\domain\entities\Product;
+use Src\admin\product\domain\repositories\ProductRepositoryInterface;
+use Src\shared\domain\exceptions\ProductNotFoundException;
 
 class EloquentProductRepository implements ProductRepositoryInterface
 {
@@ -46,25 +46,24 @@ class EloquentProductRepository implements ProductRepositoryInterface
 
     public function findById(int $id): Product
     {
-        $model = ProductModel::find('id', $id);
+        $model = ProductModel::find($id);
 
         if (!$model) {
-            throw new ProductNotFoundException($id);
+            throw new ProductNotFoundException();
         }
 
-        return $this->toProduct($model);
+        return self::toProduct($model);
     }
 
     public function findBySlug(string $slug): Product
     {
-        $model = ProductModel::firstWhere('slug', '=', $slug);
+        $model = ProductModel::where('slug', $slug)->first();
 
         if (!$model) {
-            // TODO: Create a specific exception for this case
-            throw new \Exception("Product with slug '{$slug}' not found.");
+            throw new ProductNotFoundException();
         }
 
-        return $this->toProduct($model);
+        return self::toProduct($model);
     }
 
     public function search(string $query): array
@@ -74,14 +73,14 @@ class EloquentProductRepository implements ProductRepositoryInterface
             ->orWhere('album_title', 'like', "%{$query}%")
             ->orWhere('genre', 'like', "%{$query}%")
             ->get()
-            ->map(fn ($model) => $this->toProduct($model))
+            ->map(fn ($model) => self::toProduct($model))
             ->toArray();
     }
 
     public function searchAll(): array
     {
         return ProductModel::all()
-            ->map(fn ($model) => $this->toProduct($model))
+            ->map(fn ($model) => self::toProduct($model))
             ->toArray();
     }
 
@@ -90,7 +89,7 @@ class EloquentProductRepository implements ProductRepositoryInterface
         ProductModel::destroy($id);
     }
 
-    private function toProduct(ProductModel $model): Product
+    private static function toProduct(ProductModel $model): Product
     {
         return Product::fromPrimitives(
             id: $model->id,

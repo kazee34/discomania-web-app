@@ -7,8 +7,10 @@ use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Validation\Rules\Password;
-use Src\admin\product\domain\repositories\ProductRepositoryInterface;
-use Src\admin\product\infrastructure\repositories\EloquentProductRepository;
+use Src\admin\product\domain\repositories\ProductRepositoryInterface as AdminProductRepositoryInterface;
+use Src\admin\product\infrastructure\repositories\EloquentProductRepository as AdminEloquentProductRepository;
+use Src\customer\product\domain\repositories\ProductRepositoryInterface as CustomerProductRepositoryInterface;
+use Src\customer\product\infrastructure\repositories\EloquentProductRepository as CustomerEloquentProductRepository;
 use Src\admin\user\domain\repositories\AdminRepositoryInterface;
 use Src\admin\user\infrastructure\events\LaravelEventPublisher;
 use Src\admin\user\infrastructure\repositories\EloquentAdminRepository;
@@ -39,8 +41,13 @@ class AppServiceProvider extends ServiceProvider
         );
 
         $this->app->bind(
-            ProductRepositoryInterface::class,
-            EloquentProductRepository::class
+            AdminProductRepositoryInterface::class,
+            AdminEloquentProductRepository::class
+        );
+
+        $this->app->bind(
+            CustomerProductRepositoryInterface::class,
+            CustomerEloquentProductRepository::class
         );
     }
 

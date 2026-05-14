@@ -99,20 +99,20 @@ class Product
         string $albumTitle,
         float $price,
         int $stock,
-        ?string $slug = null,
-        ?string $genre = null,
-        ?int $releaseYear = null,
-        ?string $country = null,
-        ?string $label = null,
-        ?string $description = null,
-        ?string $coverImageUrl = null,
+        ?string $slug,
+        string $genre,
+        int $releaseYear,
+        string $country,
+        string $label,
+        string $description,
+        string $coverImageUrl,
         bool $isActive = true,
-    ): Product {
-        return new Product(
+    ): self {
+        return new self(
             id: $id,
             artist: $artist,
             albumTitle: $albumTitle,
-            slug: $slug ?? \Illuminate\Support\Str::slug($artist . ' ' . $albumTitle),
+            slug: $slug,
             genre: $genre,
             releaseYear: $releaseYear,
             country: $country,
@@ -130,19 +130,19 @@ class Product
         string $albumTitle,
         float $price,
         int $stock,
-        ?string $slug = null,
-        ?string $genre = null,
-        ?int $releaseYear = null,
-        ?string $country = null,
-        ?string $label = null,
-        ?string $description = null,
-        ?string $coverImageUrl = null
+        ?string $slug,
+        string $genre,
+        int $releaseYear,
+        string $country,
+        string $label,
+        string $description,
+        string $coverImageUrl,
     ): self {
-        $product = new Product(
+        $product = new self(
             id: null,
             artist: $artist,
             albumTitle: $albumTitle,
-            slug: $slug ?? \Illuminate\Support\Str::slug($artist . ' ' . $albumTitle),
+            slug: $slug,
             genre: $genre,
             releaseYear: $releaseYear,
             country: $country,
@@ -169,18 +169,6 @@ class Product
         return $product;
     }
 
-    public function updatePrice(float $newPrice): void
-    {
-        $this->price = new ProductPrice($newPrice);
-        $this->recordEvent(new ProductUpdatedEvent($this->id(), ['price' => $newPrice]));
-    }
-
-    public function updateStock(int $newStock): void
-    {
-        $this->stock = new ProductStock($newStock);
-        $this->recordEvent(new ProductUpdatedEvent($this->id(), ['stock_quantity' => $newStock]));
-    }
-
     public function update(
         ?string $artist = null,
         ?string $albumTitle = null,
@@ -196,17 +184,50 @@ class Product
     ): void {
         $changed = [];
 
-        if ($artist !== null) { $this->artist = $artist; $changed['artist'] = $artist; }
-        if ($albumTitle !== null) { $this->albumTitle = $albumTitle; $changed['album_title'] = $albumTitle; }
-        if ($price !== null) { $this->price = new ProductPrice($price); $changed['price'] = $price; }
-        if ($stock !== null) { $this->stock = new ProductStock($stock); $changed['stock_quantity'] = $stock; }
-        if ($slug !== null) { $this->slug = $slug; $changed['slug'] = $slug; }
-        if ($genre !== null) { $this->genre = $genre; $changed['genre'] = $genre; }
-        if ($releaseYear !== null) { $this->releaseYear = $releaseYear; $changed['release_year'] = $releaseYear; }
-        if ($country !== null) { $this->country = $country; $changed['country'] = $country; }
-        if ($label !== null) { $this->label = $label; $changed['label'] = $label; }
-        if ($description !== null) { $this->description = $description; $changed['description'] = $description; }
-        if ($coverImageUrl !== null) { $this->coverImageUrl = $coverImageUrl; $changed['cover_image_url'] = $coverImageUrl; }
+        if ($artist !== null) {
+            $this->artist = $artist;
+            $changed['artist'] = $artist;
+        }
+        if ($albumTitle !== null) {
+            $this->albumTitle = $albumTitle;
+            $changed['album_title'] = $albumTitle;
+        }
+        if ($price !== null) {
+            $this->price = new ProductPrice($price);
+            $changed['price'] = $price;
+        }
+        if ($stock !== null) {
+            $this->stock = new ProductStock($stock);
+            $changed['stock_quantity'] = $stock;
+        }
+        if ($slug !== null) {
+            $this->slug = $slug;
+            $changed['slug'] = $slug;
+        }
+        if ($genre !== null) {
+            $this->genre = $genre;
+            $changed['genre'] = $genre;
+        }
+        if ($releaseYear !== null) {
+            $this->releaseYear = $releaseYear;
+            $changed['release_year'] = $releaseYear;
+        }
+        if ($country !== null) {
+            $this->country = $country;
+            $changed['country'] = $country;
+        }
+        if ($label !== null) {
+            $this->label = $label;
+            $changed['label'] = $label;
+        }
+        if ($description !== null) {
+            $this->description = $description;
+            $changed['description'] = $description;
+        }
+        if ($coverImageUrl !== null) {
+            $this->coverImageUrl = $coverImageUrl;
+            $changed['cover_image_url'] = $coverImageUrl;
+        }
 
         if (!empty($changed)) {
             $this->recordEvent(new ProductUpdatedEvent($this->id(), $changed));

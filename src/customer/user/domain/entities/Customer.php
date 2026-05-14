@@ -26,6 +26,7 @@ class Customer
         private readonly ?string $birthDate,
         private readonly CustomerDNI $dniNif,
         private readonly ShippingAddress $shippingAddress,
+        // TODO: I'm thinking in deleting the tax information
         private readonly TaxInformation $taxInformation,
         private readonly int $totalOrders,
         private readonly CustomerPreferences $preferences,
