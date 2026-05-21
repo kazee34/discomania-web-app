@@ -5,7 +5,7 @@ namespace Src\admin\product\infrastructure\controllers;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\JsonResponse;
 use Src\admin\product\application\useCases\DeleteProductUseCase;
-use Src\admin\product\domain\exceptions\ProductNotFoundException;
+use Src\shared\domain\exceptions\ProductNotFoundException;
 
 final class DELETE_DeleteProductByIdController extends Controller
 {

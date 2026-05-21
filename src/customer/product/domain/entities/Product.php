@@ -14,7 +14,10 @@ class Product
         private string $genre,
         private string $country,
         private int $releaseYear,
-        private string $coverImageUrl,
+        private ?string $coverImageUrl,
+        private ?string $description = null,
+        private ?string $label = null,
+        private int $stockQuantity = 0,
     ) {}
 
     public function id(): ?int
@@ -57,9 +60,24 @@ class Product
         return $this->country;
     }
 
-    public function coverImageUrl(): string
+    public function coverImageUrl(): ?string
     {
         return $this->coverImageUrl;
+    }
+
+    public function description(): ?string
+    {
+        return $this->description;
+    }
+
+    public function label(): ?string
+    {
+        return $this->label;
+    }
+
+    public function stockQuantity(): int
+    {
+        return $this->stockQuantity;
     }
 
     public static function fromPrimitives(
@@ -71,7 +89,7 @@ class Product
         string $genre,
         int $releaseYear,
         string $country,
-        string $coverImageUrl
+        ?string $coverImageUrl
     ): self {
         return new self(
             id: $id,

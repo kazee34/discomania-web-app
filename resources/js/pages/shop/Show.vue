@@ -1,0 +1,109 @@
+<script setup lang="ts">
+import { Head, Link } from '@inertiajs/vue3';
+import { ref } from 'vue';
+import { useCart } from '@/composables/useCart';
+import ShopNavbar from '@/components/shop/ShopNavbar.vue';
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
+
+interface Product {
+    id: number;
+    slug: string;
+    artist: string;
+    albumTitle: string;
+    price: number;
+    genre: string;
+    country: string;
+    releaseYear: number;
+    coverImageUrl: string | null;
+    description: string | null;
+    label: string | null;
+    stockQuantity: number;
+}
+
+const props = defineProps<{ product: Product }>();
+
+const { loading, addItem } = useCart();
+const added = ref(false);
+
+async function handleAddToCart() {
+    await addItem(props.product.id, props.product.price);
+    added.value = true;
+    setTimeout(() => (added.value = false), 1500);
+}
+</script>
+
+<template>
+    <Head :title="`${product.artist} — ${product.albumTitle} | Discomania`" />
+
+    <div class="min-h-screen bg-background">
+        <ShopNavbar />
+
+        <main class="mx-auto max-w-5xl px-4 py-10 sm:px-6">
+            <Link
+                href="/shop"
+                class="mb-8 inline-block text-sm text-muted-foreground hover:text-foreground"
+            >
+                ← Volver al catálogo
+            </Link>
+
+            <div class="grid gap-10 md:grid-cols-2">
+                <!-- Portada -->
+                <div class="aspect-square overflow-hidden rounded-2xl border bg-muted">
+                    <img
+                        v-if="product.coverImageUrl"
+                        :src="product.coverImageUrl"
+                        :alt="`${product.artist} - ${product.albumTitle}`"
+                        class="h-full w-full object-cover"
+                    />
+                    <div v-else class="h-full w-full bg-muted" />
+                </div>
+
+                <!-- Info -->
+                <div class="flex flex-col gap-6">
+                    <div>
+                        <p class="mb-1 text-sm text-muted-foreground">{{ product.artist }}</p>
+                        <h1 class="text-3xl font-bold leading-tight">{{ product.albumTitle }}</h1>
+                    </div>
+
+                    <div class="flex flex-wrap gap-2">
+                        <Badge variant="secondary">{{ product.genre }}</Badge>
+                        <Badge variant="outline">{{ product.releaseYear }}</Badge>
+                        <Badge variant="outline">{{ product.country }}</Badge>
+                        <Badge v-if="product.label" variant="outline">{{ product.label }}</Badge>
+                    </div>
+
+                    <p v-if="product.description" class="text-sm leading-relaxed text-muted-foreground">
+                        {{ product.description }}
+                    </p>
+
+                    <div class="mt-auto rounded-xl border bg-card p-5 flex flex-col gap-4">
+                        <div class="flex items-baseline justify-between">
+                            <span class="text-3xl font-bold">{{ product.price.toFixed(2) }} €</span>
+                            <span
+                                v-if="product.stockQuantity > 0"
+                                class="text-sm text-green-600 font-medium"
+                            >
+                                En stock ({{ product.stockQuantity }})
+                            </span>
+                            <span v-else class="text-sm text-destructive font-medium">
+                                Sin stock
+                            </span>
+                        </div>
+
+                        <Button
+                            class="w-full"
+                            size="lg"
+                            :disabled="loading || product.stockQuantity === 0"
+                            @click="handleAddToCart"
+                        >
+                            <span v-if="added">✓ Añadido al carrito</span>
+                            <span v-else-if="product.stockQuantity === 0">Sin stock</span>
+                            <span v-else>Añadir al carrito</span>
+                        </Button>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+</template>

@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\JsonResponse;
 use Src\admin\product\application\dto\ProductRequest;
 use Src\admin\product\application\useCases\UpdateProductUseCase;
-use Src\admin\product\domain\exceptions\ProductNotFoundException;
+use Src\shared\domain\exceptions\ProductNotFoundException;
 use Src\admin\product\infrastructure\validators\UpdateProductRequest;
 
 final class PUT_UpdateProductController extends Controller

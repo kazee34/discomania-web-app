@@ -9,10 +9,22 @@ use Src\shared\domain\exceptions\ProductNotFoundException;
 
 class EloquentProductRepository implements ProductRepositoryInterface
 {
+    public function findById(int $id): Product
+    {
+        $model = ProductModel::find($id);
+
+        if (! $model) {
+            throw new ProductNotFoundException();
+        }
+
+        return self::toProduct($model);
+    }
+
     public function searchAll(): array
     {
-        return ProductModel::all()
-            ->map(fn($model) => self::toProduct($model))
+        return ProductModel::where('is_active', true)
+            ->get()
+            ->map(fn ($model) => self::toProduct($model))
             ->toArray();
     }
 
@@ -83,6 +95,13 @@ class EloquentProductRepository implements ProductRepositoryInterface
             ->toArray();
     }
 
+    public function decrementStock(int $productId, int $quantity): void
+    {
+        ProductModel::where('id', $productId)
+            ->where('stock_quantity', '>=', $quantity)
+            ->decrement('stock_quantity', $quantity);
+    }
+
     private static function toProduct(ProductModel $model): Product
     {
         return new Product(
@@ -95,6 +114,9 @@ class EloquentProductRepository implements ProductRepositoryInterface
             country: $model->country,
             releaseYear: $model->release_year,
             coverImageUrl: $model->cover_image_url,
+            description: $model->description,
+            label: $model->label,
+            stockQuantity: $model->stock_quantity ?? 0,
         );
     }
 }

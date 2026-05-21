@@ -9,6 +9,10 @@ use Illuminate\Support\ServiceProvider;
 use Illuminate\Validation\Rules\Password;
 use Src\admin\product\domain\repositories\ProductRepositoryInterface as AdminProductRepositoryInterface;
 use Src\admin\product\infrastructure\repositories\EloquentProductRepository as AdminEloquentProductRepository;
+use Src\customer\cart\domain\repositories\CartRepositoryInterface;
+use Src\customer\cart\infrastructure\repositories\EloquentCartRepository;
+use Src\customer\order\domain\repositories\OrderRepositoryInterface;
+use Src\customer\order\infrastructure\repositories\EloquentOrderRepository;
 use Src\customer\product\domain\repositories\ProductRepositoryInterface as CustomerProductRepositoryInterface;
 use Src\customer\product\infrastructure\repositories\EloquentProductRepository as CustomerEloquentProductRepository;
 use Src\admin\user\domain\repositories\AdminRepositoryInterface;
@@ -48,6 +52,16 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(
             CustomerProductRepositoryInterface::class,
             CustomerEloquentProductRepository::class
+        );
+
+        $this->app->bind(
+            CartRepositoryInterface::class,
+            EloquentCartRepository::class
+        );
+
+        $this->app->bind(
+            OrderRepositoryInterface::class,
+            EloquentOrderRepository::class
         );
     }
 

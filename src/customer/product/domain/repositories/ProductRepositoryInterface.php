@@ -6,6 +6,8 @@ use Src\customer\product\domain\entities\Product;
 
 interface ProductRepositoryInterface
 {
+    public function findById(int $id): Product;
+
     public function searchAll(): array;
 
     public function findBySlug(string $slug): Product;
@@ -23,4 +25,6 @@ interface ProductRepositoryInterface
     public function searchByPriceRange(float $minPrice, float $maxPrice): array;
 
     public function searchBetweenYears(int $startYear, int $endYear): array;
+
+    public function decrementStock(int $productId, int $quantity): void;
 }

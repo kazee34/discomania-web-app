@@ -5,7 +5,7 @@ namespace Src\admin\product\infrastructure\controllers;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\JsonResponse;
 use Src\admin\product\application\useCases\FindProductUseCase;
-use Src\admin\product\domain\exceptions\ProductNotFoundException;
+use Src\shared\domain\exceptions\ProductNotFoundException;
 
 final class GET_FindProductByIdController extends Controller
 {
