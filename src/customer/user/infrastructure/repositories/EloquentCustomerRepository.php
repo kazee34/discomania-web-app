@@ -31,7 +31,7 @@ class EloquentCustomerRepository implements CustomerRepositoryInterface
 
     public function findByUserId(int $userId): ?Customer
     {
-        $model = CustomerModel::find('user_id', $userId)->first();
+        $model = CustomerModel::where('user_id', $userId)->first();
 
         return $model ? $this->toCustomer($model) : null;
     }
@@ -87,8 +87,8 @@ class EloquentCustomerRepository implements CustomerRepositoryInterface
             $model->shipping_city ?? '',
             $model->shipping_postal_code ?? '',
             $model->shipping_state_province ?? '',
-            $model->shipping_country,
-            $model->shipping_iso_country_code,
+            $model->shipping_country ?? 'España',
+            $model->shipping_iso_country_code ?? 'ES',
         );
 
         $taxInformation = new TaxInformation(
@@ -97,16 +97,20 @@ class EloquentCustomerRepository implements CustomerRepositoryInterface
         );
 
         $preferences = new CustomerPreferences(
-            $model->preferred_language,
-            $model->preferred_currency,
+            $model->preferred_language ?? 'es',
+            $model->preferred_currency ?? 'EUR',
             $model->wishlist ?? [],
         );
+
+        $lastName = (strlen((string) $model->last_name) >= 3)
+            ? $model->last_name
+            : $model->first_name;
 
         return new Customer(
             id: $model->id,
             userId: $model->user_id,
             firstName: new UserName($model->first_name),
-            lastName: new UserName($model->last_name),
+            lastName: new UserName($lastName),
             phone: new CustomerPhone($model->phone),
             birthDate: $model->birth_date?->format('Y-m-d'),
             dniNif: new CustomerDNI($model->dni_nif),

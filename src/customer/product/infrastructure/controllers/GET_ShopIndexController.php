@@ -29,6 +29,7 @@ final class GET_ShopIndexController extends Controller
                 'country'       => $p->country(),
                 'releaseYear'   => $p->releaseYear(),
                 'coverImageUrl' => $p->coverImageUrl(),
+                'stockQuantity' => $p->stockQuantity(),
             ], $products),
         ]);
     }

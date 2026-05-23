@@ -3,36 +3,63 @@
 namespace App\Actions\Fortify;
 
 use App\Concerns\PasswordValidationRules;
-use App\Concerns\ProfileValidationRules;
-use App\Models\CustomerModel;
 use App\Models\UserModel;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rule;
+use Illuminate\Validation\Rules\Password;
 use Laravel\Fortify\Contracts\CreatesNewUsers;
+use Src\admin\user\application\useCases\CreateUserUseCase;
+use Src\customer\user\application\dto\CreateCustomerRequest;
+use Src\customer\user\application\useCases\CreateCustomerUseCase;
 
 class CreateNewUser implements CreatesNewUsers
 {
-    use PasswordValidationRules, ProfileValidationRules;
+    use PasswordValidationRules;
+
+    public function __construct(
+        private CreateUserUseCase $createUserUseCase,
+        private CreateCustomerUseCase $createCustomerUseCase,
+    ) {}
 
     public function create(array $input): UserModel
     {
         Validator::make($input, [
-            ...$this->profileRules(),
-            'password' => $this->passwordRules(),
+            'first_name'              => ['required', 'string', 'min:3', 'max:100'],
+            'last_name'               => ['required', 'string', 'min:3', 'max:100'],
+            'email'                   => ['required', 'string', 'email', 'max:255', Rule::unique(UserModel::class, 'email')],
+            'password'                => ['required', 'string', Password::min(8)->mixedCase()->numbers(), 'confirmed'],
+            'shipping_street'         => ['required', 'string', 'max:255'],
+            'shipping_street_number'  => ['required', 'string', 'max:20'],
+            'shipping_apartment'      => ['nullable', 'string', 'max:50'],
+            'shipping_city'           => ['required', 'string', 'max:100'],
+            'shipping_postal_code'    => ['required', 'string', 'max:20'],
+            'shipping_state_province' => ['nullable', 'string', 'max:100'],
         ])->validate();
 
         return DB::transaction(function () use ($input) {
-            $user = UserModel::create([
-                'name'     => $input['name'],
-                'email'    => $input['email'],
-                'password' => $input['password'],
-            ]);
+            $result = $this->createUserUseCase->execute(
+                name: $input['first_name'] . ' ' . $input['last_name'],
+                email: $input['email'],
+                password: $input['password'],
+                role: '',
+            );
 
-            CustomerModel::create([
-                'user_id'    => $user->id,
-                'first_name' => $input['name'],
-                'last_name'  => '',
-            ]);
+            $user = UserModel::findOrFail($result->id);
+
+            $this->createCustomerUseCase->execute(new CreateCustomerRequest(
+                userId: $result->id,
+                firstName: $input['first_name'],
+                lastName: $input['last_name'],
+                shippingStreet: $input['shipping_street'],
+                shippingStreetNumber: $input['shipping_street_number'],
+                shippingCity: $input['shipping_city'],
+                shippingPostalCode: $input['shipping_postal_code'],
+                shippingCountry: 'España',
+                shippingIsoCountryCode: 'ES',
+                shippingApartment: $input['shipping_apartment'] ?? null,
+                shippingStateProvince: $input['shipping_state_province'] ?? null,
+            ));
 
             return $user;
         });

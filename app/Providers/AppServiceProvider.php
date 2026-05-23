@@ -19,6 +19,8 @@ use Src\admin\user\domain\repositories\AdminRepositoryInterface;
 use Src\admin\user\infrastructure\events\LaravelEventPublisher;
 use Src\admin\user\infrastructure\repositories\EloquentAdminRepository;
 use Src\admin\user\infrastructure\repositories\EloquentUserRepository;
+use Src\customer\user\domain\repositories\CustomerRepositoryInterface;
+use Src\customer\user\infrastructure\repositories\EloquentCustomerRepository;
 use Src\shared\domain\repositories\EventPublisher;
 use Src\shared\domain\repositories\UserRepositoryInterface;
 
@@ -62,6 +64,11 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(
             OrderRepositoryInterface::class,
             EloquentOrderRepository::class
+        );
+
+        $this->app->bind(
+            CustomerRepositoryInterface::class,
+            EloquentCustomerRepository::class
         );
     }
 

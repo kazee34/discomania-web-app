@@ -2,7 +2,7 @@
 
 namespace Src\customer\cart\domain\entities;
 
-use Illuminate\Support\Str;
+use Ramsey\Uuid\Uuid;
 use Src\customer\cart\domain\events\CartClearedEvent;
 use Src\customer\cart\domain\events\CartCreatedEvent;
 use Src\customer\cart\domain\events\CartItemAddedEvent;
@@ -175,6 +175,6 @@ class Cart
 
     private static function generateToken(): string
     {
-        return (string) Str::uuid();
+        return Uuid::uuid4()->toString();
     }
 }

@@ -13,10 +13,11 @@ import { store } from '@/routes/register';
 
 <template>
     <AuthBase
-        title="Create an account"
-        description="Enter your details below to create your account"
+        title="Crea tu cuenta"
+        description="Introduce tus datos para registrarte en Discomania"
+        max-width="max-w-xl"
     >
-        <Head title="Register" />
+        <Head title="Registro" />
 
         <Form
             v-bind="store.form()"
@@ -24,84 +25,194 @@ import { store } from '@/routes/register';
             v-slot="{ errors, processing }"
             class="flex flex-col gap-6"
         >
-            <div class="grid gap-6">
-                <div class="grid gap-2">
-                    <Label for="name">Name</Label>
-                    <Input
-                        id="name"
-                        type="text"
-                        required
-                        autofocus
-                        :tabindex="1"
-                        autocomplete="name"
-                        name="name"
-                        placeholder="Full name"
-                    />
-                    <InputError :message="errors.name" />
+            <div class="grid gap-5">
+                <!-- Nombre y apellidos -->
+                <div class="grid grid-cols-2 gap-4">
+                    <div class="grid gap-2">
+                        <Label for="first_name">Nombre</Label>
+                        <Input
+                            id="first_name"
+                            type="text"
+                            required
+                            autofocus
+                            :tabindex="1"
+                            autocomplete="given-name"
+                            name="first_name"
+                            placeholder="María"
+                        />
+                        <InputError :message="errors.first_name" />
+                    </div>
+                    <div class="grid gap-2">
+                        <Label for="last_name">Apellidos</Label>
+                        <Input
+                            id="last_name"
+                            type="text"
+                            required
+                            :tabindex="2"
+                            autocomplete="family-name"
+                            name="last_name"
+                            placeholder="García López"
+                        />
+                        <InputError :message="errors.last_name" />
+                    </div>
                 </div>
 
+                <!-- Correo electrónico -->
                 <div class="grid gap-2">
-                    <Label for="email">Email address</Label>
+                    <Label for="email">Correo electrónico</Label>
                     <Input
                         id="email"
                         type="email"
                         required
-                        :tabindex="2"
+                        :tabindex="3"
                         autocomplete="email"
                         name="email"
-                        placeholder="email@example.com"
+                        placeholder="correo@ejemplo.com"
                     />
                     <InputError :message="errors.email" />
                 </div>
 
-                <div class="grid gap-2">
-                    <Label for="password">Password</Label>
-                    <Input
-                        id="password"
-                        type="password"
-                        required
-                        :tabindex="3"
-                        autocomplete="new-password"
-                        name="password"
-                        placeholder="Password"
-                    />
-                    <InputError :message="errors.password" />
+                <!-- Contraseña -->
+                <div class="grid grid-cols-2 gap-4">
+                    <div class="grid gap-2">
+                        <Label for="password">Contraseña</Label>
+                        <Input
+                            id="password"
+                            type="password"
+                            required
+                            :tabindex="4"
+                            autocomplete="new-password"
+                            name="password"
+                            placeholder="••••••••"
+                        />
+                        <InputError :message="errors.password" />
+                    </div>
+                    <div class="grid gap-2">
+                        <Label for="password_confirmation">Confirmar contraseña</Label>
+                        <Input
+                            id="password_confirmation"
+                            type="password"
+                            required
+                            :tabindex="5"
+                            autocomplete="new-password"
+                            name="password_confirmation"
+                            placeholder="••••••••"
+                        />
+                        <InputError :message="errors.password_confirmation" />
+                    </div>
                 </div>
 
-                <div class="grid gap-2">
-                    <Label for="password_confirmation">Confirm password</Label>
-                    <Input
-                        id="password_confirmation"
-                        type="password"
-                        required
-                        :tabindex="4"
-                        autocomplete="new-password"
-                        name="password_confirmation"
-                        placeholder="Confirm password"
-                    />
-                    <InputError :message="errors.password_confirmation" />
+                <!-- Dirección de envío -->
+                <div class="space-y-4 rounded-lg border p-4">
+                    <p class="text-sm font-semibold">Dirección de envío</p>
+
+                    <div class="grid grid-cols-3 gap-3">
+                        <div class="col-span-2 grid gap-2">
+                            <Label for="shipping_street">Calle</Label>
+                            <Input
+                                id="shipping_street"
+                                type="text"
+                                required
+                                :tabindex="6"
+                                autocomplete="address-line1"
+                                name="shipping_street"
+                                placeholder="Calle Gran Vía"
+                            />
+                            <InputError :message="errors.shipping_street" />
+                        </div>
+                        <div class="grid gap-2">
+                            <Label for="shipping_street_number">Número</Label>
+                            <Input
+                                id="shipping_street_number"
+                                type="text"
+                                required
+                                :tabindex="7"
+                                name="shipping_street_number"
+                                placeholder="12"
+                            />
+                            <InputError :message="errors.shipping_street_number" />
+                        </div>
+                    </div>
+
+                    <div class="grid gap-2">
+                        <Label for="shipping_apartment">
+                            Piso / Puerta
+                            <span class="text-xs text-muted-foreground">(opcional)</span>
+                        </Label>
+                        <Input
+                            id="shipping_apartment"
+                            type="text"
+                            :tabindex="8"
+                            autocomplete="address-line2"
+                            name="shipping_apartment"
+                            placeholder="3º B"
+                        />
+                        <InputError :message="errors.shipping_apartment" />
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-3">
+                        <div class="grid gap-2">
+                            <Label for="shipping_city">Ciudad</Label>
+                            <Input
+                                id="shipping_city"
+                                type="text"
+                                required
+                                :tabindex="9"
+                                autocomplete="address-level2"
+                                name="shipping_city"
+                                placeholder="Madrid"
+                            />
+                            <InputError :message="errors.shipping_city" />
+                        </div>
+                        <div class="grid gap-2">
+                            <Label for="shipping_postal_code">Código postal</Label>
+                            <Input
+                                id="shipping_postal_code"
+                                type="text"
+                                required
+                                :tabindex="10"
+                                autocomplete="postal-code"
+                                name="shipping_postal_code"
+                                placeholder="28001"
+                            />
+                            <InputError :message="errors.shipping_postal_code" />
+                        </div>
+                    </div>
+
+                    <div class="grid gap-2">
+                        <Label for="shipping_state_province">
+                            Provincia
+                            <span class="text-xs text-muted-foreground">(opcional)</span>
+                        </Label>
+                        <Input
+                            id="shipping_state_province"
+                            type="text"
+                            :tabindex="11"
+                            autocomplete="address-level1"
+                            name="shipping_state_province"
+                            placeholder="Madrid"
+                        />
+                        <InputError :message="errors.shipping_state_province" />
+                    </div>
                 </div>
 
                 <Button
                     type="submit"
-                    class="mt-2 w-full"
-                    tabindex="5"
+                    class="w-full"
+                    tabindex="12"
                     :disabled="processing"
                     data-test="register-user-button"
                 >
                     <Spinner v-if="processing" />
-                    Create account
+                    Crear cuenta
                 </Button>
             </div>
 
             <div class="text-center text-sm text-muted-foreground">
-                Already have an account?
-                <TextLink
-                    :href="login()"
-                    class="underline underline-offset-4"
-                    :tabindex="6"
-                    >Log in</TextLink
-                >
+                ¿Ya tienes cuenta?
+                <TextLink :href="login()" class="underline underline-offset-4" :tabindex="13">
+                    Inicia sesión
+                </TextLink>
             </div>
         </Form>
     </AuthBase>

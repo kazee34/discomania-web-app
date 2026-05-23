@@ -41,6 +41,7 @@ class CreateUserUseCase
         }
 
         return new CreateUserResult(
+            $user->id(),
             $user->username()->value(),
             $user->email()->value()
         );

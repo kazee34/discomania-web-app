@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref } from 'vue';
+import { computed, ref } from 'vue';
 import { Link } from '@inertiajs/vue3';
 import { useCart } from '@/composables/useCart';
 import { Badge } from '@/components/ui/badge';
@@ -13,15 +13,27 @@ interface Product {
     price: number;
     genre: string;
     releaseYear: number;
-    coverImageUrl: string;
+    coverImageUrl: string | null;
+    stockQuantity: number;
 }
 
 const props = defineProps<{ product: Product }>();
 
-const { loading, addItem } = useCart();
+const { cart, loading, addItem } = useCart();
 const added = ref(false);
 
+const cartQuantity = computed(
+    () => cart.value?.items.find((i) => i.productId === props.product.id)?.quantity ?? 0,
+);
+
+const remainingStock = computed(
+    () => Math.max(0, props.product.stockQuantity - cartQuantity.value),
+);
+
+const canAdd = computed(() => remainingStock.value > 0);
+
 async function handleAddToCart() {
+    if (!canAdd.value) return;
     await addItem(props.product.id, props.product.price);
     added.value = true;
     setTimeout(() => (added.value = false), 1500);
@@ -56,11 +68,13 @@ async function handleAddToCart() {
                 <Button
                     size="sm"
                     :variant="added ? 'default' : 'outline'"
-                    class="h-7 min-w-[80px] text-xs transition-all"
-                    :disabled="loading"
+                    class="h-7 min-w-20 text-xs transition-all"
+                    :disabled="loading || !canAdd"
                     @click="handleAddToCart"
                 >
-                    <span v-if="added">✓ Añadido</span>
+                    <span v-if="product.stockQuantity === 0">Sin stock</span>
+                    <span v-else-if="!canAdd">Máx. alcanzado</span>
+                    <span v-else-if="added">Añadido</span>
                     <span v-else>+ Carrito</span>
                 </Button>
             </div>

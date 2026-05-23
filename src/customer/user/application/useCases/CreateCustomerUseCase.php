@@ -35,9 +35,9 @@ class CreateCustomerUseCase
                 $request->shippingApartment,
                 $request->shippingCity,
                 $request->shippingPostalCode,
-                $request->shippingStateProvince,
+                $request->shippingStateProvince ?? '',
                 $request->shippingCountry,
-                $request->shippingIsoCountryCode,
+                $request->shippingIsoCountryCode ?? 'ES',
             ),
             taxInformation: new TaxInformation(
                 $request->taxName,

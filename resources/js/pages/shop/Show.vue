@@ -1,6 +1,6 @@
 <script setup lang="ts">
+import { computed, onMounted, ref } from 'vue';
 import { Head, Link } from '@inertiajs/vue3';
-import { ref } from 'vue';
 import { useCart } from '@/composables/useCart';
 import ShopNavbar from '@/components/shop/ShopNavbar.vue';
 import { Badge } from '@/components/ui/badge';
@@ -23,10 +23,32 @@ interface Product {
 
 const props = defineProps<{ product: Product }>();
 
-const { loading, addItem } = useCart();
+const { cart, loading, addItem, fetchCart } = useCart();
 const added = ref(false);
 
+onMounted(() => fetchCart());
+
+const cartQuantity = computed(
+    () => cart.value?.items.find((i) => i.productId === props.product.id)?.quantity ?? 0,
+);
+
+const remainingStock = computed(
+    () => Math.max(0, props.product.stockQuantity - cartQuantity.value),
+);
+
+const canAdd = computed(
+    () => remainingStock.value > 0,
+);
+
+const stockLabel = computed(() => {
+    const s = remainingStock.value;
+    if (s === 0)  return { text: 'Fuera de stock',    class: 'text-destructive' };
+    if (s <= 3)   return { text: 'Últimas unidades',  class: 'text-amber-500' };
+    return              { text: 'En stock',            class: 'text-green-600' };
+});
+
 async function handleAddToCart() {
+    if (!canAdd.value) return;
     await addItem(props.product.id, props.product.price);
     added.value = true;
     setTimeout(() => (added.value = false), 1500);
@@ -80,25 +102,20 @@ async function handleAddToCart() {
                     <div class="mt-auto rounded-xl border bg-card p-5 flex flex-col gap-4">
                         <div class="flex items-baseline justify-between">
                             <span class="text-3xl font-bold">{{ product.price.toFixed(2) }} €</span>
-                            <span
-                                v-if="product.stockQuantity > 0"
-                                class="text-sm text-green-600 font-medium"
-                            >
-                                En stock ({{ product.stockQuantity }})
-                            </span>
-                            <span v-else class="text-sm text-destructive font-medium">
-                                Sin stock
+                            <span :class="['text-sm font-medium', stockLabel.class]">
+                                {{ stockLabel.text }}
                             </span>
                         </div>
 
                         <Button
                             class="w-full"
                             size="lg"
-                            :disabled="loading || product.stockQuantity === 0"
+                            :disabled="loading || !canAdd"
                             @click="handleAddToCart"
                         >
-                            <span v-if="added">✓ Añadido al carrito</span>
-                            <span v-else-if="product.stockQuantity === 0">Sin stock</span>
+                            <span v-if="product.stockQuantity === 0">Fuera de stock</span>
+                            <span v-else-if="!canAdd">Ya tienes el máximo disponible</span>
+                            <span v-else-if="added">Añadido al carrito</span>
                             <span v-else>Añadir al carrito</span>
                         </Button>
                     </div>

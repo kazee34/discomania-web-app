@@ -3,6 +3,7 @@
 namespace Src\admin\user\infrastructure\repositories;
 
 use App\Models\UserModel;
+use Illuminate\Support\Facades\DB;
 use Src\admin\user\domain\valueObjects\UserPassword;
 use Src\shared\domain\entities\User;
 use Src\shared\domain\exceptions\UserNotFoundException;
@@ -37,20 +38,24 @@ class EloquentUserRepository implements UserRepositoryInterface
     public function save(User $user): void
     {
         if ($user->id() === null) {
-            $model = UserModel::create([
-                'name' => $user->username()->value(),
-                'email' => $user->email()->value(),
-                'password' => $user->passwordHash(),
+            // Use DB::table to bypass UserModel's 'hashed' cast — password is already bcrypt-hashed by UserPassword::fromPlain()
+            $id = DB::table('users')->insertGetId([
+                'name'       => $user->username()->value(),
+                'email'      => $user->email()->value(),
+                'password'   => $user->passwordHash(),
+                'created_at' => now(),
+                'updated_at' => now(),
             ]);
 
             $reflection = new \ReflectionClass($user);
             $idProperty = $reflection->getProperty('id');
-            $idProperty->setValue($user, $model->id);
+            $idProperty->setValue($user, $id);
         } else {
-            UserModel::where('id', $user->id())->update([
-                'name' => $user->username()->value(),
-                'email' => $user->email()->value(),
-                'password' => $user->passwordHash(),
+            DB::table('users')->where('id', $user->id())->update([
+                'name'       => $user->username()->value(),
+                'email'      => $user->email()->value(),
+                'password'   => $user->passwordHash(),
+                'updated_at' => now(),
             ]);
         }
     }
