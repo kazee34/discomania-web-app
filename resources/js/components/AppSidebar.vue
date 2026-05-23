@@ -15,6 +15,7 @@ import {
     SidebarMenuItem,
 } from '@/components/ui/sidebar';
 import { dashboard } from '@/routes';
+import { index as adminProducts } from '@/routes/admin/products';
 import type { NavItem } from '@/types';
 import AppLogo from './AppLogo.vue';
 
@@ -26,7 +27,7 @@ const mainNavItems = computed<NavItem[]>(() => {
     ];
 
     if (page.props.isAdmin) {
-        items.push({ title: 'Admin Panel', href: { url: '/admin/products' }, icon: Package });
+        items.push({ title: 'Admin Panel', href: adminProducts(), icon: Package });
     }
 
     return items;

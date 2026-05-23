@@ -67,6 +67,15 @@ class EloquentOrderRepository implements OrderRepositoryInterface
         return $this->toOrder($model);
     }
 
+    public function findAll(): array
+    {
+        return OrderModel::with('items')
+            ->orderByDesc('order_date')
+            ->get()
+            ->map(fn (OrderModel $model) => $this->toOrder($model))
+            ->all();
+    }
+
     public function findByCustomerId(int $customerId): array
     {
         return OrderModel::with('items')

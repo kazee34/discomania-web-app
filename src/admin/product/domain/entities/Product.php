@@ -100,12 +100,12 @@ class Product
         float $price,
         int $stock,
         ?string $slug,
-        string $genre,
-        int $releaseYear,
-        string $country,
-        string $label,
-        string $description,
-        string $coverImageUrl,
+        ?string $genre,
+        ?int $releaseYear,
+        ?string $country,
+        ?string $label,
+        ?string $description,
+        ?string $coverImageUrl,
         bool $isActive = true,
     ): self {
         return new self(

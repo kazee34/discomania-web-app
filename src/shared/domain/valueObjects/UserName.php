@@ -15,8 +15,8 @@ class UserName
 
     private function validate(string $name): void
     {
-        if (strlen($name) < 3) {
-            throw new InvalidArgumentException('Username must be at least 3 characters');
+        if (strlen(trim($name)) < 1) {
+            throw new InvalidArgumentException('Name cannot be empty.');
         }
 
         // Aquí podrías añadir más validaciones

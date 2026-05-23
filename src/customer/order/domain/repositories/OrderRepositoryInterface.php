@@ -12,6 +12,8 @@ interface OrderRepositoryInterface
 
     public function findByOrderNumber(string $orderNumber): Order;
 
+    public function findAll(): array;
+
     public function findByCustomerId(int $customerId): array;
 
     public function updateStatus(int $orderId, string $status): void;

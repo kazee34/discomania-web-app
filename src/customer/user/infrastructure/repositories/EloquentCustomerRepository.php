@@ -102,15 +102,11 @@ class EloquentCustomerRepository implements CustomerRepositoryInterface
             $model->wishlist ?? [],
         );
 
-        $lastName = (strlen((string) $model->last_name) >= 3)
-            ? $model->last_name
-            : $model->first_name;
-
         return new Customer(
             id: $model->id,
             userId: $model->user_id,
             firstName: new UserName($model->first_name),
-            lastName: new UserName($lastName),
+            lastName: new UserName($model->last_name),
             phone: new CustomerPhone($model->phone),
             birthDate: $model->birth_date?->format('Y-m-d'),
             dniNif: new CustomerDNI($model->dni_nif),
