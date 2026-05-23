@@ -5,6 +5,7 @@ namespace Tests\Feature\Auth;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\RateLimiter;
 use Laravel\Fortify\Features;
+use App\Models\UserModel as User;
 use Tests\TestCase;
 
 class AuthenticationTest extends TestCase

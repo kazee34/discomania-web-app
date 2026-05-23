@@ -2,9 +2,10 @@
 
 namespace Tests\Feature\Auth;
 
+use App\Models\UserModel as User;
 use Illuminate\Auth\Events\Verified;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Src\shared\domain\repositories\EventPublisher;
+use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\URL;
 use Tests\TestCase;
 
