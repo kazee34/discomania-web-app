@@ -154,6 +154,8 @@ function changeStatus(newStatus: string) {
                         :src="item.productSnapshot.cover_image_url"
                         :alt="item.productSnapshot.album_title"
                         class="h-12 w-12 rounded-md object-cover shrink-0"
+                        loading="lazy"
+                        decoding="async"
                     />
                     <div v-else class="h-12 w-12 rounded-md bg-muted shrink-0" />
                     <div class="flex-1 min-w-0">

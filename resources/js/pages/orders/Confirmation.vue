@@ -79,6 +79,8 @@ onMounted(() => {
                         :src="item.productSnapshot.cover_image_url"
                         :alt="item.productSnapshot.album_title"
                         class="h-14 w-14 rounded-md object-cover"
+                        loading="lazy"
+                        decoding="async"
                     />
                     <div v-else class="h-14 w-14 rounded-md bg-muted" />
                     <div class="flex-1 min-w-0">

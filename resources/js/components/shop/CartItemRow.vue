@@ -17,6 +17,8 @@ const { updateQuantity, removeItem } = useCart();
                 :src="item.productCoverImageUrl"
                 :alt="item.productAlbumTitle ?? ''"
                 class="h-full w-full object-cover"
+                loading="lazy"
+                decoding="async"
             />
             <div v-else class="h-full w-full bg-muted" />
         </div>

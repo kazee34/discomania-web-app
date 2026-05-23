@@ -49,6 +49,8 @@ async function handleAddToCart() {
                 :src="product.coverImageUrl"
                 :alt="`${product.artist} - ${product.albumTitle}`"
                 class="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
+                loading="lazy"
+                decoding="async"
             />
             <div v-else class="flex h-full items-center justify-center bg-muted" />
         </Link>

@@ -35,7 +35,7 @@ Route::get('/shop', [GET_ShopIndexController::class, 'index'])->name('shop.index
 Route::get('/shop/{slug}', [GET_ShopProductController::class, 'show'])->name('shop.product');
 Route::inertia('/cart', 'cart/Index')->name('cart.index');
 
-Route::middleware(['auth'])->group(function () {
+Route::middleware(['auth', 'customer'])->group(function () {
     Route::post('/checkout', [POST_CheckoutController::class, 'store'])->name('checkout');
 
     Route::get('/profile', [GET_ProfileController::class, 'show'])->name('customer.profile');

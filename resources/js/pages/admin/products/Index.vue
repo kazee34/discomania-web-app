@@ -79,6 +79,8 @@ function toggleStatus(id: number, activate: boolean) {
                                         :src="product.coverImageUrl"
                                         :alt="product.albumTitle"
                                         class="h-10 w-10 rounded-md object-cover shrink-0"
+                                        loading="lazy"
+                                        decoding="async"
                                     />
                                     <div v-else class="h-10 w-10 rounded-md bg-muted shrink-0" />
                                     <div class="min-w-0">

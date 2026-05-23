@@ -77,6 +77,8 @@ async function handleAddToCart() {
                         :src="product.coverImageUrl"
                         :alt="`${product.artist} - ${product.albumTitle}`"
                         class="h-full w-full object-cover"
+                        fetchpriority="high"
+                        decoding="async"
                     />
                     <div v-else class="h-full w-full bg-muted" />
                 </div>

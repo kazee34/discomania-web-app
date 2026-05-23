@@ -24,7 +24,7 @@ class EloquentCustomerRepository implements CustomerRepositoryInterface
 
     public function findById(int $id): ?Customer
     {
-        $model = CustomerModel::find('id', $id);
+        $model = CustomerModel::find($id);
 
         return $model ? $this->toCustomer($model) : null;
     }
