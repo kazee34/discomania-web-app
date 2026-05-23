@@ -33,7 +33,7 @@ class OrderResult
             shippingCost: $order->shippingCost(),
             taxAmount: $order->taxAmount(),
             totalAmount: $order->totalAmount(),
-            status: $order->status()->value(),
+            status: $order->status()->value,
             trackingNumber: $order->trackingNumber(),
             estimatedDeliveryDate: $order->estimatedDeliveryDate()?->format('Y-m-d'),
             customerNotes: $order->customerNotes(),

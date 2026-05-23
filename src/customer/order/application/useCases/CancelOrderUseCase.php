@@ -17,7 +17,7 @@ class CancelOrderUseCase
 
         $order->cancel();
 
-        $this->repository->updateStatus($order->id(), $order->status()->value());
+        $this->repository->updateStatus($order->id(), $order->status()->value);
 
         return OrderResult::fromOrder($order);
     }

@@ -23,7 +23,7 @@ class EloquentOrderRepository implements OrderRepositoryInterface
                 'shipping_cost'           => $order->shippingCost(),
                 'tax_amount'              => $order->taxAmount(),
                 'total_amount'            => $order->totalAmount(),
-                'order_status'            => $order->status()->value(),
+                'order_status'            => $order->status()->value,
                 'tracking_number'         => $order->trackingNumber(),
                 'estimated_delivery_date' => $order->estimatedDeliveryDate(),
                 'customer_notes'          => $order->customerNotes(),

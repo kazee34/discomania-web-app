@@ -2,49 +2,46 @@
 
 namespace Src\customer\order\domain\valueObjects;
 
-// TODO: move this to enum
-class OrderStatus
+enum OrderStatus: string
 {
-    const PENDING    = 'pending';
-    const PROCESSING = 'processing';
-    const SHIPPED    = 'shipped';
-    const DELIVERED  = 'delivered';
-    const CANCELLED  = 'cancelled';
+    case Pending    = 'pending';
+    case Processing = 'processing';
+    case Shipped    = 'shipped';
+    case Delivered  = 'delivered';
+    case Cancelled  = 'cancelled';
 
-    private static array $valid = [
-        self::PENDING,
-        self::PROCESSING,
-        self::SHIPPED,
-        self::DELIVERED,
-        self::CANCELLED,
-    ];
-
-    private function __construct(
-        private readonly string $value,
-    ) {}
-
-    public static function pending(): self
+    public function canTransitionTo(self $next): bool
     {
-        return new self(self::PENDING);
+        return match ($this) {
+            self::Pending    => $next === self::Processing || $next === self::Cancelled,
+            self::Processing => $next === self::Shipped    || $next === self::Cancelled,
+            self::Shipped    => $next === self::Delivered,
+            default          => false,
+        };
     }
 
-    public static function fromString(string $value): self
+    public function isPending(): bool
     {
-        if (! in_array($value, self::$valid, true)) {
-            throw new \InvalidArgumentException("Invalid order status: {$value}");
-        }
-
-        return new self($value);
+        return $this === self::Pending;
     }
 
-    public function value(): string
+    public function isProcessing(): bool
     {
-        return $this->value;
+        return $this === self::Processing;
     }
 
-    public function isPending(): bool    { return $this->value === self::PENDING; }
-    public function isProcessing(): bool { return $this->value === self::PROCESSING; }
-    public function isShipped(): bool    { return $this->value === self::SHIPPED; }
-    public function isDelivered(): bool  { return $this->value === self::DELIVERED; }
-    public function isCancelled(): bool  { return $this->value === self::CANCELLED; }
+    public function isShipped(): bool
+    {
+        return $this === self::Shipped;
+    }
+
+    public function isDelivered(): bool
+    {
+        return $this === self::Delivered;
+    }
+    
+    public function isCancelled(): bool
+    {
+        return $this === self::Cancelled;
+    }
 }

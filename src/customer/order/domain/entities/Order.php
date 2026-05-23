@@ -49,7 +49,7 @@ class Order
             shippingCost: $shippingCost,
             taxAmount: $taxAmount,
             totalAmount: $totalAmount,
-            status: OrderStatus::pending(),
+            status: OrderStatus::Pending,
             trackingNumber: null,
             estimatedDeliveryDate: null,
             customerNotes: $customerNotes,
@@ -87,7 +87,7 @@ class Order
             shippingCost: $shippingCost,
             taxAmount: $taxAmount,
             totalAmount: $totalAmount,
-            status: OrderStatus::fromString($status),
+            status: OrderStatus::from($status),
             trackingNumber: $trackingNumber,
             estimatedDeliveryDate: $estimatedDeliveryDate,
             customerNotes: $customerNotes,
@@ -114,10 +114,10 @@ class Order
     public function cancel(): void
     {
         if (! $this->status->isPending()) {
-            throw new \DomainException("Only pending orders can be cancelled. Current status: {$this->status->value()}.");
+            throw new \DomainException("Only pending orders can be cancelled. Current status: {$this->status->value}.");
         }
 
-        $this->status = OrderStatus::fromString(OrderStatus::CANCELLED);
+        $this->status = OrderStatus::Cancelled;
         $this->recordEvent(new OrderCancelledEvent($this->customerId, $this->orderNumber));
     }
 
