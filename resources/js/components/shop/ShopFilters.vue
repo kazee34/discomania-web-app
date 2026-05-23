@@ -2,7 +2,7 @@
 import { computed } from 'vue';
 import { Input } from '@/components/ui/input';
 
-const props = defineProps<{
+defineProps<{
     genres: string[];
     countries: string[];
     decades: number[];

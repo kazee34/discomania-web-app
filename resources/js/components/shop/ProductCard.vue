@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import { computed, ref } from 'vue';
 import { Link } from '@inertiajs/vue3';
-import { useCart } from '@/composables/useCart';
+import { computed, ref } from 'vue';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
+import { useCart } from '@/composables/useCart';
 
 interface Product {
     id: number;

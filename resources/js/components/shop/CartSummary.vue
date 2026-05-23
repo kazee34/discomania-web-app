@@ -3,7 +3,7 @@ import { Link, useForm } from '@inertiajs/vue3';
 import { Button } from '@/components/ui/button';
 import { login, register } from '@/routes';
 
-const props = defineProps<{
+defineProps<{
     totalAmount: number;
     itemCount: number;
 }>();

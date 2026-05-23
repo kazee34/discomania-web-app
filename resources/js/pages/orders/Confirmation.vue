@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { Head, Link } from '@inertiajs/vue3';
+import { onMounted } from 'vue';
 import ShopNavbar from '@/components/shop/ShopNavbar.vue';
 import { useCart } from '@/composables/useCart';
-import { onMounted } from 'vue';
 
 interface OrderItem {
     id: number;
@@ -27,7 +27,7 @@ interface Order {
     items: OrderItem[];
 }
 
-const props = defineProps<{ order: Order }>();
+defineProps<{ order: Order }>();
 
 const { cart } = useCart();
 

@@ -1,7 +1,7 @@
 <script setup lang="ts">
+import { Button } from '@/components/ui/button';
 import type { CartItem } from '@/composables/useCart';
 import { useCart } from '@/composables/useCart';
-import { Button } from '@/components/ui/button';
 
 defineProps<{ item: CartItem }>();
 

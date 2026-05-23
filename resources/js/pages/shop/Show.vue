@@ -1,10 +1,10 @@
 <script setup lang="ts">
-import { computed, onMounted, ref } from 'vue';
 import { Head, Link } from '@inertiajs/vue3';
-import { useCart } from '@/composables/useCart';
+import { computed, onMounted, ref } from 'vue';
 import ShopNavbar from '@/components/shop/ShopNavbar.vue';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
+import { useCart } from '@/composables/useCart';
 
 interface Product {
     id: number;

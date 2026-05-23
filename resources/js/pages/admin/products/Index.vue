@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { Head, Link, useForm } from '@inertiajs/vue3';
-import AppLayout from '@/layouts/AppLayout.vue';
 import { Button } from '@/components/ui/button';
+import AppLayout from '@/layouts/AppLayout.vue';
 import type { BreadcrumbItem } from '@/types';
 
 interface Product {
@@ -21,10 +21,6 @@ defineProps<{ products: Product[] }>();
 const breadcrumbs: BreadcrumbItem[] = [
     { title: 'Admin Panel', href: { url: '/admin/products' } },
 ];
-
-function useDeleteForm(id: number) {
-    return useForm({}).transform(() => ({}));
-}
 
 function deleteProduct(id: number) {
     if (!confirm('¿Eliminar este producto? Esta acción no se puede deshacer.')) return;

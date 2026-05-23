@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { Head, Link } from '@inertiajs/vue3';
-import { login, register } from '@/routes';
-import { Button } from '@/components/ui/button';
 import { ShoppingCart } from 'lucide-vue-next';
+import { Button } from '@/components/ui/button';
+import { login, register } from '@/routes';
 
 withDefaults(defineProps<{ canRegister: boolean }>(), { canRegister: true });
 

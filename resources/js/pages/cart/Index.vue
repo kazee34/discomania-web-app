@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import { Head, Link } from '@inertiajs/vue3';
 import { onMounted } from 'vue';
-import { useCart } from '@/composables/useCart';
-import ShopNavbar from '@/components/shop/ShopNavbar.vue';
 import CartItemRow from '@/components/shop/CartItemRow.vue';
 import CartSummary from '@/components/shop/CartSummary.vue';
+import ShopNavbar from '@/components/shop/ShopNavbar.vue';
+import { useCart } from '@/composables/useCart';
 
 const { cart, itemCount, fetchCart } = useCart();
 

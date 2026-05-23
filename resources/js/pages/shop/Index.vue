@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import { Head } from '@inertiajs/vue3';
 import { computed, onMounted, ref } from 'vue';
-import { useCart } from '@/composables/useCart';
-import ShopNavbar from '@/components/shop/ShopNavbar.vue';
-import ShopFilters from '@/components/shop/ShopFilters.vue';
 import ProductCard from '@/components/shop/ProductCard.vue';
+import ShopFilters from '@/components/shop/ShopFilters.vue';
+import ShopNavbar from '@/components/shop/ShopNavbar.vue';
+import { useCart } from '@/composables/useCart';
 
 interface Product {
     id: number;
@@ -52,7 +52,7 @@ const decades = computed(() => {
 const filtered = computed(() => {
     const q = search.value.toLowerCase();
 
-    let result = props.products.filter((p) => {
+    const result = props.products.filter((p) => {
         const matchesSearch =
             !q ||
             p.artist.toLowerCase().includes(q) ||

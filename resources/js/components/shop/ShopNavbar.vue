@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import { Link } from '@inertiajs/vue3';
-import { login, register } from '@/routes';
-import { useCart } from '@/composables/useCart';
-import { Button } from '@/components/ui/button';
 import { ShoppingCart } from 'lucide-vue-next';
+import { Button } from '@/components/ui/button';
+import { useCart } from '@/composables/useCart';
+import { login, register } from '@/routes';
 
 const { itemCount } = useCart();
 </script>
