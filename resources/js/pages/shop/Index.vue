@@ -85,36 +85,44 @@ const filtered = computed(() => {
         <ShopNavbar />
 
         <main class="mx-auto max-w-7xl px-4 py-10 sm:px-6">
-            <div class="mb-8">
-                <h1 class="mb-1 text-3xl font-bold">Catálogo</h1>
-                <p class="mb-6 text-muted-foreground">{{ filtered.length }} disco{{ filtered.length !== 1 ? 's' : '' }} disponible{{ filtered.length !== 1 ? 's' : '' }}</p>
+            <div class="flex gap-8">
+                <!-- Filtros -->
+                <aside class="hidden w-52 shrink-0 lg:block">
+                    <ShopFilters
+                        v-model:search="search"
+                        v-model:selected-genre="selectedGenre"
+                        v-model:selected-country="selectedCountry"
+                        v-model:selected-decade="selectedDecade"
+                        v-model:sort-by="sortBy"
+                        :genres="genres"
+                        :countries="countries"
+                        :decades="decades"
+                    />
+                </aside>
 
-                <ShopFilters
-                    v-model:search="search"
-                    v-model:selected-genre="selectedGenre"
-                    v-model:selected-country="selectedCountry"
-                    v-model:selected-decade="selectedDecade"
-                    v-model:sort-by="sortBy"
-                    :genres="genres"
-                    :countries="countries"
-                    :decades="decades"
-                />
-            </div>
+                <!-- Productos -->
+                <div class="flex-1">
+                    <div class="mb-6">
+                        <h1 class="mb-1 text-3xl font-bold">Catálogo</h1>
+                        <p class="text-muted-foreground">{{ filtered.length }} disco{{ filtered.length !== 1 ? 's' : '' }} disponible{{ filtered.length !== 1 ? 's' : '' }}</p>
+                    </div>
 
-            <div
-                v-if="filtered.length > 0"
-                class="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5"
-            >
-                <ProductCard
-                    v-for="product in filtered"
-                    :key="product.id"
-                    :product="product"
-                />
-            </div>
+                    <div
+                        v-if="filtered.length > 0"
+                        class="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-3 xl:grid-cols-4"
+                    >
+                        <ProductCard
+                            v-for="product in filtered"
+                            :key="product.id"
+                            :product="product"
+                        />
+                    </div>
 
-            <div v-else class="py-24 text-center text-muted-foreground">
-                <p class="text-lg font-medium">No se encontraron discos</p>
-                <p class="mt-1 text-sm">Prueba con otro artista, género o año</p>
+                    <div v-else class="py-24 text-center text-muted-foreground">
+                        <p class="text-lg font-medium">No se encontraron discos</p>
+                        <p class="mt-1 text-sm">Prueba con otro artista, género o año</p>
+                    </div>
+                </div>
             </div>
         </main>
     </div>

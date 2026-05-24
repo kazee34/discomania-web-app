@@ -91,7 +91,7 @@ async function handleAddToCart() {
                     </div>
 
                     <div class="flex flex-wrap gap-2">
-                        <Badge variant="secondary">{{ product.genre }}</Badge>
+                        <Badge class="bg-violet-600 text-white hover:bg-violet-700 border-0">{{ product.genre }}</Badge>
                         <Badge variant="outline">{{ product.releaseYear }}</Badge>
                         <Badge variant="outline">{{ product.country }}</Badge>
                         <Badge v-if="product.label" variant="outline">{{ product.label }}</Badge>
@@ -110,7 +110,7 @@ async function handleAddToCart() {
                         </div>
 
                         <Button
-                            class="w-full"
+                            class="w-full bg-violet-600 hover:bg-violet-700 text-white"
                             size="lg"
                             :disabled="loading || !canAdd"
                             @click="handleAddToCart"

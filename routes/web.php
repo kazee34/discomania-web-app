@@ -7,6 +7,7 @@ use Src\customer\order\infrastructure\controllers\GET_ProfileOrderDetailControll
 use Src\customer\order\infrastructure\controllers\GET_ProfileOrdersController;
 use Src\customer\order\infrastructure\controllers\POST_CheckoutController;
 use Src\customer\product\infrastructure\controllers\GET_ShopIndexController;
+use Src\customer\product\infrastructure\controllers\GET_WelcomeController;
 use Src\customer\product\infrastructure\controllers\GET_ShopProductController;
 use Src\admin\customer\infrastructure\controllers\GET_AdminCustomersWebController;
 use Src\admin\customer\infrastructure\controllers\GET_AdminCustomerDetailWebController;
@@ -27,9 +28,7 @@ use Src\customer\user\infrastructure\controllers\GET_ProfileController;
 use Src\customer\user\infrastructure\controllers\PUT_UpdateProfileController;
 
 
-Route::inertia('/', 'Welcome', [
-    'canRegister' => Features::enabled(Features::registration()),
-])->name('home');
+Route::get('/', [GET_WelcomeController::class, 'index'])->name('home');
 
 Route::get('/shop', [GET_ShopIndexController::class, 'index'])->name('shop.index');
 Route::get('/shop/{slug}', [GET_ShopProductController::class, 'show'])->name('shop.product');
@@ -45,7 +44,7 @@ Route::middleware(['auth', 'customer'])->group(function () {
     Route::delete('/profile/orders/{orderNumber}', [DELETE_CancelOrderWebController::class, 'destroy'])->name('customer.orders.cancel');
 });
 
-Route::middleware(['auth', 'verified'])->group(function () {
+Route::middleware(['auth', 'verified', 'admin'])->group(function () {
     Route::inertia('dashboard', 'Dashboard')->name('dashboard');
 });
 

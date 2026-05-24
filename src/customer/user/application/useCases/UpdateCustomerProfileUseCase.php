@@ -22,6 +22,7 @@ class UpdateCustomerProfileUseCase
         string $firstName,
         string $lastName,
         ?string $phone,
+        ?string $birthDate,
         string $shippingStreet,
         string $shippingStreetNumber,
         ?string $shippingApartment,
@@ -42,7 +43,7 @@ class UpdateCustomerProfileUseCase
             firstName: new UserName($firstName),
             lastName: new UserName($lastName),
             phone: new CustomerPhone($phone),
-            birthDate: $customer->birthDate(),
+            birthDate: $birthDate,
             dniNif: $customer->dniNif(),
             shippingAddress: new ShippingAddress(
                 $shippingStreet,
@@ -61,7 +62,7 @@ class UpdateCustomerProfileUseCase
             createdAt: $customer->createdAt(),
         );
 
-        $updated->updateFields(['firstName', 'lastName', 'phone', 'shippingAddress']);
+        $updated->updateFields(['firstName', 'lastName', 'phone', 'birthDate', 'shippingAddress']);
 
         $this->repository->update($updated);
 

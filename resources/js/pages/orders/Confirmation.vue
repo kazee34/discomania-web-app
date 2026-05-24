@@ -104,15 +104,15 @@ onMounted(() => {
             <div class="flex flex-col gap-3 sm:flex-row">
                 <Link
                     href="/shop"
-                    class="flex-1 inline-flex items-center justify-center rounded-lg bg-primary px-5 py-2.5 text-sm font-medium text-primary-foreground hover:bg-primary/90"
+                    class="flex-1 inline-flex items-center justify-center rounded-lg bg-violet-600 px-5 py-2.5 text-sm font-medium text-white hover:bg-violet-700"
                 >
                     Seguir comprando
                 </Link>
                 <Link
-                    href="/dashboard"
+                    href="/profile/orders"
                     class="flex-1 inline-flex items-center justify-center rounded-lg border px-5 py-2.5 text-sm font-medium hover:bg-muted"
                 >
-                    Ir al dashboard
+                    Mis pedidos
                 </Link>
             </div>
         </main>

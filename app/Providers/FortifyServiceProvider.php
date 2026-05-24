@@ -4,12 +4,17 @@ namespace App\Providers;
 
 use App\Actions\Fortify\CreateNewUser;
 use App\Actions\Fortify\ResetUserPassword;
+use App\Models\AdminModel;
 use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Str;
 use Inertia\Inertia;
+use Laravel\Fortify\Contracts\LoginResponse;
+use Laravel\Fortify\Contracts\PasswordConfirmedResponse;
+use Laravel\Fortify\Contracts\TwoFactorDisabledResponse;
+use Laravel\Fortify\Contracts\TwoFactorEnabledResponse;
 use Laravel\Fortify\Features;
 use Laravel\Fortify\Fortify;
 
@@ -31,6 +36,7 @@ class FortifyServiceProvider extends ServiceProvider
         $this->configureActions();
         $this->configureViews();
         $this->configureRateLimiting();
+        $this->configureResponses();
     }
 
     /**
@@ -71,6 +77,52 @@ class FortifyServiceProvider extends ServiceProvider
         Fortify::twoFactorChallengeView(fn () => Inertia::render('auth/TwoFactorChallenge'));
 
         Fortify::confirmPasswordView(fn () => Inertia::render('auth/ConfirmPassword'));
+    }
+
+    /**
+     * Override Fortify response contracts for role-based redirects.
+     */
+    private function configureResponses(): void
+    {
+        $this->app->singleton(LoginResponse::class, function () {
+            return new class implements LoginResponse {
+                public function toResponse($request)
+                {
+                    $isAdmin = AdminModel::where('user_id', $request->user()->id)
+                        ->where('is_active', true)
+                        ->exists();
+
+                    return redirect($isAdmin ? '/dashboard' : '/shop');
+                }
+            };
+        });
+
+        $this->app->singleton(PasswordConfirmedResponse::class, function () {
+            return new class implements PasswordConfirmedResponse {
+                public function toResponse($request)
+                {
+                    return redirect()->intended('/settings/two-factor');
+                }
+            };
+        });
+
+        $this->app->singleton(TwoFactorEnabledResponse::class, function () {
+            return new class implements TwoFactorEnabledResponse {
+                public function toResponse($request)
+                {
+                    return redirect('/settings/two-factor');
+                }
+            };
+        });
+
+        $this->app->singleton(TwoFactorDisabledResponse::class, function () {
+            return new class implements TwoFactorDisabledResponse {
+                public function toResponse($request)
+                {
+                    return redirect('/settings/two-factor');
+                }
+            };
+        });
     }
 
     /**
