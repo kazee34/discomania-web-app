@@ -1,7 +1,7 @@
 <?php
 
+use Src\admin\dashboard\infrastructure\controllers\GET_AdminDashboardWebController;
 use Illuminate\Support\Facades\Route;
-use Laravel\Fortify\Features;
 use Src\customer\order\infrastructure\controllers\DELETE_CancelOrderWebController;
 use Src\customer\order\infrastructure\controllers\GET_ProfileOrderDetailController;
 use Src\customer\order\infrastructure\controllers\GET_ProfileOrdersController;
@@ -11,7 +11,10 @@ use Src\customer\product\infrastructure\controllers\GET_WelcomeController;
 use Src\customer\product\infrastructure\controllers\GET_ShopProductController;
 use Src\admin\customer\infrastructure\controllers\GET_AdminCustomersWebController;
 use Src\admin\customer\infrastructure\controllers\GET_AdminCustomerDetailWebController;
+use Src\admin\customer\infrastructure\controllers\GET_AdminCustomerCreateWebController;
+use Src\admin\customer\infrastructure\controllers\POST_AdminCreateCustomerWebController;
 use Src\admin\customer\infrastructure\controllers\PATCH_AdminDeactivateCustomerWebController;
+use Src\admin\customer\infrastructure\controllers\PATCH_AdminToggleVipWebController;
 use Src\admin\user\infrastructure\controllers\GET_AdminAdminsWebController;
 use Src\admin\user\infrastructure\controllers\POST_AdminAdminWebController;
 use Src\admin\user\infrastructure\controllers\DELETE_AdminAdminWebController;
@@ -44,8 +47,8 @@ Route::middleware(['auth', 'customer'])->group(function () {
     Route::delete('/profile/orders/{orderNumber}', [DELETE_CancelOrderWebController::class, 'destroy'])->name('customer.orders.cancel');
 });
 
-Route::middleware(['auth', 'verified', 'admin'])->group(function () {
-    Route::inertia('dashboard', 'Dashboard')->name('dashboard');
+Route::middleware(['auth', 'admin'])->group(function () {
+    Route::get('dashboard', [GET_AdminDashboardWebController::class, 'index'])->name('dashboard');
 });
 
 Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(function () {
@@ -58,8 +61,11 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     Route::patch('/products/{id}/status',[PATCH_AdminProductStatusWebController::class, 'toggle'])->name('products.status');
 
     Route::get('/customers',              [GET_AdminCustomersWebController::class,        'index'])->name('customers.index');
+    Route::get('/customers/create',       [GET_AdminCustomerCreateWebController::class,   'create'])->name('customers.create');
+    Route::post('/customers',             [POST_AdminCreateCustomerWebController::class,  'store'])->name('customers.store');
     Route::get('/customers/{id}',         [GET_AdminCustomerDetailWebController::class,   'show'])->name('customers.show');
     Route::patch('/customers/{id}/deactivate', [PATCH_AdminDeactivateCustomerWebController::class, 'deactivate'])->name('customers.deactivate');
+    Route::patch('/customers/{id}/vip',   [PATCH_AdminToggleVipWebController::class,      'toggle'])->name('customers.vip');
 
     Route::get('/admins',                   [GET_AdminAdminsWebController::class,        'index'])->name('admins.index');
     Route::get('/admins/create',            [GET_AdminAdminsWebController::class,        'create'])->name('admins.create');

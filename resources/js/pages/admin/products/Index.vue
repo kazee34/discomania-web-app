@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import { Head, Link, useForm } from '@inertiajs/vue3';
+import { computed, ref } from 'vue';
 import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
 import AppLayout from '@/layouts/AppLayout.vue';
 import type { BreadcrumbItem } from '@/types';
 
@@ -16,23 +18,46 @@ interface Product {
     isActive: boolean;
 }
 
-defineProps<{ products: Product[] }>();
+const props = defineProps<{ products: Product[] }>();
 
 const breadcrumbs: BreadcrumbItem[] = [
     { title: 'Admin Panel', href: { url: '/admin/products' } },
 ];
 
+const search       = ref('');
+const filterGenre  = ref('all');
+const filterStatus = ref<'all' | 'active' | 'inactive'>('all');
+const filterStock  = ref<'all' | 'out'>('all');
+
+const genres = computed(() => {
+    const all = props.products.map((p) => p.genre).filter(Boolean) as string[];
+    return [...new Set(all)].sort();
+});
+
+const filtered = computed(() => {
+    const q = search.value.toLowerCase();
+    return props.products.filter((p) => {
+        const matchesSearch =
+            !q ||
+            p.albumTitle.toLowerCase().includes(q) ||
+            p.artist.toLowerCase().includes(q);
+        const matchesGenre  = filterGenre.value === 'all' || p.genre === filterGenre.value;
+        const matchesStatus =
+            filterStatus.value === 'all' ||
+            (filterStatus.value === 'active' && p.isActive) ||
+            (filterStatus.value === 'inactive' && !p.isActive);
+        const matchesStock = filterStock.value === 'all' || (filterStock.value === 'out' && p.stock === 0);
+        return matchesSearch && matchesGenre && matchesStatus && matchesStock;
+    });
+});
+
 function deleteProduct(id: number) {
     if (!confirm('¿Eliminar este producto? Esta acción no se puede deshacer.')) return;
-    useForm({}).delete(`/admin/products/${id}`, {
-        preserveScroll: true,
-    });
+    useForm({}).delete(`/admin/products/${id}`, { preserveScroll: true });
 }
 
 function toggleStatus(id: number, activate: boolean) {
-    useForm({ activate }).patch(`/admin/products/${id}/status`, {
-        preserveScroll: true,
-    });
+    useForm({ activate }).patch(`/admin/products/${id}/status`, { preserveScroll: true });
 }
 </script>
 
@@ -45,7 +70,7 @@ function toggleStatus(id: number, activate: boolean) {
             <div class="flex items-center justify-between">
                 <div>
                     <h1 class="text-2xl font-bold">Productos</h1>
-                    <p class="text-sm text-muted-foreground mt-0.5">{{ products.length }} productos en total</p>
+                    <p class="text-sm text-muted-foreground mt-0.5">{{ filtered.length }} de {{ products.length }} productos</p>
                 </div>
                 <Button as-child>
                     <Link href="/admin/products/create">Añadir producto</Link>
@@ -55,6 +80,33 @@ function toggleStatus(id: number, activate: boolean) {
             <!-- Flash -->
             <div v-if="$page.props.flash?.success" class="rounded-lg bg-green-50 px-4 py-3 text-sm text-green-700">
                 {{ $page.props.flash.success }}
+            </div>
+
+            <!-- Filtros -->
+            <div class="flex flex-wrap gap-3">
+                <Input v-model="search" placeholder="Buscar por álbum o artista..." class="max-w-xs" />
+                <select
+                    v-model="filterGenre"
+                    class="flex h-9 rounded-md border border-input bg-background px-3 py-1 text-sm shadow-sm"
+                >
+                    <option value="all">Todos (género)</option>
+                    <option v-for="g in genres" :key="g" :value="g">{{ g }}</option>
+                </select>
+                <select
+                    v-model="filterStatus"
+                    class="flex h-9 rounded-md border border-input bg-background px-3 py-1 text-sm shadow-sm"
+                >
+                    <option value="all">Todos (estado)</option>
+                    <option value="active">Activos</option>
+                    <option value="inactive">Inactivos</option>
+                </select>
+                <select
+                    v-model="filterStock"
+                    class="flex h-9 rounded-md border border-input bg-background px-3 py-1 text-sm shadow-sm"
+                >
+                    <option value="all">Cualquier stock</option>
+                    <option value="out">Sin stock</option>
+                </select>
             </div>
 
             <!-- Tabla -->
@@ -71,13 +123,18 @@ function toggleStatus(id: number, activate: boolean) {
                         </tr>
                     </thead>
                     <tbody class="divide-y">
-                        <tr v-for="product in products" :key="product.id" class="hover:bg-muted/30 transition-colors">
+                        <tr v-if="filtered.length === 0">
+                            <td colspan="6" class="px-4 py-8 text-center text-muted-foreground">
+                                No se encontraron productos con esos filtros.
+                            </td>
+                        </tr>
+                        <tr v-for="product in filtered" :key="product.id" class="hover:bg-muted/30 transition-colors">
                             <td class="px-4 py-3">
                                 <div class="flex items-center gap-3">
                                     <img
                                         v-if="product.coverImageUrl"
                                         :src="product.coverImageUrl"
-                                        :alt="product.albumTitle"
+                                        alt=""
                                         class="h-10 w-10 rounded-md object-cover shrink-0"
                                         loading="lazy"
                                         decoding="async"

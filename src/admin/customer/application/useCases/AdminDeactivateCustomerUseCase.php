@@ -12,7 +12,7 @@ class AdminDeactivateCustomerUseCase
         private readonly EventPublisher $eventPublisher,
     ) {}
 
-    public function execute(int $customerId): void
+    public function execute(int $customerId, bool $activate = false): void
     {
         $customer = $this->repository->findById($customerId);
 
@@ -20,7 +20,7 @@ class AdminDeactivateCustomerUseCase
             throw new \DomainException("Customer {$customerId} not found.");
         }
 
-        $customer->deactivate();
+        $activate ? $customer->activate() : $customer->deactivate();
 
         $this->repository->update($customer);
 

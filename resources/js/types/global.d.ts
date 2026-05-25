@@ -19,6 +19,7 @@ declare module '@inertiajs/core' {
             name: string;
             auth: Auth;
             isAdmin: boolean;
+            adminRole: 'super_admin' | 'admin' | 'editor' | null;
             sidebarOpen: boolean;
             flash: { success?: string; error?: string } | null;
             [key: string]: unknown;

@@ -47,7 +47,7 @@ async function handleAddToCart() {
             <img
                 v-if="product.coverImageUrl"
                 :src="product.coverImageUrl"
-                :alt="`${product.artist} - ${product.albumTitle}`"
+                alt=""
                 class="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
                 loading="lazy"
                 decoding="async"
@@ -56,28 +56,28 @@ async function handleAddToCart() {
         </Link>
 
         <!-- Info -->
-        <div class="flex flex-1 flex-col gap-2 p-3">
+        <div class="flex flex-1 flex-col gap-2.5 p-4">
             <Link :href="`/shop/${product.slug}`">
-                <p class="truncate text-sm font-semibold leading-tight hover:underline">{{ product.albumTitle }}</p>
-                <p class="truncate text-xs text-muted-foreground">{{ product.artist }}</p>
+                <p class="truncate font-semibold leading-tight hover:underline">{{ product.albumTitle }}</p>
+                <p class="truncate text-sm text-muted-foreground">{{ product.artist }}</p>
             </Link>
             <div class="flex items-center justify-between gap-1">
                 <Badge variant="secondary" class="truncate text-xs">{{ product.genre }}</Badge>
                 <span class="text-xs text-muted-foreground">{{ product.releaseYear }}</span>
             </div>
             <div class="mt-auto flex items-center justify-between pt-1">
-                <span class="text-base font-bold">{{ product.price.toFixed(2) }} €</span>
+                <span class="text-lg font-bold">{{ product.price.toFixed(2) }} €</span>
                 <Button
                     size="sm"
                     :variant="added ? 'default' : 'outline'"
-                    class="h-7 min-w-20 text-xs transition-all"
+                    class="min-w-20 text-xs transition-all"
                     :disabled="loading || !canAdd"
                     @click="handleAddToCart"
                 >
                     <span v-if="product.stockQuantity === 0">Sin stock</span>
                     <span v-else-if="!canAdd">Máx. alcanzado</span>
                     <span v-else-if="added">Añadido</span>
-                    <span v-else>+ Carrito</span>
+                    <span v-else>Añadir</span>
                 </Button>
             </div>
         </div>

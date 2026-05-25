@@ -13,8 +13,10 @@ use Illuminate\Support\Str;
 use Inertia\Inertia;
 use Laravel\Fortify\Contracts\LoginResponse;
 use Laravel\Fortify\Contracts\PasswordConfirmedResponse;
+use Laravel\Fortify\Contracts\RegisterResponse;
 use Laravel\Fortify\Contracts\TwoFactorDisabledResponse;
 use Laravel\Fortify\Contracts\TwoFactorEnabledResponse;
+use Laravel\Fortify\Contracts\TwoFactorLoginResponse;
 use Laravel\Fortify\Features;
 use Laravel\Fortify\Fortify;
 
@@ -72,7 +74,18 @@ class FortifyServiceProvider extends ServiceProvider
             'status' => $request->session()->get('status'),
         ]));
 
-        Fortify::registerView(fn () => Inertia::render('auth/Register'));
+        Fortify::registerView(function (Request $request) {
+            $referer = $request->headers->get('referer', '');
+            $appUrl  = config('app.url');
+            if ($referer && str_starts_with($referer, $appUrl)) {
+                $path = parse_url($referer, PHP_URL_PATH) ?? '/';
+                if (! in_array($path, ['/login', '/register'], true)) {
+                    $request->session()->put('register.intended', $path);
+                }
+            }
+
+            return Inertia::render('auth/Register');
+        });
 
         Fortify::twoFactorChallengeView(fn () => Inertia::render('auth/TwoFactorChallenge'));
 
@@ -88,11 +101,26 @@ class FortifyServiceProvider extends ServiceProvider
             return new class implements LoginResponse {
                 public function toResponse($request)
                 {
-                    $isAdmin = AdminModel::where('user_id', $request->user()->id)
+                    $isAdmin = AdminModel::query()
+                        ->where('user_id', $request->user()->id)
                         ->where('is_active', true)
                         ->exists();
 
-                    return redirect($isAdmin ? '/dashboard' : '/shop');
+                    return Inertia::location($isAdmin ? '/dashboard' : '/shop');
+                }
+            };
+        });
+
+        $this->app->singleton(TwoFactorLoginResponse::class, function () {
+            return new class implements TwoFactorLoginResponse {
+                public function toResponse($request)
+                {
+                    $isAdmin = AdminModel::query()
+                        ->where('user_id', $request->user()->id)
+                        ->where('is_active', true)
+                        ->exists();
+
+                    return Inertia::location($isAdmin ? '/dashboard' : '/shop');
                 }
             };
         });
@@ -120,6 +148,17 @@ class FortifyServiceProvider extends ServiceProvider
                 public function toResponse($request)
                 {
                     return redirect('/settings/two-factor');
+                }
+            };
+        });
+
+        $this->app->singleton(RegisterResponse::class, function () {
+            return new class implements RegisterResponse {
+                public function toResponse($request)
+                {
+                    $intended = $request->session()->pull('register.intended', '/shop');
+
+                    return redirect($intended);
                 }
             };
         });

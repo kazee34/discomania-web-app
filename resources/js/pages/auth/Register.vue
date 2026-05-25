@@ -4,6 +4,7 @@ import InputError from '@/components/InputError.vue';
 import TextLink from '@/components/TextLink.vue';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
+import InputPassword from '@/components/ui/input-password.vue';
 import { Label } from '@/components/ui/label';
 import { Spinner } from '@/components/ui/spinner';
 import AuthBase from '@/layouts/AuthLayout.vue';
@@ -76,9 +77,8 @@ import { store } from '@/routes/register';
                 <div class="grid grid-cols-2 gap-4">
                     <div class="grid gap-2">
                         <Label for="password">Contraseña</Label>
-                        <Input
+                        <InputPassword
                             id="password"
-                            type="password"
                             required
                             :tabindex="4"
                             autocomplete="new-password"
@@ -89,9 +89,8 @@ import { store } from '@/routes/register';
                     </div>
                     <div class="grid gap-2">
                         <Label for="password_confirmation">Confirmar contraseña</Label>
-                        <Input
+                        <InputPassword
                             id="password_confirmation"
-                            type="password"
                             required
                             :tabindex="5"
                             autocomplete="new-password"
@@ -100,6 +99,49 @@ import { store } from '@/routes/register';
                         />
                         <InputError :message="errors.password_confirmation" />
                     </div>
+                </div>
+
+                <!-- Teléfono y fecha de nacimiento -->
+                <div class="grid grid-cols-2 gap-4">
+                    <div class="grid gap-2">
+                        <Label for="phone">Teléfono</Label>
+                        <Input
+                            id="phone"
+                            type="tel"
+                            :tabindex="6"
+                            autocomplete="tel"
+                            name="phone"
+                            placeholder="+34 600 000 000"
+                        />
+                        <InputError :message="errors.phone" />
+                    </div>
+                    <div class="grid gap-2">
+                        <Label for="birth_date">Fecha de nacimiento</Label>
+                        <Input
+                            id="birth_date"
+                            type="date"
+                            :tabindex="7"
+                            name="birth_date"
+                            min="1900-01-01"
+                        />
+                        <InputError :message="errors.birth_date" />
+                    </div>
+                </div>
+
+                <!-- DNI/NIF -->
+                <div class="grid gap-2">
+                    <Label for="dni_nif">
+                        DNI / NIF
+                        <span class="text-xs text-muted-foreground">(opcional)</span>
+                    </Label>
+                    <Input
+                        id="dni_nif"
+                        type="text"
+                        :tabindex="8"
+                        name="dni_nif"
+                        placeholder="12345678A"
+                    />
+                    <InputError :message="errors.dni_nif" />
                 </div>
 
                 <!-- Dirección de envío -->
@@ -113,7 +155,7 @@ import { store } from '@/routes/register';
                                 id="shipping_street"
                                 type="text"
                                 required
-                                :tabindex="6"
+                                :tabindex="9"
                                 autocomplete="address-line1"
                                 name="shipping_street"
                                 placeholder="Calle Gran Vía"
@@ -126,7 +168,7 @@ import { store } from '@/routes/register';
                                 id="shipping_street_number"
                                 type="text"
                                 required
-                                :tabindex="7"
+                                :tabindex="10"
                                 name="shipping_street_number"
                                 placeholder="12"
                             />
@@ -142,7 +184,7 @@ import { store } from '@/routes/register';
                         <Input
                             id="shipping_apartment"
                             type="text"
-                            :tabindex="8"
+                            :tabindex="11"
                             autocomplete="address-line2"
                             name="shipping_apartment"
                             placeholder="3º B"
@@ -157,7 +199,7 @@ import { store } from '@/routes/register';
                                 id="shipping_city"
                                 type="text"
                                 required
-                                :tabindex="9"
+                                :tabindex="12"
                                 autocomplete="address-level2"
                                 name="shipping_city"
                                 placeholder="Madrid"
@@ -170,7 +212,7 @@ import { store } from '@/routes/register';
                                 id="shipping_postal_code"
                                 type="text"
                                 required
-                                :tabindex="10"
+                                :tabindex="13"
                                 autocomplete="postal-code"
                                 name="shipping_postal_code"
                                 placeholder="28001"
@@ -187,7 +229,7 @@ import { store } from '@/routes/register';
                         <Input
                             id="shipping_state_province"
                             type="text"
-                            :tabindex="11"
+                            :tabindex="14"
                             autocomplete="address-level1"
                             name="shipping_state_province"
                             placeholder="Madrid"
@@ -199,7 +241,7 @@ import { store } from '@/routes/register';
                 <Button
                     type="submit"
                     class="w-full"
-                    tabindex="12"
+                    tabindex="15"
                     :disabled="processing"
                     data-test="register-user-button"
                 >
@@ -210,7 +252,7 @@ import { store } from '@/routes/register';
 
             <div class="text-center text-sm text-muted-foreground">
                 ¿Ya tienes cuenta?
-                <TextLink :href="login()" class="underline underline-offset-4" :tabindex="13">
+                <TextLink :href="login()" class="underline underline-offset-4" :tabindex="16">
                     Inicia sesión
                 </TextLink>
             </div>

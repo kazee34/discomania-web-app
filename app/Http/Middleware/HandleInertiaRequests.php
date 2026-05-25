@@ -45,6 +45,9 @@ class HandleInertiaRequests extends Middleware
             'isAdmin' => $request->user()
                 ? AdminModel::where('user_id', $request->user()->id)->where('is_active', true)->exists()
                 : false,
+            'adminRole' => $request->user()
+                ? AdminModel::where('user_id', $request->user()->id)->where('is_active', true)->value('role')
+                : null,
             'sidebarOpen' => ! $request->hasCookie('sidebar_state') || $request->cookie('sidebar_state') === 'true',
         ];
     }

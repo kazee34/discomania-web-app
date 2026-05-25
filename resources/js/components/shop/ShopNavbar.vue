@@ -21,8 +21,8 @@ const auth = computed(() => page.props.auth);
 
 <template>
     <header class="sticky top-0 z-50 bg-linear-to-r from-violet-900 to-black">
-        <div class="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6">
-            <Link href="/" class="text-xl font-bold tracking-tight text-white">
+        <div class="mx-auto flex h-20 max-w-7xl items-center justify-between px-4 sm:px-6">
+            <Link href="/" class="text-2xl font-bold tracking-tight text-white">
                 Discomania
             </Link>
 
@@ -31,7 +31,7 @@ const auth = computed(() => page.props.auth);
                     href="/cart"
                     class="relative flex items-center gap-1 text-white/70 transition-colors hover:text-white"
                 >
-                    <ShoppingCart class="h-5 w-5" />
+                    <ShoppingCart class="h-6 w-6" />
                     <span
                         v-if="itemCount > 0"
                         class="absolute -right-3 -top-2 flex h-5 w-5 items-center justify-center rounded-full bg-white text-[10px] font-bold text-violet-900"
@@ -43,7 +43,7 @@ const auth = computed(() => page.props.auth);
                 <template v-if="auth.user">
                     <Link
                         v-if="$page.props.isAdmin"
-                        href="/admin/products"
+                        href="/dashboard"
                         class="text-sm text-white/70 transition-colors hover:text-white"
                     >
                         Admin Panel
@@ -77,14 +77,14 @@ const auth = computed(() => page.props.auth);
                 <template v-else>
                     <Link
                         :href="login()"
-                        class="text-sm text-white/70 transition-colors hover:text-white"
+                        class="text-base text-white/70 transition-colors hover:text-white"
                     >
                         Iniciar sesión
                     </Link>
                     <Button
                         as-child
-                        size="sm"
-                        class="bg-white text-violet-900 hover:bg-white/90"
+                        size="default"
+                        class="bg-white text-violet-900 hover:bg-white/90 font-semibold"
                     >
                         <Link :href="register()">Registrarse</Link>
                     </Button>

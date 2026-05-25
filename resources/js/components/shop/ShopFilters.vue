@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ChevronDown } from 'lucide-vue-next';
+import { ChevronDown, X } from 'lucide-vue-next';
 import { ref } from 'vue';
 import { Input } from '@/components/ui/input';
 
@@ -35,23 +35,24 @@ function clearAll() {
 <template>
     <div class="flex flex-col gap-1">
         <!-- Search -->
-        <div class="mb-3">
+        <div class="mb-4">
             <Input v-model="search" placeholder="Buscar artista o álbum..." class="w-full" />
         </div>
 
         <!-- Clear filters -->
         <button
             v-if="activeFilters() > 0"
-            class="mb-2 text-left text-xs text-muted-foreground underline underline-offset-2 hover:text-foreground"
+            class="mb-3 flex items-center gap-2 rounded-lg bg-violet-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-violet-700 transition-colors"
             @click="clearAll"
         >
+            <X class="h-4 w-4 shrink-0" />
             Limpiar filtros ({{ activeFilters() }})
         </button>
 
         <!-- Género -->
         <div class="border-t pt-3">
             <button
-                class="flex w-full items-center justify-between py-1 text-sm font-semibold"
+                class="flex w-full items-center justify-between py-1.5 text-sm font-semibold"
                 @click="openGenre = !openGenre"
             >
                 Género
@@ -72,7 +73,7 @@ function clearAll() {
                     v-for="genre in genres"
                     :key="genre"
                     class="rounded px-2 py-1.5 text-left text-sm transition-colors hover:bg-muted"
-                    :class="selectedGenre === genre ? 'font-medium text-foreground' : 'text-muted-foreground'"
+                    :class="selectedGenre === genre ? 'font-medium bg-violet-50 dark:bg-violet-900/20 text-violet-700 dark:text-violet-300' : 'text-muted-foreground'"
                     @click="selectedGenre = selectedGenre === genre ? '' : genre"
                 >
                     {{ genre }}
@@ -83,7 +84,7 @@ function clearAll() {
         <!-- Década -->
         <div v-if="decades.length > 0" class="border-t pt-3">
             <button
-                class="flex w-full items-center justify-between py-1 text-sm font-semibold"
+                class="flex w-full items-center justify-between py-1.5 text-sm font-semibold"
                 @click="openDecade = !openDecade"
             >
                 Década
@@ -104,7 +105,7 @@ function clearAll() {
                     v-for="decade in decades"
                     :key="decade"
                     class="rounded px-2 py-1.5 text-left text-sm transition-colors hover:bg-muted"
-                    :class="selectedDecade === decade ? 'font-medium text-foreground' : 'text-muted-foreground'"
+                    :class="selectedDecade === decade ? 'font-medium bg-violet-50 dark:bg-violet-900/20 text-violet-700 dark:text-violet-300' : 'text-muted-foreground'"
                     @click="selectedDecade = selectedDecade === decade ? '' : decade"
                 >
                     {{ decade }}s
@@ -115,7 +116,7 @@ function clearAll() {
         <!-- País -->
         <div v-if="countries.length > 0" class="border-t pt-3">
             <button
-                class="flex w-full items-center justify-between py-1 text-sm font-semibold"
+                class="flex w-full items-center justify-between py-1.5 text-sm font-semibold"
                 @click="openCountry = !openCountry"
             >
                 País
@@ -136,7 +137,7 @@ function clearAll() {
                     v-for="country in countries"
                     :key="country"
                     class="rounded px-2 py-1.5 text-left text-sm transition-colors hover:bg-muted"
-                    :class="selectedCountry === country ? 'font-medium text-foreground' : 'text-muted-foreground'"
+                    :class="selectedCountry === country ? 'font-medium bg-violet-50 dark:bg-violet-900/20 text-violet-700 dark:text-violet-300' : 'text-muted-foreground'"
                     @click="selectedCountry = selectedCountry === country ? '' : country"
                 >
                     {{ country }}
@@ -147,7 +148,7 @@ function clearAll() {
         <!-- Ordenar -->
         <div class="border-t pt-3">
             <button
-                class="flex w-full items-center justify-between py-1 text-sm font-semibold"
+                class="flex w-full items-center justify-between py-1.5 text-sm font-semibold"
                 @click="openSort = !openSort"
             >
                 Ordenar por
@@ -169,7 +170,7 @@ function clearAll() {
                     ]"
                     :key="opt.value"
                     class="rounded px-2 py-1.5 text-left text-sm transition-colors hover:bg-muted"
-                    :class="sortBy === opt.value ? 'font-medium text-foreground' : 'text-muted-foreground'"
+                    :class="sortBy === opt.value ? 'font-medium bg-violet-50 dark:bg-violet-900/20 text-violet-700 dark:text-violet-300' : 'text-muted-foreground'"
                     @click="sortBy = opt.value"
                 >
                     {{ opt.label }}

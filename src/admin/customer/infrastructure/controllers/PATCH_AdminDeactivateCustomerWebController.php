@@ -4,6 +4,7 @@ namespace Src\admin\customer\infrastructure\controllers;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
 use Src\admin\customer\application\useCases\AdminDeactivateCustomerUseCase;
 
 final class PATCH_AdminDeactivateCustomerWebController extends Controller
@@ -12,11 +13,15 @@ final class PATCH_AdminDeactivateCustomerWebController extends Controller
         private AdminDeactivateCustomerUseCase $useCase,
     ) {}
 
-    public function deactivate(int $id): RedirectResponse
+    public function deactivate(Request $request, int $id): RedirectResponse
     {
-        $this->useCase->execute($id);
+        $activate = (bool) $request->input('activate', false);
 
-        return redirect()->route('admin.customers.index')
-            ->with('success', 'Cliente desactivado correctamente.');
+        $this->useCase->execute($id, $activate);
+
+        return back()->with('success', $activate
+            ? 'Cliente activado correctamente.'
+            : 'Cliente desactivado correctamente.'
+        );
     }
 }

@@ -1,7 +1,10 @@
 <script setup lang="ts">
-import { Head, Link, useForm } from '@inertiajs/vue3';
+import { Head, Link, useForm, usePage } from '@inertiajs/vue3';
+import { computed } from 'vue';
 import AppLayout from '@/layouts/AppLayout.vue';
 import { Button } from '@/components/ui/button';
+import { Switch } from '@/components/ui/switch';
+import { Label } from '@/components/ui/label';
 import type { BreadcrumbItem } from '@/types';
 
 interface Address {
@@ -24,11 +27,17 @@ interface Customer {
     birthDate: string | null;
     totalOrders: number;
     isActive: boolean;
+    isVip: boolean;
     createdAt: string | null;
     address: Address;
 }
 
 const props = defineProps<{ customer: Customer }>();
+
+const page = usePage();
+const canToggleVip = computed(() =>
+    ['super_admin', 'admin'].includes(page.props.adminRole ?? ''),
+);
 
 const breadcrumbs: BreadcrumbItem[] = [
     { title: 'Admin Panel', href: '/admin/products' },
@@ -36,9 +45,15 @@ const breadcrumbs: BreadcrumbItem[] = [
     { title: `${props.customer.firstName} ${props.customer.lastName}` },
 ];
 
-function deactivate() {
-    if (!confirm('¿Desactivar este cliente?')) return;
-    useForm({}).patch(`/admin/customers/${props.customer.id}/deactivate`);
+function toggleStatus() {
+    const activate = !props.customer.isActive;
+    const msg = activate ? '¿Activar este cliente?' : '¿Desactivar este cliente?';
+    if (!confirm(msg)) return;
+    useForm({ activate }).patch(`/admin/customers/${props.customer.id}/deactivate`);
+}
+
+function toggleVip(value: boolean) {
+    useForm({ is_vip: value }).patch(`/admin/customers/${props.customer.id}/vip`, { preserveScroll: true });
 }
 </script>
 
@@ -57,12 +72,11 @@ function deactivate() {
                         <Link href="/admin/customers">Volver</Link>
                     </Button>
                     <Button
-                        v-if="customer.isActive"
                         size="sm"
-                        variant="destructive"
-                        @click="deactivate"
+                        :variant="customer.isActive ? 'destructive' : 'outline'"
+                        @click="toggleStatus"
                     >
-                        Desactivar
+                        {{ customer.isActive ? 'Desactivar' : 'Activar' }}
                     </Button>
                 </div>
             </div>
@@ -72,7 +86,7 @@ function deactivate() {
             </div>
 
             <div class="rounded-xl border bg-card divide-y">
-                <div class="grid grid-cols-2 gap-4 p-4">
+                <div class="grid grid-cols-3 gap-4 p-4">
                     <div>
                         <p class="text-xs text-muted-foreground">Estado</p>
                         <span
@@ -85,6 +99,19 @@ function deactivate() {
                     <div>
                         <p class="text-xs text-muted-foreground">Pedidos totales</p>
                         <p class="font-medium mt-1">{{ customer.totalOrders }}</p>
+                    </div>
+                    <div>
+                        <p class="text-xs text-muted-foreground mb-2">VIP</p>
+                        <div class="flex items-center gap-2.5">
+                            <Switch
+                                :model-value="customer.isVip"
+                                :disabled="!canToggleVip"
+                                @update:model-value="toggleVip"
+                            />
+                            <Label class="text-sm" :class="!canToggleVip ? 'text-muted-foreground' : ''">
+                                {{ customer.isVip ? 'VIP' : 'Estándar' }}
+                            </Label>
+                        </div>
                     </div>
                 </div>
 

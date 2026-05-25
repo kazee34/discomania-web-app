@@ -26,6 +26,7 @@ final class GET_AdminCustomersWebController extends Controller
                 'dniNif'      => $c->dniNif()->value(),
                 'totalOrders' => $c->totalOrders(),
                 'isActive'    => $c->isActive(),
+                'isVip'       => $c->isVip(),
                 'createdAt'   => $c->createdAt()?->format('Y-m-d'),
             ], $customers),
         ]);

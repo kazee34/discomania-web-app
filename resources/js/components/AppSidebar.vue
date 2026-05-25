@@ -1,8 +1,7 @@
 <script setup lang="ts">
 import { Link, usePage } from '@inertiajs/vue3';
-import { BookOpen, Folder, LayoutGrid, Package } from 'lucide-vue-next';
+import { LayoutGrid, Package, ShoppingBag, ShieldCheck, Users } from 'lucide-vue-next';
 import { computed } from 'vue';
-import NavFooter from '@/components/NavFooter.vue';
 import NavMain from '@/components/NavMain.vue';
 import NavUser from '@/components/NavUser.vue';
 import {
@@ -15,7 +14,6 @@ import {
     SidebarMenuItem,
 } from '@/components/ui/sidebar';
 import { dashboard } from '@/routes';
-import { index as adminProducts } from '@/routes/admin/products';
 import type { NavItem } from '@/types';
 import AppLogo from './AppLogo.vue';
 
@@ -27,24 +25,17 @@ const mainNavItems = computed<NavItem[]>(() => {
     ];
 
     if (page.props.isAdmin) {
-        items.push({ title: 'Admin Panel', href: adminProducts(), icon: Package });
+        items.push(
+            { title: 'Clientes',         href: '/admin/customers', icon: Users },
+            { title: 'Productos',        href: '/admin/products',  icon: ShoppingBag },
+            { title: 'Pedidos',          href: '/admin/orders',    icon: Package },
+            { title: 'Administradores',  href: '/admin/admins',    icon: ShieldCheck },
+        );
     }
 
     return items;
 });
 
-const footerNavItems: NavItem[] = [
-    {
-        title: 'Github Repo',
-        href: 'https://github.com/laravel/vue-starter-kit',
-        icon: Folder,
-    },
-    {
-        title: 'Documentation',
-        href: 'https://laravel.com/docs/starter-kits#vue',
-        icon: BookOpen,
-    },
-];
 </script>
 
 <template>
@@ -62,11 +53,10 @@ const footerNavItems: NavItem[] = [
         </SidebarHeader>
 
         <SidebarContent>
-            <NavMain :items="mainNavItems" />
+            <NavMain :items="mainNavItems" label="Menú" />
         </SidebarContent>
 
         <SidebarFooter>
-            <NavFooter :items="footerNavItems" />
             <NavUser />
         </SidebarFooter>
     </Sidebar>

@@ -5,6 +5,7 @@ import TextLink from '@/components/TextLink.vue';
 import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Input } from '@/components/ui/input';
+import InputPassword from '@/components/ui/input-password.vue';
 import { Label } from '@/components/ui/label';
 import { Spinner } from '@/components/ui/spinner';
 import AuthBase from '@/layouts/AuthLayout.vue';
@@ -67,9 +68,8 @@ defineProps<{
                             ¿Olvidaste tu contraseña?
                         </TextLink>
                     </div>
-                    <Input
+                    <InputPassword
                         id="password"
-                        type="password"
                         name="password"
                         required
                         :tabindex="2"

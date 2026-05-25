@@ -6,7 +6,7 @@ use Src\customer\user\domain\entities\Customer;
 
 interface AdminCustomerRepositoryInterface
 {
-    public function findAll(): array;
+    public function searchAll(): array;
 
     public function findById(int $id): ?Customer;
 

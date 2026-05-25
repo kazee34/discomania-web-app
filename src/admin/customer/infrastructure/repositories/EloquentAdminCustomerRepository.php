@@ -14,7 +14,7 @@ use Src\shared\domain\valueObjects\UserName;
 
 class EloquentAdminCustomerRepository implements AdminCustomerRepositoryInterface
 {
-    public function findAll(): array
+    public function searchAll(): array
     {
         return CustomerModel::query()
             ->orderByDesc('created_at')
@@ -34,7 +34,10 @@ class EloquentAdminCustomerRepository implements AdminCustomerRepositoryInterfac
     {
         CustomerModel::query()
             ->where('id', $customer->id())
-            ->update(['is_active' => $customer->isActive()]);
+            ->update([
+                'is_active' => $customer->isActive(),
+                'is_vip'    => $customer->isVip(),
+            ]);
     }
 
     private function toCustomer(CustomerModel $model): Customer
@@ -68,6 +71,7 @@ class EloquentAdminCustomerRepository implements AdminCustomerRepositoryInterfac
                 $model->wishlist ?? [],
             ),
             isActive: $model->is_active ?? true,
+            isVip: $model->is_vip ?? false,
             createdAt: $model->created_at,
             updatedAt: $model->updated_at,
         );

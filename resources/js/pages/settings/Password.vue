@@ -4,7 +4,7 @@ import PasswordController from '@/actions/App/Http/Controllers/Settings/Password
 import InputError from '@/components/InputError.vue';
 import ProfileLayout from '@/components/profile/ProfileLayout.vue';
 import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
+import InputPassword from '@/components/ui/input-password.vue';
 import { Label } from '@/components/ui/label';
 </script>
 
@@ -31,10 +31,9 @@ import { Label } from '@/components/ui/label';
                 >
                     <div class="grid gap-2">
                         <Label for="current_password">Contraseña actual</Label>
-                        <Input
+                        <InputPassword
                             id="current_password"
                             name="current_password"
-                            type="password"
                             class="mt-1 block w-full"
                             autocomplete="current-password"
                             placeholder="Contraseña actual"
@@ -44,10 +43,9 @@ import { Label } from '@/components/ui/label';
 
                     <div class="grid gap-2">
                         <Label for="password">Nueva contraseña</Label>
-                        <Input
+                        <InputPassword
                             id="password"
                             name="password"
-                            type="password"
                             class="mt-1 block w-full"
                             autocomplete="new-password"
                             placeholder="Nueva contraseña"
@@ -57,10 +55,9 @@ import { Label } from '@/components/ui/label';
 
                     <div class="grid gap-2">
                         <Label for="password_confirmation">Confirmar contraseña</Label>
-                        <Input
+                        <InputPassword
                             id="password_confirmation"
                             name="password_confirmation"
-                            type="password"
                             class="mt-1 block w-full"
                             autocomplete="new-password"
                             placeholder="Confirmar contraseña"

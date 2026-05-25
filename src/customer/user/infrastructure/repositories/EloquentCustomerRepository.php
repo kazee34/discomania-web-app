@@ -115,6 +115,7 @@ class EloquentCustomerRepository implements CustomerRepositoryInterface
             totalOrders: $model->total_orders,
             preferences: $preferences,
             isActive: $model->is_active ?? true,
+            isVip: $model->is_vip,
             createdAt: $model->created_at,
             updatedAt: $model->updated_at,
         );
@@ -124,6 +125,7 @@ class EloquentCustomerRepository implements CustomerRepositoryInterface
     {
         $model->user_id = $customer->userId();
         $model->is_active = $customer->isActive();
+        $model->is_vip = $customer->isVip();
         $model->first_name = $customer->firstName()->value();
         $model->last_name = $customer->lastName()->value();
         $model->phone = $customer->phone()->value();

@@ -50,6 +50,8 @@ class CreateCustomerUseCase
             ),
         );
 
+        $customer->setVip($request->isVip);
+
         $this->repository->save($customer);
 
         foreach ($customer->releaseEvents() as $event) {

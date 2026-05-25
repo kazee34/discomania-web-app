@@ -3,6 +3,7 @@ import { Head, Link, useForm } from '@inertiajs/vue3';
 import AppLayout from '@/layouts/AppLayout.vue';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
+import InputPassword from '@/components/ui/input-password.vue';
 import { Label } from '@/components/ui/label';
 import type { BreadcrumbItem } from '@/types';
 
@@ -65,13 +66,13 @@ function submit() {
 
                 <div class="flex flex-col gap-1.5">
                     <Label for="password">Contraseña</Label>
-                    <Input id="password" v-model="form.password" type="password" />
+                    <InputPassword id="password" v-model="form.password" />
                     <p v-if="form.errors.password" class="text-xs text-destructive">{{ form.errors.password }}</p>
                 </div>
 
                 <div class="flex flex-col gap-1.5">
                     <Label for="password_confirmation">Confirmar contraseña</Label>
-                    <Input id="password_confirmation" v-model="form.password_confirmation" type="password" />
+                    <InputPassword id="password_confirmation" v-model="form.password_confirmation" />
                 </div>
 
                 <Button type="submit" :disabled="form.processing" class="mt-2">

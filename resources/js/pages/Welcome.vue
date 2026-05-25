@@ -41,7 +41,7 @@ const placeholderCount = 10;
                         <Button as-child size="lg" class="bg-violet-600 hover:bg-violet-700 text-white">
                             <Link href="/shop">Ver catálogo</Link>
                         </Button>
-                        <Button v-if="!$page.props.auth.user && canRegister" as-child size="lg" variant="outline" class="border-white/20 text-white hover:bg-white/10">
+                        <Button v-if="!$page.props.auth.user && canRegister" as-child size="lg" class="bg-white text-violet-900 hover:bg-white/90 font-semibold">
                             <Link :href="register()">Crear cuenta gratis</Link>
                         </Button>
                     </div>
@@ -58,7 +58,7 @@ const placeholderCount = 10;
                                 :key="`${pass}-${i}`"
                                 class="h-72 w-72 shrink-0 overflow-hidden rounded-xl border bg-muted"
                             >
-                                <img :src="src" :alt="`Vinilo ${i + 1}`" class="h-full w-full object-cover" loading="lazy" decoding="async" />
+                                <img :src="src" alt="" class="h-full w-full object-cover" loading="lazy" decoding="async" />
                             </div>
                         </template>
                     </template>
@@ -99,11 +99,11 @@ const placeholderCount = 10;
                     <div class="flex flex-col items-center gap-3 rounded-2xl border bg-card p-8">
                         <div class="rounded-full bg-violet-100 p-4 dark:bg-violet-900/30">
                             <svg class="h-6 w-6 text-violet-600" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0l3.181 3.183a8.25 8.25 0 0013.803-3.7M4.031 9.865a8.25 8.25 0 0113.803-3.7l3.181 3.182m0-4.991v4.99" />
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M9 9l10.5-3m0 6.553v3.75a2.25 2.25 0 01-1.632 2.163l-1.32.377a1.803 1.803 0 11-.99-3.467l2.31-.66a2.25 2.25 0 001.632-2.163zm0 0V2.25L9 5.25v10.303m0 0v3.75a2.25 2.25 0 01-1.632 2.163l-1.32.377a1.803 1.803 0 01-.99-3.467l2.31-.66A2.25 2.25 0 009 15.553z" />
                             </svg>
                         </div>
-                        <h3 class="font-semibold">Devoluciones fáciles</h3>
-                        <p class="text-sm text-muted-foreground">30 días para devolver tu compra sin complicaciones.</p>
+                        <h3 class="font-semibold">Catálogo en constante crecimiento</h3>
+                        <p class="text-sm text-muted-foreground">Nuevos títulos añadidos cada semana: clásicos, rarezas y últimas novedades.</p>
                     </div>
                 </div>
             </section>

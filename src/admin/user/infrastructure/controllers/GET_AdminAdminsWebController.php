@@ -4,6 +4,7 @@ namespace Src\admin\user\infrastructure\controllers;
 
 use App\Http\Controllers\Controller;
 use App\Models\AdminModel;
+use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Inertia\Response;
 
@@ -26,8 +27,11 @@ final class GET_AdminAdminsWebController extends Controller
         ]);
     }
 
-    public function create(): Response
+    public function create(Request $request): Response
     {
+        $role = AdminModel::where('user_id', $request->user()->id)->value('role');
+        abort_unless(in_array($role, ['super_admin', 'admin']), 403);
+
         return Inertia::render('admin/admins/Create');
     }
 }

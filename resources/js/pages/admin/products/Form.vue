@@ -31,17 +31,17 @@ const breadcrumbs: BreadcrumbItem[] = [
 ];
 
 const form = useForm({
-    artist:         props.product?.artist ?? '',
-    album_title:    props.product?.albumTitle ?? '',
-    price:          props.product?.price ?? '',
-    stock:          props.product?.stock ?? 0,
-    slug:           props.product?.slug ?? '',
-    genre:          props.product?.genre ?? '',
-    release_year:   props.product?.releaseYear ?? '',
-    country:        props.product?.country ?? '',
-    label:          props.product?.label ?? '',
-    description:    props.product?.description ?? '',
-    cover_image_url:props.product?.coverImageUrl ?? '',
+    artist:          props.product?.artist ?? '',
+    album_title:     props.product?.albumTitle ?? '',
+    price:           props.product?.price ?? '',
+    stock:           props.product?.stock ?? 0,
+    slug:            props.product?.slug ?? '',
+    genre:           props.product?.genre ?? '',
+    release_year:    props.product?.releaseYear ?? '',
+    country:         props.product?.country ?? '',
+    label:           props.product?.label ?? '',
+    description:     props.product?.description ?? '',
+    cover_image_url: props.product?.coverImageUrl ?? '',
 });
 
 function submit() {
@@ -117,11 +117,22 @@ function submit() {
                             <Input id="slug" v-model="form.slug" placeholder="auto-generado si está vacío" />
                             <p v-if="form.errors.slug" class="text-xs text-destructive">{{ form.errors.slug }}</p>
                         </div>
-                        <div class="flex flex-col gap-1.5">
-                            <Label for="cover_image_url">URL portada</Label>
-                            <Input id="cover_image_url" v-model="form.cover_image_url" type="url" />
+
+                        <!-- Portada -->
+                        <div class="flex flex-col gap-1.5 sm:col-span-2">
+                            <Label for="cover_image_url">URL de la portada</Label>
+                            <Input
+                                id="cover_image_url"
+                                v-model="form.cover_image_url"
+                                type="url"
+                                placeholder="https://coverartarchive.org/..."
+                            />
                             <p v-if="form.errors.cover_image_url" class="text-xs text-destructive">{{ form.errors.cover_image_url }}</p>
+                            <div v-if="form.cover_image_url" class="mt-1 w-32 h-32 rounded-lg overflow-hidden border bg-muted shrink-0">
+                                <img :src="form.cover_image_url" alt="" class="w-full h-full object-cover" />
+                            </div>
                         </div>
+
                         <div class="flex flex-col gap-1.5 sm:col-span-2">
                             <Label for="description">Descripción</Label>
                             <textarea

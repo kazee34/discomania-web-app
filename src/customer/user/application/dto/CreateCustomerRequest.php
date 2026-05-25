@@ -24,5 +24,6 @@ class CreateCustomerRequest
         public readonly string $preferredLanguage = 'es',
         public readonly string $preferredCurrency = 'EUR',
         public readonly array $wishlist = [],
+        public readonly bool $isVip = false,
     ) {}
 }

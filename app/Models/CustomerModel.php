@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 /**
  * @property int $id
  * @property int $user_id
+ * @property bool|null $is_vip
  * @property string $first_name
  * @property string $last_name
  * @property string|null $phone
@@ -65,6 +66,7 @@ class CustomerModel extends Model
     protected $fillable = [
         'user_id',
         'is_active',
+        'is_vip',
         'first_name',
         'last_name',
         'phone',
@@ -89,6 +91,7 @@ class CustomerModel extends Model
     protected $casts = [
         'birth_date' => 'date',
         'is_active' => 'boolean',
+        'is_vip' => 'boolean',
         'wishlist' => 'array',
         'created_at' => 'immutable_datetime',
         'updated_at' => 'immutable_datetime',

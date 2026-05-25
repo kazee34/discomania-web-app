@@ -31,6 +31,7 @@ class Customer
         private readonly int $totalOrders,
         private readonly CustomerPreferences $preferences,
         private bool $isActive = true,
+        private ?bool $isVip = null,
         private readonly ?\DateTimeImmutable $createdAt = null,
         private readonly ?\DateTimeImmutable $updatedAt = null,
     ) {}
@@ -140,6 +141,16 @@ class Customer
     public function isActive(): bool
     {
         return $this->isActive;
+    }
+
+    public function isVip(): ?bool
+    {
+        return $this->isVip;
+    }
+
+    public function setVip(?bool $value): void
+    {
+        $this->isVip = $value;
     }
 
     public function deactivate(): void

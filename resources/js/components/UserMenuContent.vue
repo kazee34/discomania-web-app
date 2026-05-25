@@ -1,6 +1,7 @@
 <script setup lang="ts">
-import { Link, router } from '@inertiajs/vue3';
-import { LogOut, UserRound } from 'lucide-vue-next';
+import { Link, router, usePage } from '@inertiajs/vue3';
+import { LogOut, Settings, UserRound } from 'lucide-vue-next';
+import { computed } from 'vue';
 import {
     DropdownMenuGroup,
     DropdownMenuItem,
@@ -20,6 +21,9 @@ const handleLogout = () => {
 };
 
 defineProps<Props>();
+
+const page = usePage();
+const isAdmin = computed(() => page.props.isAdmin);
 </script>
 
 <template>
@@ -30,10 +34,16 @@ defineProps<Props>();
     </DropdownMenuLabel>
     <DropdownMenuSeparator />
     <DropdownMenuGroup>
-        <DropdownMenuItem :as-child="true">
+        <DropdownMenuItem v-if="!isAdmin" :as-child="true">
             <Link class="block w-full cursor-pointer" href="/profile" prefetch>
                 <UserRound class="mr-2 h-4 w-4" />
                 Mi perfil
+            </Link>
+        </DropdownMenuItem>
+        <DropdownMenuItem v-else :as-child="true">
+            <Link class="block w-full cursor-pointer" href="/settings/profile" prefetch>
+                <Settings class="mr-2 h-4 w-4" />
+                Configuración
             </Link>
         </DropdownMenuItem>
     </DropdownMenuGroup>
@@ -47,7 +57,7 @@ defineProps<Props>();
             data-test="logout-button"
         >
             <LogOut class="mr-2 h-4 w-4" />
-            Log out
+            Cerrar sesión
         </Link>
     </DropdownMenuItem>
 </template>

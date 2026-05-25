@@ -3,6 +3,7 @@
 namespace Src\admin\user\infrastructure\controllers;
 
 use App\Http\Controllers\Controller;
+use App\Models\AdminModel;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use src\admin\user\application\useCases\CreateUserUseCase;
@@ -15,6 +16,9 @@ final class POST_AdminAdminWebController extends Controller
 
     public function store(Request $request): RedirectResponse
     {
+        $role = AdminModel::where('user_id', $request->user()->id)->value('role');
+        abort_unless(in_array($role, ['super_admin', 'admin']), 403);
+
         $data = $request->validate([
             'name'     => ['required', 'string', 'max:255'],
             'email'    => ['required', 'email', 'unique:users,email'],

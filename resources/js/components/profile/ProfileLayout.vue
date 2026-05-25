@@ -3,16 +3,18 @@ import { Link, usePage } from '@inertiajs/vue3';
 import { computed } from 'vue';
 import { Lock, Package, Palette, ShieldCheck, UserCog, UserRound } from 'lucide-vue-next';
 import ShopNavbar from '@/components/shop/ShopNavbar.vue';
-import { getInitials } from '@/composables/useInitials';
-import type { User } from '@/types';
 
 const page = usePage();
-const user = computed(() => page.props.auth?.user as User | null);
 
-const nav = [
-    { label: 'Mi perfil', href: '/profile', icon: UserRound },
-    { label: 'Mis pedidos', href: '/profile/orders', icon: Package },
-];
+const isAdmin = computed(() => !!(page.props as { isAdmin?: boolean }).isAdmin);
+
+const nav = computed(() => {
+    if (isAdmin.value) return [];
+    return [
+        { label: 'Mi perfil', href: '/profile', icon: UserRound },
+        { label: 'Mis pedidos', href: '/profile/orders', icon: Package },
+    ];
+});
 
 const settingsNav = [
     { label: 'Cuenta', href: '/settings/profile', icon: UserCog },
@@ -30,17 +32,6 @@ const settingsNav = [
             <div class="grid gap-10 md:grid-cols-[240px_1fr]">
                 <!-- Sidebar -->
                 <aside class="flex flex-col gap-4">
-                    <!-- User card -->
-                    <div class="flex flex-col items-center gap-3 rounded-2xl bg-linear-to-br from-violet-900 to-black px-5 py-7 text-center text-white">
-                        <div class="flex h-16 w-16 items-center justify-center rounded-full bg-white/20 text-xl font-bold ring-2 ring-white/30">
-                            {{ getInitials(user?.name) }}
-                        </div>
-                        <div class="min-w-0 w-full">
-                            <p class="font-semibold leading-tight truncate">{{ user?.name }}</p>
-                            <p class="mt-0.5 text-xs text-white/60 truncate">{{ user?.email }}</p>
-                        </div>
-                    </div>
-
                     <!-- Nav -->
                     <nav class="flex flex-col gap-0.5">
                         <Link

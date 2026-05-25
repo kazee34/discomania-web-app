@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { Head, Link } from '@inertiajs/vue3';
+import { ShoppingCart } from 'lucide-vue-next';
 import { computed, onMounted, ref } from 'vue';
 import ShopNavbar from '@/components/shop/ShopNavbar.vue';
 import { Badge } from '@/components/ui/badge';
@@ -75,7 +76,7 @@ async function handleAddToCart() {
                     <img
                         v-if="product.coverImageUrl"
                         :src="product.coverImageUrl"
-                        :alt="`${product.artist} - ${product.albumTitle}`"
+                        alt=""
                         class="h-full w-full object-cover"
                         fetchpriority="high"
                         decoding="async"
@@ -120,6 +121,15 @@ async function handleAddToCart() {
                             <span v-else-if="added">Añadido al carrito</span>
                             <span v-else>Añadir al carrito</span>
                         </Button>
+
+                        <Link
+                            v-if="cartQuantity > 0"
+                            href="/cart"
+                            class="flex items-center justify-center gap-2 rounded-lg border border-violet-600 px-4 py-2.5 text-sm font-semibold text-violet-600 transition-colors hover:bg-violet-50 dark:hover:bg-violet-900/20"
+                        >
+                            <ShoppingCart class="h-4 w-4" />
+                            Ir al carrito ({{ cartQuantity }} en carrito)
+                        </Link>
                     </div>
                 </div>
             </div>

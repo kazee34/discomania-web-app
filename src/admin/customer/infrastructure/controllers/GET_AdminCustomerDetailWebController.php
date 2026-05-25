@@ -27,6 +27,7 @@ final class GET_AdminCustomerDetailWebController extends Controller
                 'birthDate'   => $customer->birthDate(),
                 'totalOrders' => $customer->totalOrders(),
                 'isActive'    => $customer->isActive(),
+                'isVip'       => $customer->isVip(),
                 'createdAt'   => $customer->createdAt()?->format('Y-m-d'),
                 'address'     => $customer->shippingAddress()->toArray(),
             ],
