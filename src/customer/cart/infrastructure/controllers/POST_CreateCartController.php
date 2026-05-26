@@ -26,12 +26,12 @@ final class POST_CreateCartController extends Controller
 
             return response()->json([
                 'success' => true,
-                'data'    => $result,
+                'data' => $result,
             ], 201);
         } catch (\Exception $e) {
             return response()->json([
                 'success' => false,
-                'error'   => $e->getMessage(),
+                'error' => $e->getMessage(),
             ], 400);
         }
     }

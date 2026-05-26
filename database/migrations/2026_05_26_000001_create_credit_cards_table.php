@@ -12,7 +12,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('payment_method_id')->constrained('payment_methods')->cascadeOnDelete();
             $table->string('card_holder_name', 100);
-            $table->string('card_brand', 20); // 'visa' | 'mastercard'
+            $table->string('card_brand', 20);
             $table->char('card_last_four', 4);
             $table->tinyInteger('card_expiry_month');
             $table->smallInteger('card_expiry_year');

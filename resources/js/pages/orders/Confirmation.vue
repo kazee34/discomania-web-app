@@ -27,7 +27,16 @@ interface Order {
     items: OrderItem[];
 }
 
-defineProps<{ order: Order }>();
+interface OrderPayment {
+    paymentType: 'credit_card' | 'sepa_debit';
+    paymentSummary: string;
+    status: string;
+    mockTransactionId: string;
+    amount: number;
+    currency: string;
+}
+
+defineProps<{ order: Order; payment: OrderPayment }>();
 
 const { cart } = useCart();
 
@@ -94,10 +103,29 @@ onMounted(() => {
                 </div>
             </div>
 
-            <div class="rounded-xl border bg-card p-6 mb-8">
+            <div class="rounded-xl border bg-card p-6 mb-6">
                 <div class="flex justify-between font-bold text-lg">
                     <span>Total</span>
                     <span>{{ order.totalAmount.toFixed(2) }} €</span>
+                </div>
+            </div>
+
+            <!-- Panel de pago -->
+            <div class="rounded-xl border bg-card p-6 mb-8">
+                <h2 class="text-sm font-semibold text-muted-foreground mb-3">Información de pago</h2>
+                <div class="flex items-center justify-between mb-2">
+                    <span class="text-sm text-muted-foreground">Método</span>
+                    <span class="text-sm font-medium">{{ payment.paymentSummary }}</span>
+                </div>
+                <div class="flex items-center justify-between mb-2">
+                    <span class="text-sm text-muted-foreground">Estado</span>
+                    <span class="rounded-full bg-green-100 px-3 py-0.5 text-xs font-medium text-green-800 capitalize">
+                        {{ payment.status === 'completed' ? 'Completado' : payment.status }}
+                    </span>
+                </div>
+                <div class="flex items-center justify-between">
+                    <span class="text-sm text-muted-foreground">Referencia</span>
+                    <span class="font-mono text-xs text-muted-foreground">{{ payment.mockTransactionId }}</span>
                 </div>
             </div>
 

@@ -20,22 +20,22 @@ final class GET_ShopProductController extends Controller
         try {
             $p = $this->productRepository->findBySlug($slug);
         } catch (ProductNotFoundException) {
-            throw new NotFoundHttpException();
+            throw new NotFoundHttpException;
         }
 
         return Inertia::render('shop/Show', [
             'product' => [
-                'id'            => $p->id(),
-                'slug'          => $p->slug(),
-                'artist'        => $p->artist(),
-                'albumTitle'    => $p->albumTitle(),
-                'price'         => $p->price(),
-                'genre'         => $p->genre(),
-                'country'       => $p->country(),
-                'releaseYear'   => $p->releaseYear(),
+                'id' => $p->id(),
+                'slug' => $p->slug(),
+                'artist' => $p->artist(),
+                'albumTitle' => $p->albumTitle(),
+                'price' => $p->price(),
+                'genre' => $p->genre(),
+                'country' => $p->country(),
+                'releaseYear' => $p->releaseYear(),
                 'coverImageUrl' => $p->coverImageUrl(),
-                'description'   => $p->description(),
-                'label'         => $p->label(),
+                'description' => $p->description(),
+                'label' => $p->label(),
                 'stockQuantity' => $p->stockQuantity(),
             ],
         ]);

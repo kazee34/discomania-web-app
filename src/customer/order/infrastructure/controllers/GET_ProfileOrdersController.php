@@ -25,10 +25,10 @@ final class GET_ProfileOrdersController extends Controller
         return Inertia::render('profile/Orders', [
             'orders' => array_map(fn ($o) => [
                 'orderNumber' => $o->orderNumber,
-                'orderDate'   => $o->orderDate,
+                'orderDate' => $o->orderDate,
                 'totalAmount' => $o->totalAmount,
-                'status'      => $o->status,
-                'itemCount'   => count($o->items),
+                'status' => $o->status,
+                'itemCount' => count($o->items),
             ], $orders),
         ]);
     }

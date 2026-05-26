@@ -17,9 +17,9 @@ class SearchAllProductsUseCase
     public function execute(): array
     {
         $products = $this->repository->searchAll();
-        
+
         return array_map(
-            fn($product) => FindProductResult::fromProduct($product),
+            fn ($product) => FindProductResult::fromProduct($product),
             $products
         );
     }

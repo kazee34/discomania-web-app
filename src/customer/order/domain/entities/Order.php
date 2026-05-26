@@ -9,6 +9,7 @@ use Src\customer\order\domain\valueObjects\OrderStatus;
 class Order
 {
     private array $domainEvents = [];
+
     private array $items;
 
     public function __construct(
@@ -37,7 +38,7 @@ class Order
         float $taxAmount = 0.0,
         ?string $customerNotes = null,
     ): self {
-        $subtotal    = round(array_sum(array_map(fn (OrderItem $i) => $i->subtotal(), $items)), 2);
+        $subtotal = round(array_sum(array_map(fn (OrderItem $i) => $i->subtotal(), $items)), 2);
         $totalAmount = round($subtotal + $shippingCost + $taxAmount, 2);
 
         $order = new self(
@@ -96,20 +97,75 @@ class Order
         );
     }
 
-    public function id(): ?int                              { return $this->id; }
-    public function orderNumber(): string                   { return $this->orderNumber; }
-    public function customerId(): int                       { return $this->customerId; }
-    public function orderDate(): \DateTimeImmutable         { return $this->orderDate; }
-    public function subtotal(): float                       { return $this->subtotal; }
-    public function shippingCost(): float                   { return $this->shippingCost; }
-    public function taxAmount(): float                      { return $this->taxAmount; }
-    public function totalAmount(): float                    { return $this->totalAmount; }
-    public function status(): OrderStatus                   { return $this->status; }
-    public function trackingNumber(): ?string               { return $this->trackingNumber; }
-    public function estimatedDeliveryDate(): ?\DateTimeImmutable { return $this->estimatedDeliveryDate; }
-    public function customerNotes(): ?string                { return $this->customerNotes; }
-    public function adminNotes(): ?string                   { return $this->adminNotes; }
-    public function items(): array                          { return $this->items; }
+    public function id(): ?int
+    {
+        return $this->id;
+    }
+
+    public function orderNumber(): string
+    {
+        return $this->orderNumber;
+    }
+
+    public function customerId(): int
+    {
+        return $this->customerId;
+    }
+
+    public function orderDate(): \DateTimeImmutable
+    {
+        return $this->orderDate;
+    }
+
+    public function subtotal(): float
+    {
+        return $this->subtotal;
+    }
+
+    public function shippingCost(): float
+    {
+        return $this->shippingCost;
+    }
+
+    public function taxAmount(): float
+    {
+        return $this->taxAmount;
+    }
+
+    public function totalAmount(): float
+    {
+        return $this->totalAmount;
+    }
+
+    public function status(): OrderStatus
+    {
+        return $this->status;
+    }
+
+    public function trackingNumber(): ?string
+    {
+        return $this->trackingNumber;
+    }
+
+    public function estimatedDeliveryDate(): ?\DateTimeImmutable
+    {
+        return $this->estimatedDeliveryDate;
+    }
+
+    public function customerNotes(): ?string
+    {
+        return $this->customerNotes;
+    }
+
+    public function adminNotes(): ?string
+    {
+        return $this->adminNotes;
+    }
+
+    public function items(): array
+    {
+        return $this->items;
+    }
 
     public function cancel(): void
     {
@@ -130,11 +186,12 @@ class Order
     {
         $events = $this->domainEvents;
         $this->domainEvents = [];
+
         return $events;
     }
 
     private static function generateOrderNumber(): string
     {
-        return 'ORD-' . date('Ymd') . '-' . strtoupper(bin2hex(random_bytes(4)));
+        return 'ORD-'.date('Ymd').'-'.strtoupper(bin2hex(random_bytes(4)));
     }
 }

@@ -22,25 +22,25 @@ final class POST_AdminCreateCustomerWebController extends Controller
     public function store(Request $request): RedirectResponse
     {
         $data = $request->validate([
-            'first_name'              => ['required', 'string', 'min:2', 'max:100'],
-            'last_name'               => ['required', 'string', 'min:2', 'max:100'],
-            'email'                   => ['required', 'email', Rule::unique(UserModel::class, 'email')],
-            'password'                => ['required', 'string', 'min:8', 'confirmed'],
-            'phone'                   => ['nullable', 'string', 'max:50'],
-            'birth_date'              => ['nullable', 'date', 'before:-16 years'],
-            'dni_nif'                 => ['nullable', 'string', 'max:20'],
-            'shipping_street'         => ['required', 'string', 'max:255'],
-            'shipping_street_number'  => ['required', 'string', 'max:20'],
-            'shipping_apartment'      => ['nullable', 'string', 'max:50'],
-            'shipping_city'           => ['required', 'string', 'max:100'],
-            'shipping_postal_code'    => ['required', 'string', 'max:20'],
+            'first_name' => ['required', 'string', 'min:2', 'max:100'],
+            'last_name' => ['required', 'string', 'min:2', 'max:100'],
+            'email' => ['required', 'email', Rule::unique(UserModel::class, 'email')],
+            'password' => ['required', 'string', 'min:8', 'confirmed'],
+            'phone' => ['nullable', 'string', 'max:50'],
+            'birth_date' => ['nullable', 'date', 'before:-16 years'],
+            'dni_nif' => ['nullable', 'string', 'max:20'],
+            'shipping_street' => ['required', 'string', 'max:255'],
+            'shipping_street_number' => ['required', 'string', 'max:20'],
+            'shipping_apartment' => ['nullable', 'string', 'max:50'],
+            'shipping_city' => ['required', 'string', 'max:100'],
+            'shipping_postal_code' => ['required', 'string', 'max:20'],
             'shipping_state_province' => ['nullable', 'string', 'max:100'],
-            'is_vip'                  => ['nullable', 'boolean'],
+            'is_vip' => ['nullable', 'boolean'],
         ]);
 
         DB::transaction(function () use ($data) {
             $result = $this->createUserUseCase->execute(
-                name: $data['first_name'] . ' ' . $data['last_name'],
+                name: $data['first_name'].' '.$data['last_name'],
                 email: $data['email'],
                 password: $data['password'],
                 role: '',

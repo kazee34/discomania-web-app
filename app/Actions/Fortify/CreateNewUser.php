@@ -25,24 +25,24 @@ class CreateNewUser implements CreatesNewUsers
     public function create(array $input): UserModel
     {
         Validator::make($input, [
-            'first_name'              => ['required', 'string', 'min:3', 'max:100'],
-            'last_name'               => ['required', 'string', 'min:3', 'max:100'],
-            'email'                   => ['required', 'string', 'email', 'max:255', Rule::unique(UserModel::class, 'email')],
-            'password'                => ['required', 'string', Password::min(8)->mixedCase()->numbers(), 'confirmed'],
-            'phone'                   => ['nullable', 'string', 'max:50'],
-            'birth_date'              => ['nullable', 'date', 'before:-16 years'],
-            'dni_nif'                 => ['nullable', 'string', 'max:20'],
-            'shipping_street'         => ['required', 'string', 'max:255'],
-            'shipping_street_number'  => ['required', 'string', 'max:20'],
-            'shipping_apartment'      => ['nullable', 'string', 'max:50'],
-            'shipping_city'           => ['required', 'string', 'max:100'],
-            'shipping_postal_code'    => ['required', 'string', 'max:20'],
+            'first_name' => ['required', 'string', 'min:3', 'max:100'],
+            'last_name' => ['required', 'string', 'min:3', 'max:100'],
+            'email' => ['required', 'string', 'email', 'max:255', Rule::unique(UserModel::class, 'email')],
+            'password' => ['required', 'string', Password::min(8)->mixedCase()->numbers(), 'confirmed'],
+            'phone' => ['nullable', 'string', 'max:50'],
+            'birth_date' => ['nullable', 'date', 'before:-16 years'],
+            'dni_nif' => ['nullable', 'string', 'max:20'],
+            'shipping_street' => ['required', 'string', 'max:255'],
+            'shipping_street_number' => ['required', 'string', 'max:20'],
+            'shipping_apartment' => ['nullable', 'string', 'max:50'],
+            'shipping_city' => ['required', 'string', 'max:100'],
+            'shipping_postal_code' => ['required', 'string', 'max:20'],
             'shipping_state_province' => ['nullable', 'string', 'max:100'],
         ])->validate();
 
         return DB::transaction(function () use ($input) {
             $result = $this->createUserUseCase->execute(
-                name: $input['first_name'] . ' ' . $input['last_name'],
+                name: $input['first_name'].' '.$input['last_name'],
                 email: $input['email'],
                 password: $input['password'],
                 role: '',

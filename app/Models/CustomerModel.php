@@ -31,6 +31,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property \Carbon\CarbonImmutable|null $created_at
  * @property \Carbon\CarbonImmutable|null $updated_at
  * @property-read \App\Models\UserModel $user
+ *
  * @method static \Illuminate\Database\Eloquent\Builder<static>|CustomerModel newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|CustomerModel newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|CustomerModel query()
@@ -57,6 +58,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @method static \Illuminate\Database\Eloquent\Builder<static>|CustomerModel whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|CustomerModel whereUserId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|CustomerModel whereWishlist($value)
+ *
  * @mixin \Eloquent
  */
 class CustomerModel extends Model

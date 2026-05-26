@@ -40,7 +40,16 @@ interface Order {
     customer: OrderCustomer | null;
 }
 
-const props = defineProps<{ order: Order }>();
+interface OrderPayment {
+    paymentType: 'credit_card' | 'sepa_debit';
+    paymentSummary: string;
+    status: string;
+    mockTransactionId: string;
+    amount: number;
+    processedAt: string;
+}
+
+const props = defineProps<{ order: Order; payment: OrderPayment | null }>();
 
 const breadcrumbs: BreadcrumbItem[] = [
     { title: 'Admin Panel', href: '/admin/products' },
@@ -169,6 +178,39 @@ function changeStatus(newStatus: string) {
                     <p class="text-xs text-muted-foreground">Notas del cliente</p>
                     <p class="text-sm mt-1">{{ order.customerNotes }}</p>
                 </div>
+            </div>
+
+            <!-- Información de pago -->
+            <div v-if="payment" class="rounded-xl border bg-card p-4">
+                <p class="text-xs font-semibold uppercase tracking-wide text-muted-foreground mb-3">Información de pago</p>
+                <div class="grid grid-cols-1 gap-3 sm:grid-cols-2">
+                    <div>
+                        <p class="text-xs text-muted-foreground">Método</p>
+                        <p class="text-sm font-medium mt-1">{{ payment.paymentSummary }}</p>
+                    </div>
+                    <div>
+                        <p class="text-xs text-muted-foreground">Estado</p>
+                        <span class="inline-block rounded-full px-2.5 py-0.5 text-xs font-medium mt-1"
+                            :class="payment.status === 'completed' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'">
+                            {{ payment.status === 'completed' ? 'Completado' : 'Fallido' }}
+                        </span>
+                    </div>
+                    <div>
+                        <p class="text-xs text-muted-foreground">Importe</p>
+                        <p class="text-sm font-medium mt-1">{{ payment.amount.toFixed(2) }} €</p>
+                    </div>
+                    <div>
+                        <p class="text-xs text-muted-foreground">Procesado</p>
+                        <p class="text-sm mt-1">{{ new Date(payment.processedAt).toLocaleString('es-ES') }}</p>
+                    </div>
+                    <div class="sm:col-span-2">
+                        <p class="text-xs text-muted-foreground">Referencia de transacción</p>
+                        <p class="font-mono text-xs text-muted-foreground mt-1 break-all">{{ payment.mockTransactionId }}</p>
+                    </div>
+                </div>
+            </div>
+            <div v-else class="rounded-xl border border-dashed bg-card p-4 text-center text-xs text-muted-foreground">
+                Sin información de pago para este pedido.
             </div>
 
             <!-- Artículos -->

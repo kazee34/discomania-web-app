@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use App\Models\ProductModel;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
@@ -18,8 +17,8 @@ class CartItemModel extends Model
     ];
 
     protected $casts = [
-        'price'      => 'decimal:2',
-        'quantity'   => 'integer',
+        'price' => 'decimal:2',
+        'quantity' => 'integer',
         'created_at' => 'immutable_datetime',
         'updated_at' => 'immutable_datetime',
     ];

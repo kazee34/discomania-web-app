@@ -13,6 +13,7 @@ use Src\customer\cart\domain\exceptions\CartItemNotFoundException;
 class Cart
 {
     private array $domainEvents = [];
+
     private array $items;
 
     public function __construct(
@@ -50,7 +51,7 @@ class Cart
     {
         return $this->expiresAt;
     }
-    
+
     public function items(): array
     {
         return $this->items;
@@ -100,6 +101,7 @@ class Cart
                 $newQuantity = $item->quantity() + $quantity;
                 $this->items[$key] = $item->withQuantity($newQuantity);
                 $this->recordEvent(new CartItemQuantityUpdatedEvent($this->id, $productId, $newQuantity));
+
                 return;
             }
         }
@@ -115,6 +117,7 @@ class Cart
                 unset($this->items[$key]);
                 $this->items = array_values($this->items);
                 $this->recordEvent(new CartItemRemovedEvent($this->id, $cartItemId));
+
                 return;
             }
         }
@@ -128,6 +131,7 @@ class Cart
             if ($item->id() === $cartItemId) {
                 $this->items[$key] = $item->withQuantity($quantity);
                 $this->recordEvent(new CartItemQuantityUpdatedEvent($this->id, $cartItemId, $quantity));
+
                 return;
             }
         }
@@ -148,6 +152,7 @@ class Cart
                 return $item;
             }
         }
+
         return null;
     }
 
@@ -158,7 +163,7 @@ class Cart
 
     public function totalAmount(): float
     {
-        return round(array_sum(array_map(fn(CartItem $i) => $i->subtotal(), $this->items)), 2);
+        return round(array_sum(array_map(fn (CartItem $i) => $i->subtotal(), $this->items)), 2);
     }
 
     public function recordEvent(object $event): void
@@ -170,6 +175,7 @@ class Cart
     {
         $events = $this->domainEvents;
         $this->domainEvents = [];
+
         return $events;
     }
 

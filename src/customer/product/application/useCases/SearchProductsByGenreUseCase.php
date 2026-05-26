@@ -12,12 +12,10 @@ class SearchProductsByGenreUseCase
     ) {}
 
     /**
-     * @param string $genre
      * @return Product[]
      */
     public function execute(string $genre): array
     {
         return $this->repository->searchByGenre($genre);
     }
-
 }

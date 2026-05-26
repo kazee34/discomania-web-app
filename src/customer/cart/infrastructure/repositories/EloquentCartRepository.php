@@ -16,9 +16,9 @@ class EloquentCartRepository implements CartRepositoryInterface
     {
         $model = CartModel::create([
             'customer_id' => $cart->customerId(),
-            'session_id'  => $cart->sessionId(),
-            'cart_token'  => $cart->cartToken(),
-            'expires_at'  => $cart->expiresAt(),
+            'session_id' => $cart->sessionId(),
+            'cart_token' => $cart->cartToken(),
+            'expires_at' => $cart->expiresAt(),
         ]);
 
         return $model->id;
@@ -63,10 +63,10 @@ class EloquentCartRepository implements CartRepositoryInterface
     public function addItem(int $cartId, CartItem $item): CartItem
     {
         $model = CartItemModel::create([
-            'cart_id'    => $cartId,
+            'cart_id' => $cartId,
             'product_id' => $item->productId(),
-            'quantity'   => $item->quantity(),
-            'price'      => $item->price(),
+            'quantity' => $item->quantity(),
+            'price' => $item->price(),
         ]);
 
         return CartItem::fromPrimitives(

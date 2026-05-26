@@ -11,7 +11,7 @@ return new class extends Migration
         Schema::create('payment_methods', function (Blueprint $table) {
             $table->id();
             $table->foreignId('customer_id')->constrained('customers')->restrictOnDelete();
-            $table->string('type', 20); // 'credit_card' | 'sepa_debit'
+            $table->string('type', 20);
             $table->boolean('is_default')->default(false);
             $table->string('label', 100)->nullable();
             $table->timestamps();

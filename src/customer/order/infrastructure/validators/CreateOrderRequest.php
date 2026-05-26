@@ -14,8 +14,8 @@ class CreateOrderRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'cart_token'     => 'required|string',
-            'customer_id'    => 'required|integer|exists:customers,id',
+            'cart_token' => 'required|string',
+            'customer_id' => 'required|integer|exists:customers,id',
             'customer_notes' => 'nullable|string|max:1000',
         ];
     }

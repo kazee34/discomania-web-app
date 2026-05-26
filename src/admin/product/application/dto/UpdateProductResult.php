@@ -36,7 +36,7 @@ class UpdateProductResult
             country: $product->country(),
             label: $product->label(),
             description: $product->description(),
-            coverImageUrl: $product->coverImageUrl(), 
+            coverImageUrl: $product->coverImageUrl(),
             isActive: $product->isActive()
         );
     }

@@ -4,19 +4,19 @@ namespace Src\customer\order\domain\valueObjects;
 
 enum OrderStatus: string
 {
-    case Pending    = 'pending';
+    case Pending = 'pending';
     case Processing = 'processing';
-    case Shipped    = 'shipped';
-    case Delivered  = 'delivered';
-    case Cancelled  = 'cancelled';
+    case Shipped = 'shipped';
+    case Delivered = 'delivered';
+    case Cancelled = 'cancelled';
 
     public function canTransitionTo(self $next): bool
     {
         return match ($this) {
-            self::Pending    => $next === self::Processing || $next === self::Cancelled,
-            self::Processing => $next === self::Shipped    || $next === self::Cancelled,
-            self::Shipped    => $next === self::Delivered,
-            default          => false,
+            self::Pending => $next === self::Processing || $next === self::Cancelled,
+            self::Processing => $next === self::Shipped || $next === self::Cancelled,
+            self::Shipped => $next === self::Delivered,
+            default => false,
         };
     }
 
@@ -39,7 +39,7 @@ enum OrderStatus: string
     {
         return $this === self::Delivered;
     }
-    
+
     public function isCancelled(): bool
     {
         return $this === self::Cancelled;

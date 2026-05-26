@@ -2,11 +2,11 @@
 
 namespace src\admin\user\application\useCases;
 
-use Src\shared\domain\repositories\EventPublisher;
 use Src\admin\user\application\dto\CreateUserResult;
 use Src\admin\user\domain\valueObjects\AdminRole;
 use Src\shared\domain\entities\User;
 use Src\shared\domain\events\UserCreatedEvent;
+use Src\shared\domain\repositories\EventPublisher;
 use Src\shared\domain\repositories\UserRepositoryInterface;
 use Src\shared\domain\valueObjects\UserEmail;
 use Src\shared\domain\valueObjects\UserName;
@@ -14,10 +14,9 @@ use Src\shared\domain\valueObjects\UserName;
 class CreateUserUseCase
 {
     public function __construct(
-        private UserRepositoryInterface $userRepository, 
+        private UserRepositoryInterface $userRepository,
         private EventPublisher $eventPublisher
-    )
-    { }
+    ) {}
 
     public function execute(string $name, string $email, string $password, string $role): CreateUserResult
     {

@@ -12,7 +12,6 @@ class SearchProductsByReleaseYearUseCase
     ) {}
 
     /**
-     * @param int $releaseYear
      * @return Product[]
      */
     public function execute(int $releaseYear): array

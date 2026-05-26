@@ -25,11 +25,11 @@ final class GET_ProfileOrderDetailController extends Controller
         try {
             $order = $this->findOrder->execute($orderNumber);
         } catch (OrderNotFoundException) {
-            throw new NotFoundHttpException();
+            throw new NotFoundHttpException;
         }
 
         if ($order->customerId !== $customer->id()) {
-            throw new NotFoundHttpException();
+            throw new NotFoundHttpException;
         }
 
         return Inertia::render('profile/OrderDetail', ['order' => $order]);

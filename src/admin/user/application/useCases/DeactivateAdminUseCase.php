@@ -2,14 +2,14 @@
 
 namespace src\admin\user\application\useCases;
 
-use Src\shared\domain\repositories\EventPublisher;
 use Src\admin\user\domain\exceptions\CannotDeleteSuperAdminException;
 use Src\admin\user\domain\repositories\AdminRepositoryInterface;
+use Src\shared\domain\repositories\EventPublisher;
 
 class DeactivateAdminUseCase
 {
     public function __construct(
-        private AdminRepositoryInterface $adminRepository, 
+        private AdminRepositoryInterface $adminRepository,
         private EventPublisher $eventPublisher
     ) {}
 

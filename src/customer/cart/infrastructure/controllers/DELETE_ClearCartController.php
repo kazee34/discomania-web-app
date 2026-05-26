@@ -20,17 +20,17 @@ final class DELETE_ClearCartController extends Controller
 
             return response()->json([
                 'success' => true,
-                'data'    => $result,
+                'data' => $result,
             ]);
         } catch (CartNotFoundException $e) {
             return response()->json([
                 'success' => false,
-                'error'   => $e->getMessage(),
+                'error' => $e->getMessage(),
             ], 404);
         } catch (\Exception $e) {
             return response()->json([
                 'success' => false,
-                'error'   => 'Internal Server Error',
+                'error' => 'Internal Server Error',
             ], 500);
         }
     }

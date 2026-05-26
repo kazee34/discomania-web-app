@@ -16,6 +16,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property \Carbon\CarbonImmutable|null $updated_at
  * @property-read AdminModel|null $creator
  * @property-read \App\Models\UserModel $user
+ *
  * @method static \Illuminate\Database\Eloquent\Builder<static>|AdminModel newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|AdminModel newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|AdminModel query()
@@ -27,6 +28,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @method static \Illuminate\Database\Eloquent\Builder<static>|AdminModel whereRole($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|AdminModel whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|AdminModel whereUserId($value)
+ *
  * @mixin \Eloquent
  */
 class AdminModel extends Model

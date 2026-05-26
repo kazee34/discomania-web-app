@@ -17,23 +17,23 @@ final class GET_ProfileController extends Controller
     public function show(): Response
     {
         $customer = $this->findCustomer->execute(Auth::id());
-        $address  = $customer->shippingAddress();
+        $address = $customer->shippingAddress();
 
         return Inertia::render('profile/Index', [
             'profile' => [
-                'email'                 => Auth::user()->email,
-                'firstName'             => $customer->firstName()->value(),
-                'lastName'              => $customer->lastName()->value(),
-                'phone'                 => $customer->phone()->value(),
-                'birthDate'             => $customer->birthDate(),
-                'dniNif'                => $customer->dniNif()->value(),
-                'shippingStreet'        => $address->street(),
-                'shippingStreetNumber'  => $address->streetNumber(),
-                'shippingApartment'     => $address->apartment(),
-                'shippingCity'          => $address->city(),
-                'shippingPostalCode'    => $address->postalCode(),
+                'email' => Auth::user()->email,
+                'firstName' => $customer->firstName()->value(),
+                'lastName' => $customer->lastName()->value(),
+                'phone' => $customer->phone()->value(),
+                'birthDate' => $customer->birthDate(),
+                'dniNif' => $customer->dniNif()->value(),
+                'shippingStreet' => $address->street(),
+                'shippingStreetNumber' => $address->streetNumber(),
+                'shippingApartment' => $address->apartment(),
+                'shippingCity' => $address->city(),
+                'shippingPostalCode' => $address->postalCode(),
                 'shippingStateProvince' => $address->stateProvince(),
-                'shippingCountry'       => $address->country(),
+                'shippingCountry' => $address->country(),
             ],
         ]);
     }

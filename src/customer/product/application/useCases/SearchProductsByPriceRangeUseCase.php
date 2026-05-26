@@ -12,8 +12,6 @@ class SearchProductsByPriceRangeUseCase
     ) {}
 
     /**
-     * @param float $minPrice
-     * @param float $maxPrice
      * @return Product[]
      */
     public function execute(float $minPrice, float $maxPrice): array

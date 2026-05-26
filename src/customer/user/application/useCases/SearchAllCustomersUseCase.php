@@ -8,7 +8,7 @@ class SearchAllCustomersUseCase
 {
     public function __construct(
         private readonly CustomerRepositoryInterface $repository
-    ) { }
+    ) {}
 
     public function execute(): array
     {

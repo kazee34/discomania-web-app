@@ -2,8 +2,8 @@
 
 namespace Src\customer\product\application\useCases;
 
-use Src\customer\product\domain\repositories\ProductRepositoryInterface;
 use Src\customer\product\domain\entities\Product;
+use Src\customer\product\domain\repositories\ProductRepositoryInterface;
 
 class SearchProductsBetweenYearsUseCase
 {
@@ -12,8 +12,6 @@ class SearchProductsBetweenYearsUseCase
     ) {}
 
     /**
-     * @param int $startYear
-     * @param int $endYear
      * @return Product[]
      */
     public function execute(int $startYear, int $endYear): array

@@ -56,14 +56,48 @@ class CartItem
         );
     }
 
-    public function subtotal(): float { return round($this->price * $this->quantity, 2); }
+    public function subtotal(): float
+    {
+        return round($this->price * $this->quantity, 2);
+    }
 
-    public function id(): ?int                      { return $this->id; }
-    public function cartId(): ?int                  { return $this->cartId; }
-    public function productId(): int                { return $this->productId; }
-    public function quantity(): int                 { return $this->quantity; }
-    public function price(): float                  { return $this->price; }
-    public function productArtist(): ?string        { return $this->productArtist; }
-    public function productAlbumTitle(): ?string    { return $this->productAlbumTitle; }
-    public function productCoverImageUrl(): ?string { return $this->productCoverImageUrl; }
+    public function id(): ?int
+    {
+        return $this->id;
+    }
+
+    public function cartId(): ?int
+    {
+        return $this->cartId;
+    }
+
+    public function productId(): int
+    {
+        return $this->productId;
+    }
+
+    public function quantity(): int
+    {
+        return $this->quantity;
+    }
+
+    public function price(): float
+    {
+        return $this->price;
+    }
+
+    public function productArtist(): ?string
+    {
+        return $this->productArtist;
+    }
+
+    public function productAlbumTitle(): ?string
+    {
+        return $this->productAlbumTitle;
+    }
+
+    public function productCoverImageUrl(): ?string
+    {
+        return $this->productCoverImageUrl;
+    }
 }

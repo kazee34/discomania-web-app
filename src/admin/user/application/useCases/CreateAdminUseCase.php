@@ -2,20 +2,19 @@
 
 namespace src\admin\user\application\useCases;
 
-use Src\shared\domain\repositories\EventPublisher;
 use Src\admin\user\application\dto\CreateAdminResult;
 use Src\admin\user\domain\entities\Admin;
 use Src\admin\user\domain\repositories\AdminRepositoryInterface;
 use Src\admin\user\domain\valueObjects\AdminRole;
+use Src\shared\domain\repositories\EventPublisher;
 use UnexpectedValueException;
 
 class CreateAdminUseCase
 {
     public function __construct(
-        private AdminRepositoryInterface $adminRepository, 
+        private AdminRepositoryInterface $adminRepository,
         private EventPublisher $eventPublisher
-    )
-    { }
+    ) {}
 
     public function execute(int $userId, string $role, bool $isActive): CreateAdminResult
     {

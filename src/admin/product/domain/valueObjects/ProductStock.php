@@ -5,9 +5,10 @@ namespace Src\admin\product\domain\valueObjects;
 class ProductStock
 {
     private const MIN_STOCK = 0;
+
     private const MAX_STOCK = 1000;
 
-    public function __construct(private readonly int $value) 
+    public function __construct(private readonly int $value)
     {
         $this->validate($value);
     }
@@ -22,8 +23,8 @@ class ProductStock
 
         if ($value > self::MAX_STOCK) {
             throw new \InvalidArgumentException(
-                sprintf('Stock exceeds maximum allowed (%d). Given: %d', 
-                    self::MAX_STOCK, 
+                sprintf('Stock exceeds maximum allowed (%d). Given: %d',
+                    self::MAX_STOCK,
                     $value
                 )
             );
@@ -54,5 +55,4 @@ class ProductStock
     {
         return new self($this->value + $quantity);
     }
-
 }

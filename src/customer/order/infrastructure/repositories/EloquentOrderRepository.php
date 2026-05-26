@@ -16,28 +16,28 @@ class EloquentOrderRepository implements OrderRepositoryInterface
     {
         return DB::transaction(function () use ($order) {
             $model = OrderModel::create([
-                'order_number'            => $order->orderNumber(),
-                'customer_id'             => $order->customerId(),
-                'order_date'              => $order->orderDate(),
-                'subtotal'                => $order->subtotal(),
-                'shipping_cost'           => $order->shippingCost(),
-                'tax_amount'              => $order->taxAmount(),
-                'total_amount'            => $order->totalAmount(),
-                'order_status'            => $order->status()->value,
-                'tracking_number'         => $order->trackingNumber(),
+                'order_number' => $order->orderNumber(),
+                'customer_id' => $order->customerId(),
+                'order_date' => $order->orderDate(),
+                'subtotal' => $order->subtotal(),
+                'shipping_cost' => $order->shippingCost(),
+                'tax_amount' => $order->taxAmount(),
+                'total_amount' => $order->totalAmount(),
+                'order_status' => $order->status()->value,
+                'tracking_number' => $order->trackingNumber(),
                 'estimated_delivery_date' => $order->estimatedDeliveryDate(),
-                'customer_notes'          => $order->customerNotes(),
-                'admin_notes'             => $order->adminNotes(),
+                'customer_notes' => $order->customerNotes(),
+                'admin_notes' => $order->adminNotes(),
             ]);
 
             foreach ($order->items() as $item) {
                 OrderItemModel::create([
-                    'order_id'         => $model->id,
-                    'product_id'       => $item->productId(),
+                    'order_id' => $model->id,
+                    'product_id' => $item->productId(),
                     'product_snapshot' => $item->productSnapshot(),
-                    'quantity'         => $item->quantity(),
-                    'price_per_unit'   => $item->pricePerUnit(),
-                    'subtotal'         => $item->subtotal(),
+                    'quantity' => $item->quantity(),
+                    'price_per_unit' => $item->pricePerUnit(),
+                    'subtotal' => $item->subtotal(),
                 ]);
             }
 

@@ -13,33 +13,33 @@ class EloquentProductRepository implements ProductRepositoryInterface
     {
         if ($product->id() === null) {
             ProductModel::create([
-                'artist'          => $product->artist(),
-                'album_title'     => $product->albumTitle(),
-                'slug'            => $product->slug(),
-                'genre'           => $product->genre(),
-                'release_year'    => $product->releaseYear(),
-                'country'         => $product->country(),
-                'label'           => $product->label(),
-                'price'           => $product->price()->value(),
-                'stock_quantity'  => $product->stock()->value(),
-                'description'     => $product->description(),
+                'artist' => $product->artist(),
+                'album_title' => $product->albumTitle(),
+                'slug' => $product->slug(),
+                'genre' => $product->genre(),
+                'release_year' => $product->releaseYear(),
+                'country' => $product->country(),
+                'label' => $product->label(),
+                'price' => $product->price()->value(),
+                'stock_quantity' => $product->stock()->value(),
+                'description' => $product->description(),
                 'cover_image_url' => $product->coverImageUrl(),
-                'is_active'       => $product->isActive(),
+                'is_active' => $product->isActive(),
             ]);
         } else {
             ProductModel::whereKey((int) $product->id())->update([
-                'artist'          => $product->artist(),
-                'album_title'     => $product->albumTitle(),
-                'slug'            => $product->slug(),
-                'genre'           => $product->genre(),
-                'release_year'    => $product->releaseYear(),
-                'country'         => $product->country(),
-                'label'           => $product->label(),
-                'price'           => $product->price()->value(),
-                'stock_quantity'  => $product->stock()->value(),
-                'description'     => $product->description(),
+                'artist' => $product->artist(),
+                'album_title' => $product->albumTitle(),
+                'slug' => $product->slug(),
+                'genre' => $product->genre(),
+                'release_year' => $product->releaseYear(),
+                'country' => $product->country(),
+                'label' => $product->label(),
+                'price' => $product->price()->value(),
+                'stock_quantity' => $product->stock()->value(),
+                'description' => $product->description(),
                 'cover_image_url' => $product->coverImageUrl(),
-                'is_active'       => $product->isActive(),
+                'is_active' => $product->isActive(),
             ]);
         }
     }
@@ -48,8 +48,8 @@ class EloquentProductRepository implements ProductRepositoryInterface
     {
         $model = ProductModel::find($id);
 
-        if (!$model) {
-            throw new ProductNotFoundException();
+        if (! $model) {
+            throw new ProductNotFoundException;
         }
 
         return self::toProduct($model);
@@ -59,8 +59,8 @@ class EloquentProductRepository implements ProductRepositoryInterface
     {
         $model = ProductModel::where('slug', $slug)->first();
 
-        if (!$model) {
-            throw new ProductNotFoundException();
+        if (! $model) {
+            throw new ProductNotFoundException;
         }
 
         return self::toProduct($model);

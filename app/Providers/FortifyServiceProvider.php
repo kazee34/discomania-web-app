@@ -76,7 +76,7 @@ class FortifyServiceProvider extends ServiceProvider
 
         Fortify::registerView(function (Request $request) {
             $referer = $request->headers->get('referer', '');
-            $appUrl  = config('app.url');
+            $appUrl = config('app.url');
             if ($referer && str_starts_with($referer, $appUrl)) {
                 $path = parse_url($referer, PHP_URL_PATH) ?? '/';
                 if (! in_array($path, ['/login', '/register'], true)) {
@@ -98,7 +98,8 @@ class FortifyServiceProvider extends ServiceProvider
     private function configureResponses(): void
     {
         $this->app->singleton(LoginResponse::class, function () {
-            return new class implements LoginResponse {
+            return new class implements LoginResponse
+            {
                 public function toResponse($request)
                 {
                     $isAdmin = AdminModel::query()
@@ -112,7 +113,8 @@ class FortifyServiceProvider extends ServiceProvider
         });
 
         $this->app->singleton(TwoFactorLoginResponse::class, function () {
-            return new class implements TwoFactorLoginResponse {
+            return new class implements TwoFactorLoginResponse
+            {
                 public function toResponse($request)
                 {
                     $isAdmin = AdminModel::query()
@@ -126,7 +128,8 @@ class FortifyServiceProvider extends ServiceProvider
         });
 
         $this->app->singleton(PasswordConfirmedResponse::class, function () {
-            return new class implements PasswordConfirmedResponse {
+            return new class implements PasswordConfirmedResponse
+            {
                 public function toResponse($request)
                 {
                     return redirect()->intended('/settings/two-factor');
@@ -135,7 +138,8 @@ class FortifyServiceProvider extends ServiceProvider
         });
 
         $this->app->singleton(TwoFactorEnabledResponse::class, function () {
-            return new class implements TwoFactorEnabledResponse {
+            return new class implements TwoFactorEnabledResponse
+            {
                 public function toResponse($request)
                 {
                     return redirect('/settings/two-factor');
@@ -144,7 +148,8 @@ class FortifyServiceProvider extends ServiceProvider
         });
 
         $this->app->singleton(TwoFactorDisabledResponse::class, function () {
-            return new class implements TwoFactorDisabledResponse {
+            return new class implements TwoFactorDisabledResponse
+            {
                 public function toResponse($request)
                 {
                     return redirect('/settings/two-factor');
@@ -153,7 +158,8 @@ class FortifyServiceProvider extends ServiceProvider
         });
 
         $this->app->singleton(RegisterResponse::class, function () {
-            return new class implements RegisterResponse {
+            return new class implements RegisterResponse
+            {
                 public function toResponse($request)
                 {
                     $intended = $request->session()->pull('register.intended', '/shop');

@@ -1,24 +1,13 @@
 <?php
 
-use Src\admin\dashboard\infrastructure\controllers\GET_AdminDashboardWebController;
 use Illuminate\Support\Facades\Route;
-use Src\customer\order\infrastructure\controllers\DELETE_CancelOrderWebController;
-use Src\customer\order\infrastructure\controllers\GET_ProfileOrderDetailController;
-use Src\customer\order\infrastructure\controllers\GET_ProfileOrdersController;
-use Src\customer\order\infrastructure\controllers\POST_CheckoutController;
-use Src\customer\product\infrastructure\controllers\GET_ShopIndexController;
-use Src\customer\product\infrastructure\controllers\GET_WelcomeController;
-use Src\customer\product\infrastructure\controllers\GET_ShopProductController;
-use Src\admin\customer\infrastructure\controllers\GET_AdminCustomersWebController;
-use Src\admin\customer\infrastructure\controllers\GET_AdminCustomerDetailWebController;
 use Src\admin\customer\infrastructure\controllers\GET_AdminCustomerCreateWebController;
-use Src\admin\customer\infrastructure\controllers\POST_AdminCreateCustomerWebController;
+use Src\admin\customer\infrastructure\controllers\GET_AdminCustomerDetailWebController;
+use Src\admin\customer\infrastructure\controllers\GET_AdminCustomersWebController;
 use Src\admin\customer\infrastructure\controllers\PATCH_AdminDeactivateCustomerWebController;
 use Src\admin\customer\infrastructure\controllers\PATCH_AdminToggleVipWebController;
-use Src\admin\user\infrastructure\controllers\GET_AdminAdminsWebController;
-use Src\admin\user\infrastructure\controllers\POST_AdminAdminWebController;
-use Src\admin\user\infrastructure\controllers\DELETE_AdminAdminWebController;
-use Src\admin\user\infrastructure\controllers\PATCH_AdminToggleAdminWebController;
+use Src\admin\customer\infrastructure\controllers\POST_AdminCreateCustomerWebController;
+use Src\admin\dashboard\infrastructure\controllers\GET_AdminDashboardWebController;
 use Src\admin\order\infrastructure\controllers\GET_AdminOrdersWebController;
 use Src\admin\order\infrastructure\controllers\PATCH_AdminOrderStatusWebController;
 use Src\admin\product\infrastructure\controllers\DELETE_AdminProductWebController;
@@ -27,9 +16,25 @@ use Src\admin\product\infrastructure\controllers\GET_AdminProductsWebController;
 use Src\admin\product\infrastructure\controllers\PATCH_AdminProductStatusWebController;
 use Src\admin\product\infrastructure\controllers\POST_AdminProductWebController;
 use Src\admin\product\infrastructure\controllers\PUT_AdminProductWebController;
+use Src\admin\user\infrastructure\controllers\DELETE_AdminAdminWebController;
+use Src\admin\user\infrastructure\controllers\GET_AdminAdminsWebController;
+use Src\admin\user\infrastructure\controllers\PATCH_AdminToggleAdminWebController;
+use Src\admin\user\infrastructure\controllers\POST_AdminAdminWebController;
+use Src\customer\order\infrastructure\controllers\DELETE_CancelOrderWebController;
+use Src\customer\order\infrastructure\controllers\GET_ProfileOrderDetailController;
+use Src\customer\order\infrastructure\controllers\GET_ProfileOrdersController;
+use Src\customer\order\infrastructure\controllers\POST_CheckoutController;
+use Src\customer\payment\infrastructure\controllers\DELETE_RemovePaymentMethodController;
+use Src\customer\payment\infrastructure\controllers\GET_CheckoutController;
+use Src\customer\payment\infrastructure\controllers\GET_PaymentMethodsController;
+use Src\customer\payment\infrastructure\controllers\PATCH_SetDefaultPaymentMethodController;
+use Src\customer\payment\infrastructure\controllers\POST_AddBankAccountController;
+use Src\customer\payment\infrastructure\controllers\POST_AddCreditCardController;
+use Src\customer\product\infrastructure\controllers\GET_ShopIndexController;
+use Src\customer\product\infrastructure\controllers\GET_ShopProductController;
+use Src\customer\product\infrastructure\controllers\GET_WelcomeController;
 use Src\customer\user\infrastructure\controllers\GET_ProfileController;
 use Src\customer\user\infrastructure\controllers\PUT_UpdateProfileController;
-
 
 Route::get('/', [GET_WelcomeController::class, 'index'])->name('home');
 Route::inertia('/acerca', 'about/Index')->name('about');
@@ -39,6 +44,7 @@ Route::get('/shop/{slug}', [GET_ShopProductController::class, 'show'])->name('sh
 Route::inertia('/cart', 'cart/Index')->name('cart.index');
 
 Route::middleware(['auth', 'customer'])->group(function () {
+    Route::get('/checkout', [GET_CheckoutController::class, 'show'])->name('checkout.show');
     Route::post('/checkout', [POST_CheckoutController::class, 'store'])->name('checkout');
 
     Route::get('/profile', [GET_ProfileController::class, 'show'])->name('customer.profile');
@@ -46,6 +52,12 @@ Route::middleware(['auth', 'customer'])->group(function () {
     Route::get('/profile/orders', [GET_ProfileOrdersController::class, 'index'])->name('customer.orders');
     Route::get('/profile/orders/{orderNumber}', [GET_ProfileOrderDetailController::class, 'show'])->name('customer.orders.detail');
     Route::delete('/profile/orders/{orderNumber}', [DELETE_CancelOrderWebController::class, 'destroy'])->name('customer.orders.cancel');
+
+    Route::get('/profile/payment-methods', [GET_PaymentMethodsController::class, 'index'])->name('customer.payment-methods');
+    Route::post('/profile/payment-methods/credit-card', [POST_AddCreditCardController::class, 'store'])->name('customer.payment-methods.credit-card');
+    Route::post('/profile/payment-methods/bank-account', [POST_AddBankAccountController::class, 'store'])->name('customer.payment-methods.bank-account');
+    Route::delete('/profile/payment-methods/{id}', [DELETE_RemovePaymentMethodController::class, 'destroy'])->name('customer.payment-methods.destroy');
+    Route::patch('/profile/payment-methods/{id}/default', [PATCH_SetDefaultPaymentMethodController::class, 'update'])->name('customer.payment-methods.default');
 });
 
 Route::middleware(['auth', 'admin'])->group(function () {
@@ -53,30 +65,30 @@ Route::middleware(['auth', 'admin'])->group(function () {
 });
 
 Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(function () {
-    Route::get('/products',              [GET_AdminProductsWebController::class,    'index'])->name('products.index');
-    Route::get('/products/create',       [GET_AdminProductsWebController::class,    'create'])->name('products.create');
-    Route::post('/products',             [POST_AdminProductWebController::class,    'store'])->name('products.store');
-    Route::get('/products/{id}/edit',    [GET_AdminProductEditWebController::class, 'edit'])->name('products.edit');
-    Route::put('/products/{id}',         [PUT_AdminProductWebController::class,     'update'])->name('products.update');
-    Route::delete('/products/{id}',      [DELETE_AdminProductWebController::class,  'destroy'])->name('products.destroy');
-    Route::patch('/products/{id}/status',[PATCH_AdminProductStatusWebController::class, 'toggle'])->name('products.status');
+    Route::get('/products', [GET_AdminProductsWebController::class,    'index'])->name('products.index');
+    Route::get('/products/create', [GET_AdminProductsWebController::class,    'create'])->name('products.create');
+    Route::post('/products', [POST_AdminProductWebController::class,    'store'])->name('products.store');
+    Route::get('/products/{id}/edit', [GET_AdminProductEditWebController::class, 'edit'])->name('products.edit');
+    Route::put('/products/{id}', [PUT_AdminProductWebController::class,     'update'])->name('products.update');
+    Route::delete('/products/{id}', [DELETE_AdminProductWebController::class,  'destroy'])->name('products.destroy');
+    Route::patch('/products/{id}/status', [PATCH_AdminProductStatusWebController::class, 'toggle'])->name('products.status');
 
-    Route::get('/customers',              [GET_AdminCustomersWebController::class,        'index'])->name('customers.index');
-    Route::get('/customers/create',       [GET_AdminCustomerCreateWebController::class,   'create'])->name('customers.create');
-    Route::post('/customers',             [POST_AdminCreateCustomerWebController::class,  'store'])->name('customers.store');
-    Route::get('/customers/{id}',         [GET_AdminCustomerDetailWebController::class,   'show'])->name('customers.show');
+    Route::get('/customers', [GET_AdminCustomersWebController::class,        'index'])->name('customers.index');
+    Route::get('/customers/create', [GET_AdminCustomerCreateWebController::class,   'create'])->name('customers.create');
+    Route::post('/customers', [POST_AdminCreateCustomerWebController::class,  'store'])->name('customers.store');
+    Route::get('/customers/{id}', [GET_AdminCustomerDetailWebController::class,   'show'])->name('customers.show');
     Route::patch('/customers/{id}/deactivate', [PATCH_AdminDeactivateCustomerWebController::class, 'deactivate'])->name('customers.deactivate');
-    Route::patch('/customers/{id}/vip',   [PATCH_AdminToggleVipWebController::class,      'toggle'])->name('customers.vip');
+    Route::patch('/customers/{id}/vip', [PATCH_AdminToggleVipWebController::class,      'toggle'])->name('customers.vip');
 
-    Route::get('/admins',                   [GET_AdminAdminsWebController::class,        'index'])->name('admins.index');
-    Route::get('/admins/create',            [GET_AdminAdminsWebController::class,        'create'])->name('admins.create');
-    Route::post('/admins',                  [POST_AdminAdminWebController::class,        'store'])->name('admins.store');
-    Route::delete('/admins/{id}',           [DELETE_AdminAdminWebController::class,      'destroy'])->name('admins.destroy');
-    Route::patch('/admins/{id}/toggle',     [PATCH_AdminToggleAdminWebController::class, 'toggle'])->name('admins.toggle');
+    Route::get('/admins', [GET_AdminAdminsWebController::class,        'index'])->name('admins.index');
+    Route::get('/admins/create', [GET_AdminAdminsWebController::class,        'create'])->name('admins.create');
+    Route::post('/admins', [POST_AdminAdminWebController::class,        'store'])->name('admins.store');
+    Route::delete('/admins/{id}', [DELETE_AdminAdminWebController::class,      'destroy'])->name('admins.destroy');
+    Route::patch('/admins/{id}/toggle', [PATCH_AdminToggleAdminWebController::class, 'toggle'])->name('admins.toggle');
 
-    Route::get('/orders',                            [GET_AdminOrdersWebController::class,        'index'])->name('orders.index');
-    Route::get('/orders/{orderNumber}',              [GET_AdminOrdersWebController::class,        'show'])->name('orders.show');
-    Route::patch('/orders/{orderNumber}/status',     [PATCH_AdminOrderStatusWebController::class, 'update'])->name('orders.status');
+    Route::get('/orders', [GET_AdminOrdersWebController::class,        'index'])->name('orders.index');
+    Route::get('/orders/{orderNumber}', [GET_AdminOrdersWebController::class,        'show'])->name('orders.show');
+    Route::patch('/orders/{orderNumber}/status', [PATCH_AdminOrderStatusWebController::class, 'update'])->name('orders.status');
 });
 
 require __DIR__.'/settings.php';

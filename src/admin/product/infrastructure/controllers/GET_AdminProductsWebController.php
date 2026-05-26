@@ -19,15 +19,15 @@ final class GET_AdminProductsWebController extends Controller
 
         return Inertia::render('admin/products/Index', [
             'products' => array_map(fn ($p) => [
-                'id'           => $p->id,
-                'artist'       => $p->artist,
-                'albumTitle'   => $p->albumTitle,
-                'price'        => $p->price,
-                'stock'        => $p->stock,
-                'slug'         => $p->slug,
-                'genre'        => $p->genre,
-                'coverImageUrl'=> $p->coverImageUrl,
-                'isActive'     => $p->isActive,
+                'id' => $p->id,
+                'artist' => $p->artist,
+                'albumTitle' => $p->albumTitle,
+                'price' => $p->price,
+                'stock' => $p->stock,
+                'slug' => $p->slug,
+                'genre' => $p->genre,
+                'coverImageUrl' => $p->coverImageUrl,
+                'isActive' => $p->isActive,
             ], $products),
         ]);
     }

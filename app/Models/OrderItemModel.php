@@ -20,11 +20,11 @@ class OrderItemModel extends Model
 
     protected $casts = [
         'product_snapshot' => 'array',
-        'quantity'         => 'integer',
-        'price_per_unit'   => 'decimal:2',
-        'subtotal'         => 'decimal:2',
-        'created_at'       => 'immutable_datetime',
-        'updated_at'       => 'immutable_datetime',
+        'quantity' => 'integer',
+        'price_per_unit' => 'decimal:2',
+        'subtotal' => 'decimal:2',
+        'created_at' => 'immutable_datetime',
+        'updated_at' => 'immutable_datetime',
     ];
 
     public function order(): BelongsTo

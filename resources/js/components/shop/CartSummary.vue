@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Link, useForm } from '@inertiajs/vue3';
+import { Link, router } from '@inertiajs/vue3';
 import { computed } from 'vue';
 import { Button } from '@/components/ui/button';
 import { login, register } from '@/routes';
@@ -17,13 +17,9 @@ const iva      = computed(() => Math.round(props.subtotal * TAX_RATE * 100) / 10
 const shipping = computed(() => props.subtotal >= SHIPPING_THRESHOLD ? 0 : SHIPPING_COST);
 const total    = computed(() => Math.round((props.subtotal + iva.value + shipping.value) * 100) / 100);
 
-const form = useForm({
-    cart_token: localStorage.getItem('discomania_cart_token') ?? '',
-    customer_notes: '',
-});
-
 function checkout() {
-    form.post('/checkout');
+    const cartToken = localStorage.getItem('discomania_cart_token') ?? '';
+    router.visit(`/checkout?cart_token=${encodeURIComponent(cartToken)}`);
 }
 </script>
 
@@ -55,12 +51,9 @@ function checkout() {
         </div>
 
         <template v-if="$page.props.auth.user">
-            <Button class="w-full" size="lg" :disabled="form.processing" @click="checkout">
-                {{ form.processing ? 'Procesando...' : 'Finalizar compra' }}
+            <Button class="w-full" size="lg" @click="checkout">
+                Finalizar compra
             </Button>
-            <p v-if="form.errors.cart_token" class="text-center text-xs text-destructive">
-                {{ form.errors.cart_token }}
-            </p>
         </template>
         <template v-else>
             <Button as-child class="w-full" size="lg">

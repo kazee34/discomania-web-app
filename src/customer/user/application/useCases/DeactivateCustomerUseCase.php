@@ -2,13 +2,13 @@
 
 namespace Src\customer\user\application\useCases;
 
-use Src\shared\domain\repositories\EventPublisher;
 use Src\customer\user\domain\repositories\CustomerRepositoryInterface;
+use Src\shared\domain\repositories\EventPublisher;
 
 class DeactivateCustomerUseCase
 {
     public function __construct(
-        private CustomerRepositoryInterface $repository, 
+        private CustomerRepositoryInterface $repository,
         private EventPublisher $eventPublisher
     ) {}
 

@@ -4,7 +4,6 @@ namespace Src\customer\product\domain\entities;
 
 class Product
 {
-
     public function __construct(
         private readonly ?int $id,
         private string $slug,
@@ -103,5 +102,4 @@ class Product
             coverImageUrl: $coverImageUrl,
         );
     }
-
 }

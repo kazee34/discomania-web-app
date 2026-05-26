@@ -26,11 +26,11 @@ final class DELETE_CancelOrderWebController extends Controller
         try {
             $order = $this->findOrder->execute($orderNumber);
         } catch (OrderNotFoundException) {
-            throw new NotFoundHttpException();
+            throw new NotFoundHttpException;
         }
 
         if ($order->customerId !== $customer->id()) {
-            throw new NotFoundHttpException();
+            throw new NotFoundHttpException;
         }
 
         try {

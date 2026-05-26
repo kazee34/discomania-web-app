@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { Link, usePage } from '@inertiajs/vue3';
 import { computed } from 'vue';
-import { Lock, Package, Palette, ShieldCheck, UserCog, UserRound } from 'lucide-vue-next';
+import { CreditCard, Lock, Package, Palette, ShieldCheck, UserCog, UserRound } from 'lucide-vue-next';
 import ShopNavbar from '@/components/shop/ShopNavbar.vue';
 
 const page = usePage();
@@ -13,6 +13,7 @@ const nav = computed(() => {
     return [
         { label: 'Mi perfil', href: '/profile', icon: UserRound },
         { label: 'Mis pedidos', href: '/profile/orders', icon: Package },
+        { label: 'Métodos de pago', href: '/profile/payment-methods', icon: CreditCard },
     ];
 });
 

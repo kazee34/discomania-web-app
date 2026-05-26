@@ -13,10 +13,10 @@ class OrderTest extends TestCase
         return OrderItem::create(
             productId: 1,
             productSnapshot: [
-                'artist'          => 'Test Artist',
-                'album_title'     => 'Test Album',
-                'slug'            => 'test-artist-test-album',
-                'genre'           => 'Rock',
+                'artist' => 'Test Artist',
+                'album_title' => 'Test Album',
+                'slug' => 'test-artist-test-album',
+                'genre' => 'Rock',
                 'cover_image_url' => '',
             ],
             quantity: $quantity,

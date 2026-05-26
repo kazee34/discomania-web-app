@@ -17,17 +17,17 @@ final class PUT_UpdateProfileController extends Controller
     public function update(Request $request): RedirectResponse
     {
         $data = $request->validate([
-            'firstName'             => ['required', 'string', 'min:3', 'max:100'],
-            'lastName'              => ['required', 'string', 'min:3', 'max:100'],
-            'phone'                 => ['nullable', 'string', 'max:20'],
-            'birthDate'             => ['nullable', 'date', 'after_or_equal:1900-01-01', 'before_or_equal:' . now()->subYears(16)->format('Y-m-d')],
-            'shippingStreet'        => ['required', 'string', 'max:200'],
-            'shippingStreetNumber'  => ['required', 'string', 'max:20'],
-            'shippingApartment'     => ['nullable', 'string', 'max:50'],
-            'shippingCity'          => ['required', 'string', 'max:100'],
-            'shippingPostalCode'    => ['required', 'string', 'max:20'],
+            'firstName' => ['required', 'string', 'min:3', 'max:100'],
+            'lastName' => ['required', 'string', 'min:3', 'max:100'],
+            'phone' => ['nullable', 'string', 'max:20'],
+            'birthDate' => ['nullable', 'date', 'after_or_equal:1900-01-01', 'before_or_equal:'.now()->subYears(16)->format('Y-m-d')],
+            'shippingStreet' => ['required', 'string', 'max:200'],
+            'shippingStreetNumber' => ['required', 'string', 'max:20'],
+            'shippingApartment' => ['nullable', 'string', 'max:50'],
+            'shippingCity' => ['required', 'string', 'max:100'],
+            'shippingPostalCode' => ['required', 'string', 'max:20'],
             'shippingStateProvince' => ['nullable', 'string', 'max:100'],
-            'shippingCountry'       => ['required', 'string', 'max:100'],
+            'shippingCountry' => ['required', 'string', 'max:100'],
         ]);
 
         $this->updateProfile->execute(

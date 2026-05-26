@@ -26,6 +26,7 @@ use Laravel\Sanctum\HasApiTokens;
  * @property-read int|null $notifications_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \Laravel\Sanctum\PersonalAccessToken> $tokens
  * @property-read int|null $tokens_count
+ *
  * @method static \Illuminate\Database\Eloquent\Builder<static>|UserModel newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|UserModel newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|UserModel query()
@@ -40,6 +41,7 @@ use Laravel\Sanctum\HasApiTokens;
  * @method static \Illuminate\Database\Eloquent\Builder<static>|UserModel whereTwoFactorRecoveryCodes($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|UserModel whereTwoFactorSecret($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|UserModel whereUpdatedAt($value)
+ *
  * @mixin \Eloquent
  */
 class UserModel extends Authenticatable

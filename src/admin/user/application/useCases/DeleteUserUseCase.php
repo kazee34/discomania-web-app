@@ -2,14 +2,14 @@
 
 namespace src\admin\user\application\useCases;
 
-use Src\shared\domain\repositories\EventPublisher;
 use Src\shared\domain\exceptions\UserNotFoundException;
+use Src\shared\domain\repositories\EventPublisher;
 use Src\shared\domain\repositories\UserRepositoryInterface;
 
 class DeleteUserUseCase
 {
     public function __construct(
-        private UserRepositoryInterface $userRepository, 
+        private UserRepositoryInterface $userRepository,
         private EventPublisher $eventPublisher
     ) {}
 
@@ -17,7 +17,7 @@ class DeleteUserUseCase
     {
         $user = $this->userRepository->findById($id);
 
-        if (!$user) {
+        if (! $user) {
             throw new UserNotFoundException($id);
         }
 

@@ -15,8 +15,8 @@ class CreateCartRequest extends FormRequest
     {
         return [
             'customer_id' => 'nullable|integer|exists:customers,user_id',
-            'session_id'  => 'nullable|string|max:100',
-            'expires_at'  => 'nullable|date',
+            'session_id' => 'nullable|string|max:100',
+            'expires_at' => 'nullable|date',
         ];
     }
 }

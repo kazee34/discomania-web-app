@@ -13,12 +13,12 @@ final class GET_AdminAdminsWebController extends Controller
     public function index(): Response
     {
         $admins = AdminModel::with('user')->get()->map(fn ($a) => [
-            'id'        => $a->id,
-            'userId'    => $a->user_id,
-            'name'      => $a->user?->name,
-            'email'     => $a->user?->email,
-            'role'      => $a->role,
-            'isActive'  => $a->is_active,
+            'id' => $a->id,
+            'userId' => $a->user_id,
+            'name' => $a->user?->name,
+            'email' => $a->user?->email,
+            'role' => $a->role,
+            'isActive' => $a->is_active,
             'createdAt' => $a->created_at?->format('Y-m-d'),
         ])->all();
 

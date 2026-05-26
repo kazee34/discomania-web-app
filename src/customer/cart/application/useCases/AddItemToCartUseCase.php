@@ -21,12 +21,12 @@ class AddItemToCartUseCase
         $cart = $this->repository->findByToken($cartToken);
 
         $existingItem = $cart->findItemByProductId($productId);
-        $currentQty   = $existingItem?->quantity() ?? 0;
-        $newTotal     = $currentQty + $quantity;
+        $currentQty = $existingItem?->quantity() ?? 0;
+        $newTotal = $currentQty + $quantity;
 
         if ($newTotal > $product->stockQuantity()) {
             throw new \DomainException(
-                "No hay suficiente stock para '{$product->artist()} — {$product->albumTitle()}'. " .
+                "No hay suficiente stock para '{$product->artist()} — {$product->albumTitle()}'. ".
                 "Stock disponible: {$product->stockQuantity()}, en tu carrito: {$currentQty}."
             );
         }

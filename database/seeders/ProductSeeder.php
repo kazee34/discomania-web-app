@@ -207,17 +207,17 @@ class ProductSeeder extends Seeder
 
         foreach ($products as $data) {
             ProductModel::create([
-                'artist'          => $data['artist'],
-                'album_title'     => $data['album_title'],
-                'slug'            => Str::slug($data['artist'] . '-' . $data['album_title']),
-                'genre'           => $data['genre'],
-                'release_year'    => $data['release_year'],
-                'country'         => $data['country'],
-                'label'           => $data['label'],
-                'price'           => $data['price'],
-                'stock_quantity'  => $data['stock'],
+                'artist' => $data['artist'],
+                'album_title' => $data['album_title'],
+                'slug' => Str::slug($data['artist'].'-'.$data['album_title']),
+                'genre' => $data['genre'],
+                'release_year' => $data['release_year'],
+                'country' => $data['country'],
+                'label' => $data['label'],
+                'price' => $data['price'],
+                'stock_quantity' => $data['stock'],
                 'cover_image_url' => $data['cover'],
-                'is_active'       => true,
+                'is_active' => true,
             ]);
         }
     }

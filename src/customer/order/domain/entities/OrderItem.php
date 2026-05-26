@@ -52,10 +52,33 @@ class OrderItem
         return round($this->pricePerUnit * $this->quantity, 2);
     }
 
-    public function id(): ?int            { return $this->id; }
-    public function orderId(): ?int       { return $this->orderId; }
-    public function productId(): int      { return $this->productId; }
-    public function productSnapshot(): array { return $this->productSnapshot; }
-    public function quantity(): int       { return $this->quantity; }
-    public function pricePerUnit(): float { return $this->pricePerUnit; }
+    public function id(): ?int
+    {
+        return $this->id;
+    }
+
+    public function orderId(): ?int
+    {
+        return $this->orderId;
+    }
+
+    public function productId(): int
+    {
+        return $this->productId;
+    }
+
+    public function productSnapshot(): array
+    {
+        return $this->productSnapshot;
+    }
+
+    public function quantity(): int
+    {
+        return $this->quantity;
+    }
+
+    public function pricePerUnit(): float
+    {
+        return $this->pricePerUnit;
+    }
 }

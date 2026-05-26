@@ -19,15 +19,15 @@ final class GET_AdminCustomersWebController extends Controller
 
         return Inertia::render('admin/customers/Index', [
             'customers' => array_map(fn ($c) => [
-                'id'          => $c->id(),
-                'firstName'   => $c->firstName()->value(),
-                'lastName'    => $c->lastName()->value(),
-                'phone'       => $c->phone()->value(),
-                'dniNif'      => $c->dniNif()->value(),
+                'id' => $c->id(),
+                'firstName' => $c->firstName()->value(),
+                'lastName' => $c->lastName()->value(),
+                'phone' => $c->phone()->value(),
+                'dniNif' => $c->dniNif()->value(),
                 'totalOrders' => $c->totalOrders(),
-                'isActive'    => $c->isActive(),
-                'isVip'       => $c->isVip(),
-                'createdAt'   => $c->createdAt()?->format('Y-m-d'),
+                'isActive' => $c->isActive(),
+                'isVip' => $c->isVip(),
+                'createdAt' => $c->createdAt()?->format('Y-m-d'),
             ], $customers),
         ]);
     }

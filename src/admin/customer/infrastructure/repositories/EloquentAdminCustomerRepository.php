@@ -36,7 +36,7 @@ class EloquentAdminCustomerRepository implements AdminCustomerRepositoryInterfac
             ->where('id', $customer->id())
             ->update([
                 'is_active' => $customer->isActive(),
-                'is_vip'    => $customer->isVip(),
+                'is_vip' => $customer->isVip(),
             ]);
     }
 

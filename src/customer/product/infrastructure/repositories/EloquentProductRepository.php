@@ -14,7 +14,7 @@ class EloquentProductRepository implements ProductRepositoryInterface
         $model = ProductModel::find($id);
 
         if (! $model) {
-            throw new ProductNotFoundException();
+            throw new ProductNotFoundException;
         }
 
         return self::toProduct($model);
@@ -32,8 +32,8 @@ class EloquentProductRepository implements ProductRepositoryInterface
     {
         $model = ProductModel::where('slug', $slug)->first();
 
-        if (!$model) {
-            throw new ProductNotFoundException();
+        if (! $model) {
+            throw new ProductNotFoundException;
         }
 
         return self::toProduct($model);
@@ -43,7 +43,7 @@ class EloquentProductRepository implements ProductRepositoryInterface
     {
         return ProductModel::where('album_title', 'like', "%{$albumTitle}%")
             ->get()
-            ->map(fn($model) => self::toProduct($model))
+            ->map(fn ($model) => self::toProduct($model))
             ->toArray();
     }
 
@@ -51,7 +51,7 @@ class EloquentProductRepository implements ProductRepositoryInterface
     {
         return ProductModel::where('genre', 'like', "%{$genre}%")
             ->get()
-            ->map(fn($model) => self::toProduct($model))
+            ->map(fn ($model) => self::toProduct($model))
             ->toArray();
     }
 
@@ -59,7 +59,7 @@ class EloquentProductRepository implements ProductRepositoryInterface
     {
         return ProductModel::where('artist', 'like', "%{$artist}%")
             ->get()
-            ->map(fn($model) => self::toProduct($model))
+            ->map(fn ($model) => self::toProduct($model))
             ->toArray();
     }
 
@@ -67,7 +67,7 @@ class EloquentProductRepository implements ProductRepositoryInterface
     {
         return ProductModel::where('country', $country)
             ->get()
-            ->map(fn($model) => self::toProduct($model))
+            ->map(fn ($model) => self::toProduct($model))
             ->toArray();
     }
 
@@ -75,7 +75,7 @@ class EloquentProductRepository implements ProductRepositoryInterface
     {
         return ProductModel::where('release_year', $releaseYear)
             ->get()
-            ->map(fn($model) => self::toProduct($model))
+            ->map(fn ($model) => self::toProduct($model))
             ->toArray();
     }
 
@@ -83,7 +83,7 @@ class EloquentProductRepository implements ProductRepositoryInterface
     {
         return ProductModel::whereBetween('price', [$minPrice, $maxPrice])
             ->get()
-            ->map(fn($model) => self::toProduct($model))
+            ->map(fn ($model) => self::toProduct($model))
             ->toArray();
     }
 
@@ -91,7 +91,7 @@ class EloquentProductRepository implements ProductRepositoryInterface
     {
         return ProductModel::whereBetween('release_year', [$startYear, $endYear])
             ->get()
-            ->map(fn($model) => self::toProduct($model))
+            ->map(fn ($model) => self::toProduct($model))
             ->toArray();
     }
 

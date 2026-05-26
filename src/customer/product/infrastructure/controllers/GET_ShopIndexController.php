@@ -20,14 +20,14 @@ final class GET_ShopIndexController extends Controller
 
         return Inertia::render('shop/Index', [
             'products' => array_map(fn (Product $p) => [
-                'id'            => $p->id(),
-                'slug'          => $p->slug(),
-                'artist'        => $p->artist(),
-                'albumTitle'    => $p->albumTitle(),
-                'price'         => $p->price(),
-                'genre'         => $p->genre(),
-                'country'       => $p->country(),
-                'releaseYear'   => $p->releaseYear(),
+                'id' => $p->id(),
+                'slug' => $p->slug(),
+                'artist' => $p->artist(),
+                'albumTitle' => $p->albumTitle(),
+                'price' => $p->price(),
+                'genre' => $p->genre(),
+                'country' => $p->country(),
+                'releaseYear' => $p->releaseYear(),
                 'coverImageUrl' => $p->coverImageUrl(),
                 'stockQuantity' => $p->stockQuantity(),
             ], $products),

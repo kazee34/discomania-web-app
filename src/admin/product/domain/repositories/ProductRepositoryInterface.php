@@ -15,6 +15,6 @@ interface ProductRepositoryInterface
     public function delete(int $id): void;
 
     public function findBySlug(string $slug): Product;
-    
+
     public function search(string $query): array;
 }

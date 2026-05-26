@@ -23,23 +23,23 @@ final class GET_AdminCustomerDetailWebController extends Controller
 
         return Inertia::render('admin/customers/Show', [
             'customer' => [
-                'id'          => $customer->id(),
-                'firstName'   => $customer->firstName()->value(),
-                'lastName'    => $customer->lastName()->value(),
-                'phone'       => $customer->phone()->value(),
-                'dniNif'      => $customer->dniNif()->value(),
-                'birthDate'   => $customer->birthDate(),
+                'id' => $customer->id(),
+                'firstName' => $customer->firstName()->value(),
+                'lastName' => $customer->lastName()->value(),
+                'phone' => $customer->phone()->value(),
+                'dniNif' => $customer->dniNif()->value(),
+                'birthDate' => $customer->birthDate(),
                 'totalOrders' => $customer->totalOrders(),
-                'isActive'    => $customer->isActive(),
-                'isVip'       => $customer->isVip(),
-                'createdAt'   => $customer->createdAt()?->format('Y-m-d'),
-                'address'     => $customer->shippingAddress()->toArray(),
+                'isActive' => $customer->isActive(),
+                'isVip' => $customer->isVip(),
+                'createdAt' => $customer->createdAt()?->format('Y-m-d'),
+                'address' => $customer->shippingAddress()->toArray(),
             ],
             'orders' => array_map(fn ($o) => [
                 'orderNumber' => $o->orderNumber(),
-                'orderDate'   => $o->orderDate()->format('Y-m-d'),
+                'orderDate' => $o->orderDate()->format('Y-m-d'),
                 'totalAmount' => $o->totalAmount(),
-                'status'      => $o->status()->value,
+                'status' => $o->status()->value,
             ], $orders),
         ]);
     }

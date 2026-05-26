@@ -10,13 +10,13 @@ use Src\customer\user\domain\valueObjects\CustomerPhone;
 use Src\customer\user\domain\valueObjects\CustomerPreferences;
 use Src\customer\user\domain\valueObjects\ShippingAddress;
 use Src\customer\user\domain\valueObjects\TaxInformation;
-use Src\shared\domain\valueObjects\UserName;
 use Src\shared\domain\repositories\EventPublisher;
+use Src\shared\domain\valueObjects\UserName;
 
 class CreateCustomerUseCase
 {
     public function __construct(
-        private CustomerRepositoryInterface $repository, 
+        private CustomerRepositoryInterface $repository,
         private EventPublisher $eventPublisher
     ) {}
 

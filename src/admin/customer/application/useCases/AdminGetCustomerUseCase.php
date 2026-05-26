@@ -2,8 +2,8 @@
 
 namespace Src\admin\customer\application\useCases;
 
-use Src\customer\user\domain\entities\Customer;
 use Src\admin\customer\domain\repositories\AdminCustomerRepositoryInterface;
+use Src\customer\user\domain\entities\Customer;
 
 class AdminGetCustomerUseCase
 {

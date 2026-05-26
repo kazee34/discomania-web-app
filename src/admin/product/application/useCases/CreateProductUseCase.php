@@ -4,14 +4,14 @@ namespace Src\admin\product\application\useCases;
 
 use Illuminate\Support\Str;
 use Src\admin\product\application\dto\CreateProductResult;
+use Src\admin\product\application\dto\ProductRequest;
 use Src\admin\product\domain\entities\Product;
 use Src\admin\product\domain\repositories\ProductRepositoryInterface;
-use Src\admin\product\application\dto\ProductRequest;
 
 class CreateProductUseCase
 {
     public function __construct(
-        private ProductRepositoryInterface $repository, 
+        private ProductRepositoryInterface $repository,
     ) {}
 
     public function execute(ProductRequest $request): CreateProductResult

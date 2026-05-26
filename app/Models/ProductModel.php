@@ -21,6 +21,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property bool|null $is_active
  * @property \Carbon\CarbonImmutable|null $created_at
  * @property \Carbon\CarbonImmutable|null $updated_at
+ *
  * @method static \Illuminate\Database\Eloquent\Builder<static>|ProductModel newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|ProductModel newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|ProductModel query()
@@ -39,6 +40,7 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder<static>|ProductModel whereSlug($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|ProductModel whereStockQuantity($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|ProductModel whereUpdatedAt($value)
+ *
  * @mixin \Eloquent
  */
 class ProductModel extends Model

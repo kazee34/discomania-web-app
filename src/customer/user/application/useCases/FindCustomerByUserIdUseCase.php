@@ -10,7 +10,7 @@ class FindCustomerByUserIdUseCase
 {
     public function __construct(
         private readonly CustomerRepositoryInterface $repository
-    ) { }
+    ) {}
 
     public function execute(int $userId): Customer
     {

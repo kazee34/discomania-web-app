@@ -40,9 +40,9 @@ class EloquentUserRepository implements UserRepositoryInterface
         if ($user->id() === null) {
             // Use DB::table to bypass UserModel's 'hashed' cast — password is already bcrypt-hashed by UserPassword::fromPlain()
             $id = DB::table('users')->insertGetId([
-                'name'       => $user->username()->value(),
-                'email'      => $user->email()->value(),
-                'password'   => $user->passwordHash(),
+                'name' => $user->username()->value(),
+                'email' => $user->email()->value(),
+                'password' => $user->passwordHash(),
                 'created_at' => now(),
                 'updated_at' => now(),
             ]);
@@ -52,9 +52,9 @@ class EloquentUserRepository implements UserRepositoryInterface
             $idProperty->setValue($user, $id);
         } else {
             DB::table('users')->where('id', $user->id())->update([
-                'name'       => $user->username()->value(),
-                'email'      => $user->email()->value(),
-                'password'   => $user->passwordHash(),
+                'name' => $user->username()->value(),
+                'email' => $user->email()->value(),
+                'password' => $user->passwordHash(),
                 'updated_at' => now(),
             ]);
         }

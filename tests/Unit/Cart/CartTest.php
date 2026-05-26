@@ -14,7 +14,7 @@ class CartTest extends TestCase
         return Cart::create(customerId: null, sessionId: 'test-session');
     }
 
-    public function test_addItem_adds_new_item(): void
+    public function test_add_item_adds_new_item(): void
     {
         $cart = $this->makeCart();
         $cart->addItem(productId: 1, price: 29.99, quantity: 2);
@@ -24,7 +24,7 @@ class CartTest extends TestCase
         $this->assertEquals(2, $cart->items()[0]->quantity());
     }
 
-    public function test_addItem_merges_quantity_for_same_product(): void
+    public function test_add_item_merges_quantity_for_same_product(): void
     {
         $cart = $this->makeCart();
         $cart->addItem(productId: 1, price: 29.99, quantity: 2);
@@ -34,7 +34,7 @@ class CartTest extends TestCase
         $this->assertEquals(5, $cart->items()[0]->quantity());
     }
 
-    public function test_addItem_keeps_separate_items_for_different_products(): void
+    public function test_add_item_keeps_separate_items_for_different_products(): void
     {
         $cart = $this->makeCart();
         $cart->addItem(productId: 1, price: 29.99, quantity: 1);
@@ -43,7 +43,7 @@ class CartTest extends TestCase
         $this->assertCount(2, $cart->items());
     }
 
-    public function test_totalAmount_calculates_correctly(): void
+    public function test_total_amount_calculates_correctly(): void
     {
         $cart = $this->makeCart();
         $cart->addItem(productId: 1, price: 10.00, quantity: 2);
@@ -52,7 +52,7 @@ class CartTest extends TestCase
         $this->assertEquals(36.50, $cart->totalAmount());
     }
 
-    public function test_isExpired_returns_false_when_not_expired(): void
+    public function test_is_expired_returns_false_when_not_expired(): void
     {
         $cart = Cart::fromPrimitives(
             id: 1,
@@ -66,7 +66,7 @@ class CartTest extends TestCase
         $this->assertFalse($cart->isExpired());
     }
 
-    public function test_isExpired_returns_true_when_expired(): void
+    public function test_is_expired_returns_true_when_expired(): void
     {
         $cart = Cart::fromPrimitives(
             id: 1,
@@ -80,7 +80,7 @@ class CartTest extends TestCase
         $this->assertTrue($cart->isExpired());
     }
 
-    public function test_removeItem_removes_item_by_id(): void
+    public function test_remove_item_removes_item_by_id(): void
     {
         $item = CartItem::fromPrimitives(id: 42, cartId: 1, productId: 5, quantity: 1, price: 29.99);
         $cart = Cart::fromPrimitives(
@@ -97,7 +97,7 @@ class CartTest extends TestCase
         $this->assertEmpty($cart->items());
     }
 
-    public function test_removeItem_throws_for_unknown_item(): void
+    public function test_remove_item_throws_for_unknown_item(): void
     {
         $cart = Cart::fromPrimitives(
             id: 1,
@@ -112,7 +112,7 @@ class CartTest extends TestCase
         $cart->removeItem(99);
     }
 
-    public function test_updateItemQuantity_updates_quantity(): void
+    public function test_update_item_quantity_updates_quantity(): void
     {
         $item = CartItem::fromPrimitives(id: 10, cartId: 1, productId: 3, quantity: 2, price: 15.00);
         $cart = Cart::fromPrimitives(

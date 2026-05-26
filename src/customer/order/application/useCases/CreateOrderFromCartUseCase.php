@@ -49,10 +49,10 @@ class CreateOrderFromCartUseCase
             return OrderItem::create(
                 productId: $cartItem->productId(),
                 productSnapshot: [
-                    'artist'          => $product->artist(),
-                    'album_title'     => $product->albumTitle(),
-                    'slug'            => $product->slug(),
-                    'genre'           => $product->genre(),
+                    'artist' => $product->artist(),
+                    'album_title' => $product->albumTitle(),
+                    'slug' => $product->slug(),
+                    'genre' => $product->genre(),
                     'cover_image_url' => $product->coverImageUrl(),
                 ],
                 quantity: $cartItem->quantity(),
@@ -63,8 +63,8 @@ class CreateOrderFromCartUseCase
         $subtotal = array_sum(array_map(fn ($item) => $item->subtotal(), $orderItems));
 
         $shippingCost = $subtotal >= 60.0 ? 0.0 : 6.99;
-        $taxRate      = $this->taxRate($shippingAddress);
-        $taxAmount    = round($subtotal * $taxRate, 2);
+        $taxRate = $this->taxRate($shippingAddress);
+        $taxAmount = round($subtotal * $taxRate, 2);
 
         $order = Order::create(
             customerId: $customerId,

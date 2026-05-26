@@ -5,7 +5,7 @@ namespace Src\admin\product\domain\events;
 class ProductCreatedEvent
 {
     public function __construct(
-        public readonly string $artist, 
+        public readonly string $artist,
         public readonly string $albumTitle,
         public readonly float $price,
         public readonly int $stock,

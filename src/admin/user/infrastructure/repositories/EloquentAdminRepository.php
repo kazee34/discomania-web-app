@@ -44,7 +44,7 @@ class EloquentAdminRepository implements AdminRepositoryInterface
     public function save(Admin $admin): void
     {
         logger()->debug('EloquentAdminRepository::save() -> Trying to create admin');
-        
+
         if ($admin->id() === null) {
             AdminModel::create([
                 'user_id' => $admin->userId(),
@@ -58,7 +58,7 @@ class EloquentAdminRepository implements AdminRepositoryInterface
                 'user_id' => $admin->userId(),
                 'role' => $admin->role()->value(),
                 'is_active' => $admin->isActive(),
-                ]
+            ]
             );
         }
     }

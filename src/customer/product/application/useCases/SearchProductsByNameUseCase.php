@@ -12,7 +12,6 @@ class SearchProductsByNameUseCase
     ) {}
 
     /**
-     * @param string $name
      * @return Product[]
      */
     public function execute(string $name): array

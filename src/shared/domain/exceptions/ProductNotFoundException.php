@@ -10,5 +10,4 @@ class ProductNotFoundException extends Exception
     {
         parent::__construct('The requested product could not be found.');
     }
-
 }

@@ -34,7 +34,7 @@ class UpdateCartItemQuantityUseCase
 
         if ($quantity > $product->stockQuantity()) {
             throw new \DomainException(
-                "Stock insuficiente para '{$product->artist()} — {$product->albumTitle()}'. " .
+                "Stock insuficiente para '{$product->artist()} — {$product->albumTitle()}'. ".
                 "Máximo disponible: {$product->stockQuantity()}."
             );
         }

@@ -2,8 +2,8 @@
 
 namespace Src\customer\product\application\useCases;
 
-use Src\customer\product\domain\repositories\ProductRepositoryInterface;
 use Src\customer\product\domain\entities\Product;
+use Src\customer\product\domain\repositories\ProductRepositoryInterface;
 
 class SearchProductsByArtistUseCase
 {
@@ -12,7 +12,6 @@ class SearchProductsByArtistUseCase
     ) {}
 
     /**
-     * @param string $artist
      * @return Product[]
      */
     public function execute(string $artist): array

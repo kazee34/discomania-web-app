@@ -2,11 +2,11 @@
 
 namespace Src\admin\product\domain\entities;
 
+use Src\admin\product\domain\events\ProductCreatedEvent;
+use Src\admin\product\domain\events\ProductDeletedEvent;
+use Src\admin\product\domain\events\ProductUpdatedEvent;
 use Src\admin\product\domain\valueObjects\ProductPrice;
 use Src\admin\product\domain\valueObjects\ProductStock;
-use Src\admin\product\domain\events\ProductCreatedEvent;
-use Src\admin\product\domain\events\ProductUpdatedEvent;
-use Src\admin\product\domain\events\ProductDeletedEvent;
 
 class Product
 {
@@ -229,7 +229,7 @@ class Product
             $changed['cover_image_url'] = $coverImageUrl;
         }
 
-        if (!empty($changed)) {
+        if (! empty($changed)) {
             $this->recordEvent(new ProductUpdatedEvent($this->id(), $changed));
         }
     }
@@ -255,10 +255,12 @@ class Product
     {
         $this->domainEvents[] = $event;
     }
+
     public function releaseEvents(): array
     {
         $events = $this->domainEvents;
         $this->domainEvents = [];
+
         return $events;
     }
 }

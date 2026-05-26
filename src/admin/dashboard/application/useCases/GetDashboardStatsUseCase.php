@@ -21,12 +21,12 @@ class GetDashboardStatsUseCase
         }
 
         return [
-            'totalCustomers'  => CustomerModel::query()->count(),
+            'totalCustomers' => CustomerModel::query()->count(),
             'activeCustomers' => CustomerModel::query()->where('is_active', true)->count(),
-            'totalOrders'     => OrderModel::query()->count(),
-            'totalProducts'   => ProductModel::query()->count(),
-            'activeProducts'  => ProductModel::query()->where('is_active', true)->count(),
-            'revenue'         => (float) OrderModel::query()->whereNotIn('order_status', ['cancelled'])->sum('total_amount'),
+            'totalOrders' => OrderModel::query()->count(),
+            'totalProducts' => ProductModel::query()->count(),
+            'activeProducts' => ProductModel::query()->where('is_active', true)->count(),
+            'revenue' => (float) OrderModel::query()->whereNotIn('order_status', ['cancelled'])->sum('total_amount'),
         ];
     }
 }
