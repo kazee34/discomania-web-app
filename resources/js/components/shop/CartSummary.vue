@@ -1,12 +1,21 @@
 <script setup lang="ts">
 import { Link, useForm } from '@inertiajs/vue3';
+import { computed } from 'vue';
 import { Button } from '@/components/ui/button';
 import { login, register } from '@/routes';
 
-defineProps<{
-    totalAmount: number;
+const props = defineProps<{
+    subtotal: number;
     itemCount: number;
 }>();
+
+const TAX_RATE = 0.21;
+const SHIPPING_THRESHOLD = 60;
+const SHIPPING_COST = 6.99;
+
+const iva      = computed(() => Math.round(props.subtotal * TAX_RATE * 100) / 100);
+const shipping = computed(() => props.subtotal >= SHIPPING_THRESHOLD ? 0 : SHIPPING_COST);
+const total    = computed(() => Math.round((props.subtotal + iva.value + shipping.value) * 100) / 100);
 
 const form = useForm({
     cart_token: localStorage.getItem('discomania_cart_token') ?? '',
@@ -23,17 +32,26 @@ function checkout() {
         <h2 class="text-lg font-semibold">Resumen</h2>
 
         <div class="flex justify-between text-sm">
-            <span class="text-muted-foreground">Subtotal ({{ itemCount }} artículos)</span>
-            <span class="font-medium">{{ totalAmount.toFixed(2) }} €</span>
+            <span class="text-muted-foreground">Subtotal ({{ itemCount }} {{ itemCount === 1 ? 'artículo' : 'artículos' }})</span>
+            <span class="font-medium">{{ subtotal.toFixed(2) }} €</span>
+        </div>
+        <div class="flex justify-between text-sm">
+            <span class="text-muted-foreground">IVA (21%)</span>
+            <span class="font-medium">{{ iva.toFixed(2) }} €</span>
         </div>
         <div class="flex justify-between text-sm">
             <span class="text-muted-foreground">Envío</span>
-            <span class="text-green-600 font-medium">Gratis</span>
+            <span :class="shipping === 0 ? 'text-green-600 font-medium' : 'font-medium'">
+                {{ shipping === 0 ? 'Gratis' : shipping.toFixed(2) + ' €' }}
+            </span>
         </div>
+        <p v-if="shipping > 0" class="text-xs text-muted-foreground -mt-2">
+            Envío gratis a partir de {{ SHIPPING_THRESHOLD }} €
+        </p>
 
         <div class="border-t pt-4 flex justify-between font-bold">
             <span>Total</span>
-            <span>{{ totalAmount.toFixed(2) }} €</span>
+            <span>{{ total.toFixed(2) }} €</span>
         </div>
 
         <template v-if="$page.props.auth.user">

@@ -29,6 +29,7 @@ final class POST_CheckoutController extends Controller
         $order = $this->createOrderFromCart->execute(
             cartToken: $request->input('cart_token'),
             customerId: $customer->id(),
+            shippingAddress: $customer->shippingAddress(),
             customerNotes: $request->input('customer_notes'),
         );
 

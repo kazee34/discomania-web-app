@@ -35,8 +35,8 @@ const filtered = computed(() => {
         const matchesSearch =
             !q ||
             `${c.firstName} ${c.lastName}`.toLowerCase().includes(q) ||
-            c.phone.toLowerCase().includes(q) ||
-            c.dniNif.toLowerCase().includes(q);
+            (c.phone?.toLowerCase() ?? '').includes(q) ||
+            (c.dniNif?.toLowerCase() ?? '').includes(q);
         const matchesVip =
             filterVip.value === 'all' ||
             (filterVip.value === 'vip' && c.isVip) ||
@@ -144,7 +144,7 @@ function toggleStatus(id: number, activate: boolean) {
                             </td>
                             <td class="px-4 py-3">
                                 <div class="flex items-center justify-end gap-2">
-                                    <Button as-child size="sm" variant="outline">
+                                    <Button as-child size="sm" variant="outline" class="border-violet-600 text-violet-600 hover:bg-violet-50 dark:hover:bg-violet-950">
                                         <Link :href="`/admin/customers/${customer.id}`">Ver</Link>
                                     </Button>
                                     <Button

@@ -57,7 +57,7 @@ async function handleAddToCart() {
 </script>
 
 <template>
-    <Head :title="`${product.artist} — ${product.albumTitle} | Discomania`" />
+    <Head :title="`${product.artist} — ${product.albumTitle}`" />
 
     <div class="min-h-screen bg-background">
         <ShopNavbar />
@@ -104,7 +104,7 @@ async function handleAddToCart() {
 
                     <div class="mt-auto rounded-xl border bg-card p-5 flex flex-col gap-4">
                         <div class="flex items-baseline justify-between">
-                            <span class="text-3xl font-bold">{{ product.price.toFixed(2) }} €</span>
+                            <span class="text-3xl font-bold">{{ product.price.toFixed(2) }} € <span class="text-sm font-normal text-muted-foreground">+ IVA</span></span>
                             <span :class="['text-sm font-medium', stockLabel.class]">
                                 {{ stockLabel.text }}
                             </span>

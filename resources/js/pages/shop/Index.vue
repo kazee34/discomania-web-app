@@ -29,6 +29,8 @@ const selectedGenre   = ref('');
 const selectedCountry = ref('');
 const selectedDecade  = ref<number | ''>('');
 const sortBy          = ref('default');
+const priceMin        = ref<number | ''>('');
+const priceMax        = ref<number | ''>('');
 const currentPage     = ref(1);
 const PER_PAGE        = 20;
 
@@ -65,8 +67,11 @@ const filtered = computed(() => {
         const matchesDecade  =
             selectedDecade.value === '' ||
             Math.floor(p.releaseYear / 10) * 10 === selectedDecade.value;
+        const matchesPrice   =
+            (priceMin.value === '' || p.price >= priceMin.value) &&
+            (priceMax.value === '' || p.price <= priceMax.value);
 
-        return matchesSearch && matchesGenre && matchesCountry && matchesDecade;
+        return matchesSearch && matchesGenre && matchesCountry && matchesDecade && matchesPrice;
     });
 
     switch (sortBy.value) {
@@ -98,7 +103,7 @@ function goToPage(page: number) {
 </script>
 
 <template>
-    <Head title="Tienda — Discomania" />
+    <Head title="Tienda" />
 
     <div class="min-h-screen bg-background">
         <ShopNavbar />
@@ -113,6 +118,8 @@ function goToPage(page: number) {
                         v-model:selected-country="selectedCountry"
                         v-model:selected-decade="selectedDecade"
                         v-model:sort-by="sortBy"
+                        v-model:price-min="priceMin"
+                        v-model:price-max="priceMax"
                         :genres="genres"
                         :countries="countries"
                         :decades="decades"
@@ -120,6 +127,8 @@ function goToPage(page: number) {
                         @update:selected-genre="onFilterChange"
                         @update:selected-country="onFilterChange"
                         @update:selected-decade="onFilterChange"
+                        @update:price-min="onFilterChange"
+                        @update:price-max="onFilterChange"
                     />
                 </aside>
 

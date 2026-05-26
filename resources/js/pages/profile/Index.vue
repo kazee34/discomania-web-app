@@ -72,7 +72,7 @@ function submit() {
 </script>
 
 <template>
-    <Head title="Mi perfil — Discomania" />
+    <Head title="Mi perfil" />
 
     <ProfileLayout>
         <div class="flex flex-col gap-6">

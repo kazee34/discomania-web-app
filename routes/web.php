@@ -32,6 +32,7 @@ use Src\customer\user\infrastructure\controllers\PUT_UpdateProfileController;
 
 
 Route::get('/', [GET_WelcomeController::class, 'index'])->name('home');
+Route::inertia('/acerca', 'about/Index')->name('about');
 
 Route::get('/shop', [GET_ShopIndexController::class, 'index'])->name('shop.index');
 Route::get('/shop/{slug}', [GET_ShopProductController::class, 'show'])->name('shop.product');

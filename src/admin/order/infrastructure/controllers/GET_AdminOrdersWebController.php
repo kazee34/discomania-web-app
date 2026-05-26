@@ -5,12 +5,16 @@ namespace Src\admin\order\infrastructure\controllers;
 use App\Http\Controllers\Controller;
 use Inertia\Inertia;
 use Inertia\Response;
+use Src\admin\customer\domain\repositories\AdminCustomerRepositoryInterface;
 use Src\customer\order\domain\repositories\OrderRepositoryInterface;
+use Src\shared\domain\repositories\UserRepositoryInterface;
 
 final class GET_AdminOrdersWebController extends Controller
 {
     public function __construct(
         private OrderRepositoryInterface $repository,
+        private AdminCustomerRepositoryInterface $customerRepository,
+        private UserRepositoryInterface $userRepository,
     ) {}
 
     public function index(): Response
@@ -32,7 +36,9 @@ final class GET_AdminOrdersWebController extends Controller
 
     public function show(string $orderNumber): Response
     {
-        $order = $this->repository->findByOrderNumber($orderNumber);
+        $order    = $this->repository->findByOrderNumber($orderNumber);
+        $customer = $this->customerRepository->findById($order->customerId());
+        $user     = $customer ? $this->userRepository->findById($customer->userId()) : null;
 
         return Inertia::render('admin/orders/Show', [
             'order' => [
@@ -55,6 +61,12 @@ final class GET_AdminOrdersWebController extends Controller
                     'pricePerUnit'    => $i->pricePerUnit(),
                     'subtotal'        => $i->subtotal(),
                 ], $order->items()),
+                'customer' => $customer ? [
+                    'id'    => $customer->id(),
+                    'name'  => $customer->firstName()->value() . ' ' . $customer->lastName()->value(),
+                    'phone' => $customer->phone()->value(),
+                    'email' => $user?->email()->value(),
+                ] : null,
             ],
         ]);
     }

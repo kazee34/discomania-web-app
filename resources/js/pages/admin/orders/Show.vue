@@ -16,6 +16,13 @@ interface OrderItem {
     subtotal: number;
 }
 
+interface OrderCustomer {
+    id: number;
+    name: string;
+    phone: string;
+    email: string | null;
+}
+
 interface Order {
     id: number;
     orderNumber: string;
@@ -30,6 +37,7 @@ interface Order {
     customerNotes: string | null;
     adminNotes: string | null;
     items: OrderItem[];
+    customer: OrderCustomer | null;
 }
 
 const props = defineProps<{ order: Order }>();
@@ -107,6 +115,27 @@ function changeStatus(newStatus: string) {
                     >
                         → {{ statusConfig[next]?.label }}
                     </Button>
+                </div>
+            </div>
+
+            <!-- Datos del cliente -->
+            <div v-if="order.customer" class="rounded-xl border bg-card p-4">
+                <p class="text-xs font-semibold uppercase tracking-wide text-muted-foreground mb-3">Datos del cliente</p>
+                <div class="grid grid-cols-1 gap-3 sm:grid-cols-3">
+                    <div>
+                        <p class="text-xs text-muted-foreground">Nombre</p>
+                        <Link :href="`/admin/customers/${order.customer.id}`" class="text-sm font-medium text-violet-600 hover:underline">
+                            {{ order.customer.name }}
+                        </Link>
+                    </div>
+                    <div>
+                        <p class="text-xs text-muted-foreground">Teléfono</p>
+                        <p class="text-sm font-medium">{{ order.customer.phone || '—' }}</p>
+                    </div>
+                    <div>
+                        <p class="text-xs text-muted-foreground">Correo</p>
+                        <p class="text-sm font-medium">{{ order.customer.email || '—' }}</p>
+                    </div>
                 </div>
             </div>
 

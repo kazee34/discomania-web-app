@@ -8,6 +8,7 @@ use Src\customer\order\domain\entities\Order;
 use Src\customer\order\domain\entities\OrderItem;
 use Src\customer\order\domain\repositories\OrderRepositoryInterface;
 use Src\customer\product\domain\repositories\ProductRepositoryInterface;
+use Src\customer\user\domain\valueObjects\ShippingAddress;
 
 class CreateOrderFromCartUseCase
 {
@@ -20,6 +21,7 @@ class CreateOrderFromCartUseCase
     public function execute(
         string $cartToken,
         int $customerId,
+        ShippingAddress $shippingAddress,
         ?string $customerNotes = null,
     ): OrderResult {
         $cart = $this->cartRepository->findByToken($cartToken);
@@ -58,9 +60,17 @@ class CreateOrderFromCartUseCase
             );
         }, $cart->items());
 
+        $subtotal = array_sum(array_map(fn ($item) => $item->subtotal(), $orderItems));
+
+        $shippingCost = $subtotal >= 60.0 ? 0.0 : 6.99;
+        $taxRate      = $this->taxRate($shippingAddress);
+        $taxAmount    = round($subtotal * $taxRate, 2);
+
         $order = Order::create(
             customerId: $customerId,
             items: $orderItems,
+            shippingCost: $shippingCost,
+            taxAmount: $taxAmount,
             customerNotes: $customerNotes,
         );
 
@@ -73,5 +83,10 @@ class CreateOrderFromCartUseCase
         $this->cartRepository->clearItems($cart->id());
 
         return OrderResult::fromOrder($this->orderRepository->findByOrderNumber($order->orderNumber()));
+    }
+
+    private function taxRate(ShippingAddress $address): float
+    {
+        return 0.21;
     }
 }

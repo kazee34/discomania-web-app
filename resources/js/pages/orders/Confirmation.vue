@@ -38,7 +38,7 @@ onMounted(() => {
 </script>
 
 <template>
-    <Head title="Pedido confirmado — Discomania" />
+    <Head title="Pedido confirmado" />
 
     <div class="min-h-screen bg-background">
         <ShopNavbar />

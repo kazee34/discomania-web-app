@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Head, Link, useForm, usePage } from '@inertiajs/vue3';
+import { Head, Link, router, useForm, usePage } from '@inertiajs/vue3';
 import { computed } from 'vue';
 import AppLayout from '@/layouts/AppLayout.vue';
 import { Button } from '@/components/ui/button';
@@ -32,7 +32,14 @@ interface Customer {
     address: Address;
 }
 
-const props = defineProps<{ customer: Customer }>();
+interface CustomerOrder {
+    orderNumber: string;
+    orderDate: string;
+    totalAmount: number;
+    status: string;
+}
+
+const props = defineProps<{ customer: Customer; orders: CustomerOrder[] }>();
 
 const page = usePage();
 const canToggleVip = computed(() =>
@@ -61,7 +68,8 @@ function toggleVip(value: boolean) {
     <Head :title="`${customer.firstName} ${customer.lastName} — Admin`" />
 
     <AppLayout :breadcrumbs="breadcrumbs">
-        <div class="flex flex-col gap-6 p-6 max-w-2xl">
+        <div class="flex flex-col gap-6 p-6">
+            <!-- Header -->
             <div class="flex items-center justify-between">
                 <div>
                     <h1 class="text-2xl font-bold">{{ customer.firstName }} {{ customer.lastName }}</h1>
@@ -85,7 +93,8 @@ function toggleVip(value: boolean) {
                 {{ $page.props.flash.success }}
             </div>
 
-            <div class="rounded-xl border bg-card divide-y">
+            <!-- Customer data card -->
+            <div class="rounded-xl border bg-card divide-y max-w-2xl">
                 <div class="grid grid-cols-3 gap-4 p-4">
                     <div>
                         <p class="text-xs text-muted-foreground">Estado</p>
@@ -143,6 +152,53 @@ function toggleVip(value: boolean) {
                     <p class="text-sm text-muted-foreground">{{ customer.address.postal_code }} {{ customer.address.city }}, {{ customer.address.state_province }}</p>
                     <p class="text-sm text-muted-foreground">{{ customer.address.country }}</p>
                 </div>
+            </div>
+
+            <!-- Orders list -->
+            <div class="rounded-xl border overflow-hidden">
+                <div class="px-4 py-3 bg-muted/50 flex items-center justify-between">
+                    <p class="text-xs font-semibold uppercase tracking-wide text-muted-foreground">Pedidos</p>
+                    <span class="text-xs text-muted-foreground">{{ orders.length }} pedido{{ orders.length !== 1 ? 's' : '' }}</span>
+                </div>
+                <div v-if="orders.length === 0" class="px-4 py-6 text-center text-sm text-muted-foreground">
+                    Sin pedidos
+                </div>
+                <table v-else class="w-full text-sm">
+                    <thead class="bg-muted/30 text-xs uppercase tracking-wide text-muted-foreground">
+                        <tr>
+                            <th class="px-4 py-2 text-left">Nº Pedido</th>
+                            <th class="px-4 py-2 text-left">Fecha</th>
+                            <th class="px-4 py-2 text-center">Estado</th>
+                            <th class="px-4 py-2 text-right">Total</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y">
+                        <tr
+                            v-for="order in orders"
+                            :key="order.orderNumber"
+                            class="hover:bg-muted/30 transition-colors cursor-pointer"
+                            @click="router.visit(`/admin/orders/${order.orderNumber}`)"
+                        >
+                            <td class="px-4 py-2 font-mono text-xs font-semibold">{{ order.orderNumber }}</td>
+                            <td class="px-4 py-2 text-muted-foreground">{{ order.orderDate }}</td>
+                            <td class="px-4 py-2 text-center">
+                                <span
+                                    class="rounded-full px-2 py-0.5 text-[10px] font-medium"
+                                    :class="{
+                                        'bg-yellow-100 text-yellow-800': order.status === 'pending',
+                                        'bg-blue-100 text-blue-800':    order.status === 'processing',
+                                        'bg-purple-100 text-purple-800': order.status === 'shipped',
+                                        'bg-green-100 text-green-800':  order.status === 'delivered',
+                                        'bg-red-100 text-red-800':      order.status === 'cancelled',
+                                    }"
+                                >
+                                    {{ { pending: 'Pendiente', processing: 'En proceso', shipped: 'Enviado', delivered: 'Entregado', cancelled: 'Cancelado' }[order.status] ?? order.status }}
+                                </span>
+                            </td>
+                            <td class="px-4 py-2 text-right font-medium">{{ order.totalAmount.toFixed(2) }} €</td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
         </div>
     </AppLayout>

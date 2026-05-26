@@ -12,7 +12,7 @@ onMounted(() => fetchCart());
 </script>
 
 <template>
-    <Head title="Carrito — Discomania" />
+    <Head title="Carrito" />
 
     <div class="min-h-screen bg-background">
         <ShopNavbar />
@@ -42,7 +42,7 @@ onMounted(() => fetchCart());
                 <!-- Resumen -->
                 <div>
                     <CartSummary
-                        :total-amount="cart.totalAmount"
+                        :subtotal="cart.totalAmount"
                         :item-count="itemCount"
                     />
                 </div>

@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { Head, Link, useForm } from '@inertiajs/vue3';
+import { watch } from 'vue';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -43,6 +44,22 @@ const form = useForm({
     description:     props.product?.description ?? '',
     cover_image_url: props.product?.coverImageUrl ?? '',
 });
+
+function toSlug(str: string): string {
+    return str.toLowerCase()
+        .normalize('NFD').replace(/[̀-ͯ]/g, '')
+        .replace(/[^a-z0-9\s-]/g, '')
+        .trim()
+        .replace(/\s+/g, '-');
+}
+
+if (!isEdit) {
+    watch([() => form.artist, () => form.album_title], () => {
+        if (!form.slug) {
+            form.slug = toSlug(`${form.artist} ${form.album_title}`);
+        }
+    });
+}
 
 function submit() {
     if (isEdit) {

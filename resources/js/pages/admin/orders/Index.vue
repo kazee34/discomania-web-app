@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { Head, Link } from '@inertiajs/vue3';
+import { Button } from '@/components/ui/button';
 import { computed, ref } from 'vue';
 import AppLayout from '@/layouts/AppLayout.vue';
 import { Input } from '@/components/ui/input';
@@ -101,12 +102,9 @@ const filtered = computed(() => {
                                 </span>
                             </td>
                             <td class="px-4 py-3 text-right">
-                                <Link
-                                    :href="`/admin/orders/${order.orderNumber}`"
-                                    class="text-sm text-primary hover:underline"
-                                >
-                                    Ver detalle
-                                </Link>
+                                <Button as-child size="sm" variant="outline" class="border-violet-600 text-violet-600 hover:bg-violet-50 dark:hover:bg-violet-950">
+                                    <Link :href="`/admin/orders/${order.orderNumber}`">Ver detalle</Link>
+                                </Button>
                             </td>
                         </tr>
                     </tbody>

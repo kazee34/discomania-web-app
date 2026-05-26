@@ -52,7 +52,7 @@ function formatDate(iso: string) {
 </script>
 
 <template>
-    <Head :title="`Pedido ${order.orderNumber} — Discomania`" />
+    <Head :title="`Pedido ${order.orderNumber}`" />
 
     <ProfileLayout>
         <div class="flex flex-col gap-6">

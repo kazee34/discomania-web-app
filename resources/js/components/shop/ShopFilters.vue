@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ChevronDown, X } from 'lucide-vue-next';
-import { ref } from 'vue';
-import { Input } from '@/components/ui/input';
+import { computed, ref } from 'vue';
+import Slider from '@/components/ui/slider/Slider.vue';
 
 defineProps<{
     genres: string[];
@@ -14,14 +14,33 @@ const selectedGenre   = defineModel<string>('selectedGenre',   { default: '' });
 const selectedCountry = defineModel<string>('selectedCountry', { default: '' });
 const selectedDecade  = defineModel<number | ''>('selectedDecade', { default: '' });
 const sortBy          = defineModel<string>('sortBy',          { default: 'default' });
+const priceMin        = defineModel<number | ''>('priceMin',   { default: '' });
+const priceMax        = defineModel<number | ''>('priceMax',   { default: '' });
 
-const openGenre   = ref(true);
-const openDecade  = ref(true);
-const openCountry = ref(true);
-const openSort    = ref(true);
+const PRICE_MIN = 0;
+const PRICE_MAX = 150;
+
+const sliderValue = computed({
+    get: () => [
+        priceMin.value === '' ? PRICE_MIN : Number(priceMin.value),
+        priceMax.value === '' ? PRICE_MAX : Number(priceMax.value),
+    ],
+    set: ([min, max]: number[]) => {
+        priceMin.value = min === PRICE_MIN ? '' : min;
+        priceMax.value = max === PRICE_MAX ? '' : max;
+    },
+});
+
+const openGenre   = ref(false);
+const openDecade  = ref(false);
+const openCountry = ref(false);
+const openSort    = ref(false);
+const openPrice   = ref(false);
 
 const activeFilters = () =>
-    [selectedGenre.value, selectedCountry.value, selectedDecade.value, search.value].filter(Boolean).length;
+    [selectedGenre.value, selectedCountry.value, selectedDecade.value, search.value,
+     priceMin.value !== '' ? priceMin.value : null,
+     priceMax.value !== '' ? priceMax.value : null].filter(Boolean).length;
 
 function clearAll() {
     search.value          = '';
@@ -29,6 +48,8 @@ function clearAll() {
     selectedCountry.value = '';
     selectedDecade.value  = '';
     sortBy.value          = 'default';
+    priceMin.value        = '';
+    priceMax.value        = '';
 }
 </script>
 
@@ -37,6 +58,33 @@ function clearAll() {
         <!-- Search -->
         <div class="mb-4">
             <Input v-model="search" placeholder="Buscar artista o álbum..." class="w-full" />
+        </div>
+
+        <!-- Precio -->
+        <div class="border-t pt-3">
+            <button
+                class="flex w-full items-center justify-between py-1.5 text-sm font-semibold"
+                @click="openPrice = !openPrice"
+            >
+                Precio (€)
+                <ChevronDown
+                    class="h-4 w-4 text-muted-foreground transition-transform duration-200"
+                    :class="{ 'rotate-180': openPrice }"
+                />
+            </button>
+            <div v-show="openPrice" class="mt-4 px-1">
+                <Slider
+                    v-model="sliderValue"
+                    :min="PRICE_MIN"
+                    :max="PRICE_MAX"
+                    :step="1"
+                    class="mb-3"
+                />
+                <div class="flex items-center justify-between text-xs text-muted-foreground">
+                    <span>{{ sliderValue[0] }} €</span>
+                    <span>{{ sliderValue[1] }} €</span>
+                </div>
+            </div>
         </div>
 
         <!-- Clear filters -->

@@ -38,7 +38,7 @@ const breadcrumbs: BreadcrumbItem[] = [
 const roleLabel: Record<string, string> = {
     super_admin: 'Super Admin',
     admin: 'Admin',
-    editor: 'Editor',
+    editor: 'Gestor',
 };
 
 const search       = ref('');
@@ -103,7 +103,7 @@ function toggle(id: number, activate: boolean) {
                     <option value="all">Todos (rol)</option>
                     <option value="super_admin">Super Admin</option>
                     <option value="admin">Admin</option>
-                    <option value="editor">Editor</option>
+                    <option value="editor">Gestor</option>
                 </select>
                 <select
                     v-model="filterStatus"

@@ -17,15 +17,58 @@ import { login, register } from '@/routes';
 const { itemCount } = useCart();
 const page = usePage();
 const auth = computed(() => page.props.auth);
+
+const currentPath = computed(() => {
+    const url = page.url;
+    return url.split('?')[0];
+});
+
+function isActive(path: string, exact = false): boolean {
+    if (exact) return currentPath.value === path;
+    return currentPath.value === path || currentPath.value.startsWith(path + '/');
+}
 </script>
 
 <template>
     <header class="sticky top-0 z-50 bg-linear-to-r from-violet-900 to-black">
-        <div class="mx-auto flex h-20 max-w-7xl items-center justify-between px-4 sm:px-6">
-            <Link href="/" class="text-2xl font-bold tracking-tight text-white">
-                Discomania
-            </Link>
+        <div class="flex h-20 items-center justify-between px-4 sm:px-6">
+            <!-- Left: brand + nav links -->
+            <div class="flex items-center gap-6">
+                <Link href="/" class="text-2xl font-bold tracking-tight text-white">
+                    Discomania
+                </Link>
 
+                <Link
+                    v-if="!isActive('/', true)"
+                    href="/"
+                    class="hidden text-sm text-white/70 transition-colors hover:text-white sm:block"
+                >
+                    Inicio
+                </Link>
+                <Link
+                    v-if="!isActive('/shop')"
+                    href="/shop"
+                    class="hidden text-sm text-white/70 transition-colors hover:text-white sm:block"
+                >
+                    Tienda
+                </Link>
+                <Link
+                    v-if="!isActive('/acerca')"
+                    href="/acerca"
+                    class="hidden text-sm text-white/70 transition-colors hover:text-white sm:block"
+                >
+                    Acerca de nosotros
+                </Link>
+                <Link
+                    v-if="$page.props.isAdmin && !isActive('/dashboard') && !isActive('/admin')"
+                    href="/dashboard"
+                    class="hidden text-sm text-white/70 transition-colors hover:text-white sm:block"
+                >
+                    Admin Panel
+                </Link>
+            </div>
+
+            <!-- Right: cart + user -->
             <nav class="flex items-center gap-4">
                 <Link
                     href="/cart"
@@ -41,14 +84,6 @@ const auth = computed(() => page.props.auth);
                 </Link>
 
                 <template v-if="auth.user">
-                    <Link
-                        v-if="$page.props.isAdmin"
-                        href="/dashboard"
-                        class="text-sm text-white/70 transition-colors hover:text-white"
-                    >
-                        Admin Panel
-                    </Link>
-
                     <DropdownMenu>
                         <DropdownMenuTrigger :as-child="true">
                             <Button

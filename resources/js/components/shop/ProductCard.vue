@@ -66,7 +66,7 @@ async function handleAddToCart() {
                 <span class="text-xs text-muted-foreground">{{ product.releaseYear }}</span>
             </div>
             <div class="mt-auto flex items-center justify-between pt-1">
-                <span class="text-lg font-bold">{{ product.price.toFixed(2) }} €</span>
+                <span class="text-lg font-bold">{{ product.price.toFixed(2) }} € <span class="text-xs font-normal text-muted-foreground">+ IVA</span></span>
                 <Button
                     size="sm"
                     :variant="added ? 'default' : 'outline'"

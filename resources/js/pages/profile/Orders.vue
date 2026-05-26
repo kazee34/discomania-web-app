@@ -26,7 +26,7 @@ function formatDate(iso: string) {
 </script>
 
 <template>
-    <Head title="Mis pedidos — Discomania" />
+    <Head title="Mis pedidos" />
 
     <ProfileLayout>
         <div class="flex flex-col gap-6">

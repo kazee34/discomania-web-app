@@ -13,7 +13,7 @@ const placeholderCount = 10;
 </script>
 
 <template>
-    <Head title="Discomania — Tu tienda de vinilos" />
+    <Head title="Tu tienda de vinilos" />
 
     <div class="min-h-screen bg-background text-foreground flex flex-col">
         <ShopNavbar />
