@@ -3,9 +3,13 @@
 namespace App\Providers;
 
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
+use Src\admin\customer\application\listeners\LogoutUserOnCustomerDeactivatedListener;
 use Src\admin\user\application\listeners\CreateAdminOnUserCreatedListener;
 use Src\admin\user\application\listeners\DeleteUserOnAdminDeletedListener;
+use Src\admin\user\application\listeners\LogoutUserOnAdminDeactivatedListener;
+use Src\admin\user\domain\events\AdminDeactivatedEvent;
 use Src\admin\user\domain\events\AdminDeletedEvent;
+use Src\customer\user\domain\events\CustomerDeactivatedEvent;
 use Src\shared\domain\events\UserCreatedEvent;
 
 class EventServiceProvider extends ServiceProvider
@@ -13,6 +17,12 @@ class EventServiceProvider extends ServiceProvider
     protected $listen = [
         AdminDeletedEvent::class => [
             DeleteUserOnAdminDeletedListener::class,
+        ],
+        AdminDeactivatedEvent::class => [
+            LogoutUserOnAdminDeactivatedListener::class,
+        ],
+        CustomerDeactivatedEvent::class => [
+            LogoutUserOnCustomerDeactivatedListener::class,
         ],
         UserCreatedEvent::class => [
             CreateAdminOnUserCreatedListener::class,
