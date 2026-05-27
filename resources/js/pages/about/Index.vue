@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import discomaniaLogo from '@/assets/discomania_logo.jpg';
 import { Head } from '@inertiajs/vue3';
 import ShopNavbar from '@/components/shop/ShopNavbar.vue';
 </script>
@@ -17,9 +18,11 @@ import ShopNavbar from '@/components/shop/ShopNavbar.vue';
             <p class="mb-6 text-muted-foreground leading-relaxed">
                 Nuestra selección abarca desde clásicos del rock y el jazz hasta rarezas de culto, ediciones limitadas y primeras presiones de todo el mundo. Cada disco de nuestro catálogo ha sido revisado y catalogado con cariño.
             </p>
-            <p class="text-muted-foreground leading-relaxed">
+            <p class="mb-12 text-muted-foreground leading-relaxed">
                 Si tienes alguna pregunta, sugerencia o simplemente quieres hablar de música, no dudes en ponerte en contacto con nosotros. Estamos aquí para ayudarte.
             </p>
+
+            <img :src="discomaniaLogo" alt="Discomania" class="w-full rounded-xl" />
         </main>
     </div>
 </template>
