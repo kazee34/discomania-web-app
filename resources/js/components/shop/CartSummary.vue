@@ -52,7 +52,7 @@ function checkout() {
 
         <template v-if="$page.props.auth.user">
             <Button class="w-full" size="lg" @click="checkout">
-                Finalizar compra
+                Continuar
             </Button>
         </template>
         <template v-else>
@@ -60,7 +60,7 @@ function checkout() {
                 <Link :href="login()">Iniciar sesión</Link>
             </Button>
             <Button as-child class="w-full" variant="outline" size="lg">
-                <Link :href="register()">Crear cuenta</Link>
+                <Link :href="register() + '?redirect=/cart'">Crear cuenta</Link>
             </Button>
             <p class="text-center text-xs text-muted-foreground">
                 Necesitas una cuenta para completar el pedido

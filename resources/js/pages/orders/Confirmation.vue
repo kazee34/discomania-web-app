@@ -21,6 +21,9 @@ interface Order {
     id: number;
     orderNumber: string;
     orderDate: string;
+    subtotal: number;
+    shippingCost: number;
+    taxAmount: number;
     totalAmount: number;
     status: string;
     customerNotes: string | null;
@@ -103,8 +106,22 @@ onMounted(() => {
                 </div>
             </div>
 
-            <div class="rounded-xl border bg-card p-6 mb-6">
-                <div class="flex justify-between font-bold text-lg">
+            <div class="rounded-xl border bg-card p-6 mb-6 flex flex-col gap-2">
+                <div class="flex justify-between text-sm">
+                    <span class="text-muted-foreground">Subtotal</span>
+                    <span>{{ order.subtotal.toFixed(2) }} €</span>
+                </div>
+                <div class="flex justify-between text-sm">
+                    <span class="text-muted-foreground">IVA (21%)</span>
+                    <span>{{ order.taxAmount.toFixed(2) }} €</span>
+                </div>
+                <div class="flex justify-between text-sm">
+                    <span class="text-muted-foreground">Envío</span>
+                    <span :class="order.shippingCost === 0 ? 'text-green-600' : ''">
+                        {{ order.shippingCost === 0 ? 'Gratis' : order.shippingCost.toFixed(2) + ' €' }}
+                    </span>
+                </div>
+                <div class="flex justify-between font-bold text-lg border-t pt-2 mt-1">
                     <span>Total</span>
                     <span>{{ order.totalAmount.toFixed(2) }} €</span>
                 </div>

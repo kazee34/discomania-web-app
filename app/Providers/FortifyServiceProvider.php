@@ -75,13 +75,24 @@ class FortifyServiceProvider extends ServiceProvider
         ]));
 
         Fortify::registerView(function (Request $request) {
-            $referer = $request->headers->get('referer', '');
-            $appUrl = config('app.url');
-            if ($referer && str_starts_with($referer, $appUrl)) {
-                $path = parse_url($referer, PHP_URL_PATH) ?? '/';
-                if (! in_array($path, ['/login', '/register'], true)) {
-                    $request->session()->put('register.intended', $path);
+            $path = null;
+
+            $redirectParam = $request->query('redirect', '');
+            if ($redirectParam && ! in_array($redirectParam, ['/login', '/register'], true)) {
+                $path = $redirectParam;
+            } else {
+                $referer = $request->headers->get('referer', '');
+                $appUrl = config('app.url');
+                if ($referer && str_starts_with($referer, $appUrl)) {
+                    $refererPath = parse_url($referer, PHP_URL_PATH) ?? '/';
+                    if (! in_array($refererPath, ['/login', '/register'], true)) {
+                        $path = $refererPath;
+                    }
                 }
+            }
+
+            if ($path) {
+                $request->session()->put('register.intended', $path);
             }
 
             return Inertia::render('auth/Register');
@@ -164,7 +175,7 @@ class FortifyServiceProvider extends ServiceProvider
                 {
                     $intended = $request->session()->pull('register.intended', '/shop');
 
-                    return redirect($intended);
+                    return Inertia::location($intended);
                 }
             };
         });

@@ -2,6 +2,7 @@
 import { ChevronDown, X } from 'lucide-vue-next';
 import { computed, ref } from 'vue';
 import Slider from '@/components/ui/slider/Slider.vue';
+import { Input } from '@/components/ui/input';
 
 defineProps<{
     genres: string[];

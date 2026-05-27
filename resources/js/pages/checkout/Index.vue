@@ -60,19 +60,21 @@ function submit() {
     if (paymentMode.value === 'saved' && selectedMethodId.value !== null) {
         payload.payment_method_id = selectedMethodId.value;
     } else if (paymentMode.value === 'new_card') {
-        payload.payment_type  = 'credit_card';
-        payload.card_number   = cardData.value.card_number;
-        payload.card_brand    = cardData.value.card_brand;
-        payload.card_holder   = cardData.value.card_holder;
-        payload.expiry_month  = cardData.value.expiry_month;
-        payload.expiry_year   = cardData.value.expiry_year;
-        payload.cvv           = cardData.value.cvv;
+        payload.payment_type    = 'credit_card';
+        payload.card_number     = cardData.value.card_number;
+        payload.card_brand      = cardData.value.card_brand;
+        payload.card_holder     = cardData.value.card_holder;
+        payload.expiry_month    = cardData.value.expiry_month;
+        payload.expiry_year     = cardData.value.expiry_year;
+        payload.cvv             = cardData.value.cvv;
+        payload.set_as_default  = cardData.value.set_as_default;
     } else {
         payload.payment_type    = 'sepa_debit';
         payload.iban            = sepaData.value.iban;
         payload.account_holder  = sepaData.value.account_holder;
         payload.bic             = sepaData.value.bic || null;
         payload.bank_name       = sepaData.value.bank_name || null;
+        payload.set_as_default  = sepaData.value.set_as_default;
     }
 
     form.transform(() => payload).post('/checkout');

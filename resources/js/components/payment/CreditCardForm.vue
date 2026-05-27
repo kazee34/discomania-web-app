@@ -37,7 +37,6 @@ function onCardNumberInput(e: Event) {
     update('card_number', formatted);
 }
 
-// Luhn check (client-side)
 function luhn(number: string): boolean {
     const digits = number.replace(/\s/g, '');
     let sum = 0;
@@ -128,7 +127,10 @@ const years = Array.from({ length: 15 }, (_, i) => currentYear + i);
                     {{ luhnValid ? '✓' : '✗' }}
                 </span>
             </div>
-            <p v-if="errors?.card_number" class="mt-1 text-xs text-destructive">{{ errors.card_number }}</p>
+            <p v-if="modelValue.card_number.replace(/\s/g, '').length === 16 && !luhnValid" class="mt-1 text-xs text-destructive">
+                El número de tarjeta no es válido.
+            </p>
+            <p v-else-if="errors?.card_number" class="mt-1 text-xs text-destructive">{{ errors.card_number }}</p>
         </div>
 
         <!-- Titular -->
@@ -171,7 +173,7 @@ const years = Array.from({ length: 15 }, (_, i) => currentYear + i);
                 </select>
             </div>
             <div>
-                <Label for="cvv">CVV</Label>
+                <Label for="cvv">CVV <span class="text-destructive">*</span></Label>
                 <Input
                     id="cvv"
                     :value="modelValue.cvv"
@@ -181,6 +183,7 @@ const years = Array.from({ length: 15 }, (_, i) => currentYear + i);
                     class="mt-1"
                     @input="update('cvv', ($event.target as HTMLInputElement).value.replace(/\D/g, '').slice(0, 3))"
                 />
+                <p v-if="errors?.cvv" class="mt-1 text-xs text-destructive">{{ errors.cvv }}</p>
             </div>
         </div>
         <p v-if="errors?.expiry_month || errors?.expiry_year" class="text-xs text-destructive">

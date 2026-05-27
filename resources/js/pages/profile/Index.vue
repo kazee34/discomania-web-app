@@ -243,12 +243,12 @@ function submit() {
                     </section>
 
                     <!-- Identidad (read-only) -->
-                    <section v-if="profile.dniNif" class="rounded-2xl border bg-card p-6 flex flex-col gap-5">
+                    <section class="rounded-2xl border bg-card p-6 flex flex-col gap-5">
                         <h3 class="text-xs font-semibold uppercase tracking-wider text-muted-foreground">Identidad</h3>
                         <div class="grid gap-5 sm:grid-cols-2">
                             <div class="flex flex-col gap-2">
                                 <Label>DNI / NIF</Label>
-                                <Input :value="profile.dniNif" disabled />
+                                <Input :value="profile.dniNif ?? ''" placeholder="No especificado" disabled />
                             </div>
                         </div>
                     </section>
