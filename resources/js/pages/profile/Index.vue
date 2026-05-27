@@ -37,6 +37,7 @@ const form = useForm({
     lastName:              props.profile.lastName,
     phone:                 props.profile.phone ?? '',
     birthDate:             props.profile.birthDate ?? '',
+    dniNif:                props.profile.dniNif ?? '',
     shippingStreet:        props.profile.shippingStreet ?? '',
     shippingStreetNumber:  props.profile.shippingStreetNumber ?? '',
     shippingApartment:     props.profile.shippingApartment ?? '',
@@ -242,13 +243,14 @@ function submit() {
                         </div>
                     </section>
 
-                    <!-- Identidad (read-only) -->
+                    <!-- Identidad -->
                     <section class="rounded-2xl border bg-card p-6 flex flex-col gap-5">
                         <h3 class="text-xs font-semibold uppercase tracking-wider text-muted-foreground">Identidad</h3>
                         <div class="grid gap-5 sm:grid-cols-2">
                             <div class="flex flex-col gap-2">
-                                <Label>DNI / NIF</Label>
-                                <Input :value="profile.dniNif ?? ''" placeholder="No especificado" disabled />
+                                <Label for="dniNif">DNI / NIF</Label>
+                                <Input id="dniNif" v-model="form.dniNif" placeholder="12345678A" />
+                                <p v-if="form.errors.dniNif" class="text-xs text-destructive">{{ form.errors.dniNif }}</p>
                             </div>
                         </div>
                     </section>
@@ -273,6 +275,7 @@ function submit() {
                             <div class="flex flex-col gap-2">
                                 <Label for="shippingCity">Ciudad</Label>
                                 <Input id="shippingCity" v-model="form.shippingCity" />
+                                <p v-if="form.errors.shippingCity" class="text-xs text-destructive">{{ form.errors.shippingCity }}</p>
                             </div>
                             <div class="flex flex-col gap-2">
                                 <Label for="shippingPostalCode">Código postal</Label>
@@ -281,10 +284,12 @@ function submit() {
                             <div class="flex flex-col gap-2">
                                 <Label for="shippingStateProvince">Provincia</Label>
                                 <Input id="shippingStateProvince" v-model="form.shippingStateProvince" />
+                                <p v-if="form.errors.shippingStateProvince" class="text-xs text-destructive">{{ form.errors.shippingStateProvince }}</p>
                             </div>
                             <div class="flex flex-col gap-2">
                                 <Label for="shippingCountry">País</Label>
                                 <Input id="shippingCountry" v-model="form.shippingCountry" />
+                                <p v-if="form.errors.shippingCountry" class="text-xs text-destructive">{{ form.errors.shippingCountry }}</p>
                             </div>
                         </div>
                     </section>

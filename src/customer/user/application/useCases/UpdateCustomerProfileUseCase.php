@@ -5,6 +5,7 @@ namespace Src\customer\user\application\useCases;
 use Src\customer\user\domain\entities\Customer;
 use Src\customer\user\domain\exceptions\CustomerNotFoundException;
 use Src\customer\user\domain\repositories\CustomerRepositoryInterface;
+use Src\customer\user\domain\valueObjects\CustomerDNI;
 use Src\customer\user\domain\valueObjects\CustomerPhone;
 use Src\customer\user\domain\valueObjects\ShippingAddress;
 use Src\shared\domain\repositories\EventPublisher;
@@ -23,6 +24,7 @@ class UpdateCustomerProfileUseCase
         string $lastName,
         ?string $phone,
         ?string $birthDate,
+        ?string $dniNif,
         string $shippingStreet,
         string $shippingStreetNumber,
         ?string $shippingApartment,
@@ -44,7 +46,7 @@ class UpdateCustomerProfileUseCase
             lastName: new UserName($lastName),
             phone: new CustomerPhone($phone),
             birthDate: $birthDate,
-            dniNif: $customer->dniNif(),
+            dniNif: new CustomerDNI($dniNif),
             shippingAddress: new ShippingAddress(
                 $shippingStreet,
                 $shippingStreetNumber,
@@ -62,7 +64,7 @@ class UpdateCustomerProfileUseCase
             createdAt: $customer->createdAt(),
         );
 
-        $updated->updateFields(['firstName', 'lastName', 'phone', 'birthDate', 'shippingAddress']);
+        $updated->updateFields(['firstName', 'lastName', 'phone', 'birthDate', 'dniNif', 'shippingAddress']);
 
         $this->repository->update($updated);
 

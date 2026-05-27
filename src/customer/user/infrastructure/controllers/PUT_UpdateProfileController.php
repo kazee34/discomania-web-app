@@ -21,13 +21,14 @@ final class PUT_UpdateProfileController extends Controller
             'lastName' => ['required', 'string', 'min:3', 'max:100'],
             'phone' => ['nullable', 'string', 'max:20'],
             'birthDate' => ['nullable', 'date', 'after_or_equal:1900-01-01', 'before_or_equal:'.now()->subYears(16)->format('Y-m-d')],
+            'dniNif' => ['nullable', 'string', 'max:20'],
             'shippingStreet' => ['required', 'string', 'max:200'],
             'shippingStreetNumber' => ['required', 'string', 'max:20'],
             'shippingApartment' => ['nullable', 'string', 'max:50'],
-            'shippingCity' => ['required', 'string', 'max:100'],
+            'shippingCity' => ['required', 'string', 'regex:/^[\pL\s\-\.]+$/u', 'max:100'],
             'shippingPostalCode' => ['required', 'string', 'max:20'],
-            'shippingStateProvince' => ['nullable', 'string', 'max:100'],
-            'shippingCountry' => ['required', 'string', 'max:100'],
+            'shippingStateProvince' => ['nullable', 'string', 'regex:/^[\pL\s\-\.]+$/u', 'max:100'],
+            'shippingCountry' => ['required', 'string', 'regex:/^[\pL\s\-\.]+$/u', 'max:100'],
         ]);
 
         $this->updateProfile->execute(
@@ -36,6 +37,7 @@ final class PUT_UpdateProfileController extends Controller
             lastName: $data['lastName'],
             phone: $data['phone'] ?? null,
             birthDate: $data['birthDate'] ?? null,
+            dniNif: $data['dniNif'] ?? null,
             shippingStreet: $data['shippingStreet'],
             shippingStreetNumber: $data['shippingStreetNumber'],
             shippingApartment: $data['shippingApartment'] ?? null,

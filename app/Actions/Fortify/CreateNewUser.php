@@ -35,9 +35,9 @@ class CreateNewUser implements CreatesNewUsers
             'shipping_street' => ['required', 'string', 'max:255'],
             'shipping_street_number' => ['required', 'string', 'max:20'],
             'shipping_apartment' => ['nullable', 'string', 'max:50'],
-            'shipping_city' => ['required', 'string', 'max:100'],
+            'shipping_city' => ['required', 'string', 'regex:/^[\pL\s\-\.]+$/u', 'max:100'],
             'shipping_postal_code' => ['required', 'string', 'max:20'],
-            'shipping_state_province' => ['nullable', 'string', 'max:100'],
+            'shipping_state_province' => ['nullable', 'string', 'regex:/^[\pL\s\-\.]+$/u', 'max:100'],
         ])->validate();
 
         return DB::transaction(function () use ($input) {
