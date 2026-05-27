@@ -8,7 +8,7 @@ use Src\admin\user\domain\events\AdminDeactivatedEvent;
 use Src\admin\user\domain\events\AdminDeletedEvent;
 use Src\admin\user\domain\exceptions\CannotDeleteSuperAdminException;
 use Src\admin\user\domain\valueObjects\AdminRole;
-use src\admin\user\domain\valueObjects\UserPassword;
+use Src\admin\user\domain\valueObjects\UserPassword;
 use Src\shared\domain\valueObjects\UserEmail;
 use Src\shared\domain\valueObjects\UserName;
 

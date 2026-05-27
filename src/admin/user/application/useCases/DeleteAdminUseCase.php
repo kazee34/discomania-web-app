@@ -1,6 +1,6 @@
 <?php
 
-namespace src\admin\user\application\useCases;
+namespace Src\admin\user\application\useCases;
 
 use Src\admin\user\domain\exceptions\CannotDeleteSelfException;
 use Src\admin\user\domain\exceptions\CannotDeleteSuperAdminException;

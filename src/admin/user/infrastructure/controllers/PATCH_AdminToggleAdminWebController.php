@@ -5,8 +5,8 @@ namespace Src\admin\user\infrastructure\controllers;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use src\admin\user\application\useCases\ActivateAdminUseCase;
-use src\admin\user\application\useCases\DeactivateAdminUseCase;
+use Src\admin\user\application\useCases\ActivateAdminUseCase;
+use Src\admin\user\application\useCases\DeactivateAdminUseCase;
 
 final class PATCH_AdminToggleAdminWebController extends Controller
 {

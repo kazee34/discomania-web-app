@@ -5,7 +5,7 @@ namespace Src\admin\user\infrastructure\controllers;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use src\admin\user\application\useCases\DeleteAdminUseCase;
+use Src\admin\user\application\useCases\DeleteAdminUseCase;
 use Src\admin\user\domain\repositories\AdminRepositoryInterface;
 
 final class DELETE_AdminAdminWebController extends Controller

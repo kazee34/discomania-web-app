@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\AdminModel;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use src\admin\user\application\useCases\CreateUserUseCase;
+use Src\admin\user\application\useCases\CreateUserUseCase;
 
 final class POST_AdminAdminWebController extends Controller
 {

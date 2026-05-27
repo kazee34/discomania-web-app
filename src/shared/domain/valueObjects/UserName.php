@@ -1,6 +1,6 @@
 <?php
 
-namespace src\shared\domain\valueObjects;
+namespace Src\shared\domain\valueObjects;
 
 use InvalidArgumentException;
 

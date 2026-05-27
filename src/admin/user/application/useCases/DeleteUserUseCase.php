@@ -1,6 +1,6 @@
 <?php
 
-namespace src\admin\user\application\useCases;
+namespace Src\admin\user\application\useCases;
 
 use Src\shared\domain\exceptions\UserNotFoundException;
 use Src\shared\domain\repositories\EventPublisher;

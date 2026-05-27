@@ -1,6 +1,6 @@
 <?php
 
-namespace src\admin\user\domain\repositories;
+namespace Src\admin\user\domain\repositories;
 
 use Src\admin\user\domain\entities\Admin;
 

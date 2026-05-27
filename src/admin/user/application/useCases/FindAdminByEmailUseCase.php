@@ -1,11 +1,11 @@
 <?php
 
-namespace src\admin\user\application\useCases;
+namespace Src\admin\user\application\useCases;
 
 use Src\admin\user\domain\entities\Admin;
-use src\admin\user\domain\repositories\AdminRepositoryInterface;
+use Src\admin\user\domain\repositories\AdminRepositoryInterface;
 use Src\shared\domain\repositories\UserRepositoryInterface;
-use src\shared\domain\valueObjects\UserEmail;
+use Src\shared\domain\valueObjects\UserEmail;
 
 class FindAdminByEmailUseCase
 {
