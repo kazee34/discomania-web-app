@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { Head, useForm } from '@inertiajs/vue3';
 import { ref } from 'vue';
-import { CreditCard, Building2, Plus } from 'lucide-vue-next';
+import { CreditCard, Building2 } from 'lucide-vue-next';
 import ProfileLayout from '@/components/profile/ProfileLayout.vue';
 import PaymentMethodCard from '@/components/payment/PaymentMethodCard.vue';
 import CreditCardForm from '@/components/payment/CreditCardForm.vue';
