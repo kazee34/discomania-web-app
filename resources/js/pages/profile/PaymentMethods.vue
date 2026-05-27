@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { Head, useForm } from '@inertiajs/vue3';
 import { ref } from 'vue';
+
 import { CreditCard, Building2 } from 'lucide-vue-next';
 import ProfileLayout from '@/components/profile/ProfileLayout.vue';
 import PaymentMethodCard from '@/components/payment/PaymentMethodCard.vue';
@@ -30,7 +31,7 @@ defineProps<{ paymentMethods: PaymentMethod[] }>();
 type Panel = null | 'credit_card' | 'sepa_debit';
 const openPanel = ref<Panel>(null);
 
-const cardForm = useForm({
+const cardData = ref({
     card_brand: 'visa',
     card_number: '',
     card_holder: '',
@@ -40,22 +41,31 @@ const cardForm = useForm({
     set_as_default: false,
 });
 
-const sepaForm = useForm({
+const sepaData = ref({
     iban: '',
     account_holder: '',
     bank_name: '',
     set_as_default: false,
 });
 
+const cardForm = useForm({});
+const sepaForm = useForm({});
+
 function submitCard() {
-    cardForm.post('/profile/payment-methods/credit-card', {
-        onSuccess: () => { cardForm.reset(); openPanel.value = null; },
+    cardForm.transform(() => cardData.value).post('/profile/payment-methods/credit-card', {
+        onSuccess: () => {
+            cardData.value = { card_brand: 'visa', card_number: '', card_holder: '', expiry_month: '', expiry_year: '', cvv: '', set_as_default: false };
+            openPanel.value = null;
+        },
     });
 }
 
 function submitSepa() {
-    sepaForm.post('/profile/payment-methods/bank-account', {
-        onSuccess: () => { sepaForm.reset(); openPanel.value = null; },
+    sepaForm.transform(() => sepaData.value).post('/profile/payment-methods/bank-account', {
+        onSuccess: () => {
+            sepaData.value = { iban: '', account_holder: '', bank_name: '', set_as_default: false };
+            openPanel.value = null;
+        },
     });
 }
 </script>
@@ -106,7 +116,7 @@ function submitSepa() {
                     <Button variant="ghost" size="sm" @click="openPanel = null">Cancelar</Button>
                 </div>
                 <CreditCardForm
-                    v-model="cardForm"
+                    v-model="cardData"
                     :errors="cardForm.errors"
                     :submitting="cardForm.processing"
                     @submit="submitCard"
@@ -122,7 +132,7 @@ function submitSepa() {
                     <Button variant="ghost" size="sm" @click="openPanel = null">Cancelar</Button>
                 </div>
                 <SepaForm
-                    v-model="sepaForm"
+                    v-model="sepaData"
                     :errors="sepaForm.errors"
                     :submitting="sepaForm.processing"
                     @submit="submitSepa"
