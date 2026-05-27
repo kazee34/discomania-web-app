@@ -86,6 +86,17 @@ final class EloquentPaymentMethodRepository implements PaymentMethodRepositoryIn
             ->update(['is_default' => false]);
     }
 
+    public function setDefault(int $paymentMethodId, int $customerId): void
+    {
+        DB::transaction(function () use ($paymentMethodId, $customerId) {
+            PaymentMethodModel::where('customer_id', $customerId)
+                ->update(['is_default' => false]);
+
+            PaymentMethodModel::where('id', $paymentMethodId)
+                ->update(['is_default' => true]);
+        });
+    }
+
     private function toDomain(PaymentMethodModel $model): PaymentMethod
     {
         $creditCard = null;

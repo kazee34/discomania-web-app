@@ -79,8 +79,8 @@ final class ProcessPaymentUseCase
         $savedMethodId = null;
 
         if ($type === PaymentMethodType::CreditCard) {
-            $brand   = CardBrand::from($data['card_brand']);
-            $number  = new CreditCardNumber($data['card_number'], $brand);
+            $brand = CardBrand::from($data['card_brand']);
+            $number = new CreditCardNumber($data['card_number'], $brand);
             new CardExpiry((int) $data['expiry_month'], (int) $data['expiry_year']);
             $summary = "{$brand->label()} •••• {$number->lastFour()}";
 
@@ -104,7 +104,7 @@ final class ProcessPaymentUseCase
                 $savedMethodId = $this->paymentMethodRepo->save($method);
             }
         } else {
-            $iban    = new IbanNumber($data['iban']);
+            $iban = new IbanNumber($data['iban']);
             $summary = "IBAN •••• {$iban->lastFour()}";
 
             if ($setAsDefault) {

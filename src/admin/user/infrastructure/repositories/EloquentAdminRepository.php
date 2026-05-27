@@ -87,7 +87,9 @@ class EloquentAdminRepository implements AdminRepositoryInterface
             isActive: $adminModel->is_active,
             createdBy: $adminModel->created_by,
             createdAt: $adminModel->created_at,
-            updatedAt: $adminModel->updated_at
+            updatedAt: $adminModel->updated_at,
+            name: $adminModel->user?->name,
+            email: $adminModel->user?->email,
         );
     }
 }

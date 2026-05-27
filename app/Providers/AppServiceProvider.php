@@ -9,6 +9,8 @@ use Illuminate\Support\ServiceProvider;
 use Illuminate\Validation\Rules\Password;
 use Src\admin\customer\domain\repositories\AdminCustomerRepositoryInterface;
 use Src\admin\customer\infrastructure\repositories\EloquentAdminCustomerRepository;
+use Src\admin\dashboard\domain\repositories\DashboardStatsRepositoryInterface;
+use Src\admin\dashboard\infrastructure\repositories\EloquentDashboardStatsRepository;
 use Src\admin\product\domain\repositories\ProductRepositoryInterface as AdminProductRepositoryInterface;
 use Src\admin\product\infrastructure\repositories\EloquentProductRepository as AdminEloquentProductRepository;
 use Src\admin\user\domain\repositories\AdminRepositoryInterface;
@@ -90,6 +92,11 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(
             OrderPaymentRepositoryInterface::class,
             EloquentOrderPaymentRepository::class
+        );
+
+        $this->app->bind(
+            DashboardStatsRepositoryInterface::class, 
+            EloquentDashboardStatsRepository::class
         );
     }
 

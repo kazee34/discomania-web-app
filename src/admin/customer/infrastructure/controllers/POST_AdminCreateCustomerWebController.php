@@ -3,7 +3,6 @@
 namespace Src\admin\customer\infrastructure\controllers;
 
 use App\Http\Controllers\Controller;
-use App\Models\UserModel;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -24,7 +23,7 @@ final class POST_AdminCreateCustomerWebController extends Controller
         $data = $request->validate([
             'first_name' => ['required', 'string', 'min:2', 'max:100'],
             'last_name' => ['required', 'string', 'min:2', 'max:100'],
-            'email' => ['required', 'email', Rule::unique(UserModel::class, 'email')],
+            'email' => ['required', 'email', Rule::unique('users', 'email')],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
             'phone' => ['nullable', 'string', 'max:50'],
             'birth_date' => ['nullable', 'date', 'before:-16 years'],

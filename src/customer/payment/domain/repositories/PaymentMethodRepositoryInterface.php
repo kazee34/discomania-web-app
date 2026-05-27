@@ -15,4 +15,6 @@ interface PaymentMethodRepositoryInterface
     public function delete(int $id): void;
 
     public function clearDefaultForCustomer(int $customerId): void;
+
+    public function setDefault(int $paymentMethodId, int $customerId): void;
 }

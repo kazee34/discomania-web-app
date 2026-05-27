@@ -2,31 +2,17 @@
 
 namespace Src\admin\dashboard\application\useCases;
 
-use App\Models\AdminModel;
-use App\Models\CustomerModel;
-use App\Models\OrderModel;
-use App\Models\ProductModel;
+use Src\admin\dashboard\domain\entities\DashboardStats;
+use Src\admin\dashboard\domain\repositories\DashboardStatsRepositoryInterface;
 
 class GetDashboardStatsUseCase
 {
-    public function execute(int $userId): ?array
+    public function __construct(
+        private DashboardStatsRepositoryInterface $dashboardStatsRepository
+    ) {}
+
+    public function execute(int $userId): ?DashboardStats
     {
-        $isAdmin = AdminModel::query()
-            ->where('user_id', $userId)
-            ->where('is_active', true)
-            ->exists();
-
-        if (! $isAdmin) {
-            return null;
-        }
-
-        return [
-            'totalCustomers' => CustomerModel::query()->count(),
-            'activeCustomers' => CustomerModel::query()->where('is_active', true)->count(),
-            'totalOrders' => OrderModel::query()->count(),
-            'totalProducts' => ProductModel::query()->count(),
-            'activeProducts' => ProductModel::query()->where('is_active', true)->count(),
-            'revenue' => (float) OrderModel::query()->whereNotIn('order_status', ['cancelled'])->sum('total_amount'),
-        ];
+        return $this->dashboardStatsRepository->getStatsForUser($userId);
     }
 }

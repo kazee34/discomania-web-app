@@ -23,7 +23,9 @@ class Admin
         private bool $isActive,
         private ?int $createdBy,
         private ?\DateTimeImmutable $createdAt,
-        private ?\DateTimeImmutable $updatedAt
+        private ?\DateTimeImmutable $updatedAt,
+        private readonly ?string $name = null,
+        private readonly ?string $email = null,
     ) {}
 
     public function id(): ?int
@@ -59,6 +61,16 @@ class Admin
     public function updatedAt(): \DateTimeImmutable
     {
         return $this->updatedAt;
+    }
+
+    public function name(): ?string
+    {
+        return $this->name;
+    }
+
+    public function email(): ?string
+    {
+        return $this->email;
     }
 
     public function events(): array
