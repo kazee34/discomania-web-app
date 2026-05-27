@@ -43,7 +43,6 @@ const cardForm = useForm({
 const sepaForm = useForm({
     iban: '',
     account_holder: '',
-    bic: '',
     bank_name: '',
     set_as_default: false,
 });

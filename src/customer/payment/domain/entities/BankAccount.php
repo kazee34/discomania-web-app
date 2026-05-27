@@ -11,7 +11,6 @@ final class BankAccount
         private string $ibanMasked,
         private string $ibanLastFour,
         private string $ibanFull,
-        private ?string $bic,
         private ?string $bankName,
     ) {}
 
@@ -22,7 +21,6 @@ final class BankAccount
         string $ibanMasked,
         string $ibanLastFour,
         string $ibanFull,
-        ?string $bic,
         ?string $bankName,
     ): self {
         return new self(
@@ -32,7 +30,6 @@ final class BankAccount
             ibanMasked: $ibanMasked,
             ibanLastFour: $ibanLastFour,
             ibanFull: $ibanFull,
-            bic: $bic,
             bankName: $bankName,
         );
     }
@@ -65,11 +62,6 @@ final class BankAccount
     public function ibanFull(): string
     {
         return $this->ibanFull;
-    }
-
-    public function bic(): ?string
-    {
-        return $this->bic;
     }
 
     public function bankName(): ?string

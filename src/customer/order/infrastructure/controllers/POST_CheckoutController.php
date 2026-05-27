@@ -48,7 +48,6 @@ final class POST_CheckoutController extends Controller
             'cvv'               => ['required_if:payment_type,credit_card', 'nullable', 'string', 'regex:/^\d{3}$/'],
             'iban'              => ['required_if:payment_type,sepa_debit', 'nullable', 'string', 'regex:/^ES\d{22}$/i'],
             'account_holder'    => ['required_if:payment_type,sepa_debit', 'nullable', 'string', 'max:100'],
-            'bic'               => ['nullable', 'string'],
             'bank_name'         => ['nullable', 'string', 'max:100'],
             'set_as_default'    => ['boolean'],
         ], [
@@ -94,7 +93,6 @@ final class POST_CheckoutController extends Controller
                 $inlineData += [
                     'iban'           => $request->input('iban'),
                     'account_holder' => $request->input('account_holder'),
-                    'bic'            => $request->input('bic'),
                     'bank_name'      => $request->input('bank_name'),
                 ];
             }

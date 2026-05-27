@@ -42,12 +42,26 @@ const cardData = ref({
 const sepaData = ref({
     iban: '',
     account_holder: '',
-    bic: '',
     bank_name: '',
     set_as_default: false,
 });
 
-const form = useForm<Record<string, unknown>>({});
+const form = useForm<{
+    cart_token?: string;
+    customer_notes?: string | null;
+    payment_method_id?: number;
+    payment_type?: string;
+    card_number?: string;
+    card_brand?: string;
+    card_holder?: string;
+    expiry_month?: string;
+    expiry_year?: string;
+    cvv?: string;
+    set_as_default?: boolean;
+    iban?: string;
+    account_holder?: string;
+    bank_name?: string | null;
+}>({});
 
 const isSubmitting = computed(() => form.processing);
 
@@ -72,7 +86,6 @@ function submit() {
         payload.payment_type    = 'sepa_debit';
         payload.iban            = sepaData.value.iban;
         payload.account_holder  = sepaData.value.account_holder;
-        payload.bic             = sepaData.value.bic || null;
         payload.bank_name       = sepaData.value.bank_name || null;
         payload.set_as_default  = sepaData.value.set_as_default;
     }

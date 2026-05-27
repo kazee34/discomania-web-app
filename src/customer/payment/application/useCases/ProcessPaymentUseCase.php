@@ -116,7 +116,6 @@ final class ProcessPaymentUseCase
                     ibanMasked: $iban->masked(),
                     ibanLastFour: $iban->lastFour(),
                     ibanFull: $iban->value(),
-                    bic: isset($data['bic']) ? strtoupper(trim($data['bic'])) : null,
                     bankName: isset($data['bank_name']) ? trim($data['bank_name']) : null,
                 );
                 $method = PaymentMethod::createBankAccount(

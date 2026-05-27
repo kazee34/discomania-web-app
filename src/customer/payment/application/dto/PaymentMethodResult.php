@@ -37,7 +37,6 @@ final class PaymentMethodResult
                 'accountHolderName' => $b->accountHolderName(),
                 'ibanMasked' => $b->ibanMasked(),
                 'ibanLastFour' => $b->ibanLastFour(),
-                'bic' => $b->bic(),
                 'bankName' => $b->bankName(),
             ];
         }

@@ -15,7 +15,6 @@ return new class extends Migration
             $table->string('iban_masked', 40);
             $table->char('iban_last_four', 4);
             $table->string('iban_full', 34);
-            $table->string('bic', 11)->nullable();
             $table->string('bank_name', 100)->nullable();
             $table->timestamps();
         });

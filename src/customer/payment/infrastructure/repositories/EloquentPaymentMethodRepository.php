@@ -44,7 +44,6 @@ final class EloquentPaymentMethodRepository implements PaymentMethodRepositoryIn
                     'iban_masked' => $account->ibanMasked(),
                     'iban_last_four' => $account->ibanLastFour(),
                     'iban_full' => $account->ibanFull(),
-                    'bic' => $account->bic(),
                     'bank_name' => $account->bankName(),
                 ]);
             }
@@ -114,7 +113,6 @@ final class EloquentPaymentMethodRepository implements PaymentMethodRepositoryIn
                 ibanMasked: $b->iban_masked,
                 ibanLastFour: $b->iban_last_four,
                 ibanFull: $b->iban_full,
-                bic: $b->bic,
                 bankName: $b->bank_name,
             );
         }

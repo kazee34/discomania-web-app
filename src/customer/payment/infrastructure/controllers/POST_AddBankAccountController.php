@@ -26,7 +26,6 @@ final class POST_AddBankAccountController extends Controller
                 customerId: $customer->id(),
                 ibanRaw: $request->input('iban'),
                 accountHolderName: $request->input('account_holder'),
-                bic: $request->input('bic'),
                 bankName: $request->input('bank_name'),
                 setAsDefault: (bool) $request->input('set_as_default', false),
             );

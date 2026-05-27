@@ -15,7 +15,6 @@ class BankAccountModel extends Model
         'iban_masked',
         'iban_last_four',
         'iban_full',
-        'bic',
         'bank_name',
     ];
 

@@ -8,7 +8,6 @@ const props = defineProps<{
     modelValue: {
         iban: string;
         account_holder: string;
-        bic: string;
         bank_name: string;
         set_as_default: boolean;
     };
@@ -91,19 +90,6 @@ const maskedPreview = computed(() => {
                 @input="update('account_holder', ($event.target as HTMLInputElement).value)"
             />
             <p v-if="errors?.account_holder" class="mt-1 text-xs text-destructive">{{ errors.account_holder }}</p>
-        </div>
-
-        <!-- BIC / SWIFT (opcional) -->
-        <div>
-            <Label for="bic">BIC / SWIFT <span class="text-muted-foreground text-xs">(opcional)</span></Label>
-            <Input
-                id="bic"
-                :value="modelValue.bic"
-                placeholder="CAIXESBBXXX"
-                class="mt-1 font-mono"
-                @input="update('bic', ($event.target as HTMLInputElement).value)"
-            />
-            <p v-if="errors?.bic" class="mt-1 text-xs text-destructive">{{ errors.bic }}</p>
         </div>
 
         <!-- Banco (opcional) -->

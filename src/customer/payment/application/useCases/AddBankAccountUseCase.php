@@ -18,7 +18,6 @@ final class AddBankAccountUseCase
         int $customerId,
         string $ibanRaw,
         string $accountHolderName,
-        ?string $bic,
         ?string $bankName,
         bool $setAsDefault,
     ): PaymentMethodResult {
@@ -35,7 +34,6 @@ final class AddBankAccountUseCase
             ibanMasked: $iban->masked(),
             ibanLastFour: $iban->lastFour(),
             ibanFull: $iban->value(),
-            bic: $bic ? strtoupper(trim($bic)) : null,
             bankName: $bankName ? trim($bankName) : null,
         );
 
