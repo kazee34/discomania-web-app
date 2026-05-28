@@ -16,7 +16,7 @@ class RefundOrderPaymentUseCase
     {
         $paymentMethod = $this->repository->findByOrderId($orderPaymentId);
         if (!$paymentMethod) {
-            throw new PaymentMethodNotFoundException('Payment method not found for the given order ID.');
+            throw new PaymentMethodNotFoundException($orderPaymentId);
         }
 
         $paymentMethod->refund();
