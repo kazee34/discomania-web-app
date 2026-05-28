@@ -10,6 +10,14 @@ final class EloquentOrderPaymentRepository implements OrderPaymentRepositoryInte
 {
     public function save(OrderPayment $payment): int
     {
+        if ($payment->id() !== null) {
+            OrderPaymentModel::where('id', $payment->id())->update([
+                'status' => $payment->status()->value,
+            ]);
+
+            return $payment->id();
+        }
+
         $model = OrderPaymentModel::create([
             'order_id' => $payment->orderId(),
             'payment_method_id' => $payment->paymentMethodId(),

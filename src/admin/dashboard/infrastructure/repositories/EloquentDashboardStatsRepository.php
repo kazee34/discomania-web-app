@@ -25,10 +25,10 @@ class EloquentDashboardStatsRepository implements DashboardStatsRepositoryInterf
         return new DashboardStats(
             totalCustomers: (int) CustomerModel::query()->count('*'),
             activeCustomers: (int) CustomerModel::query()->where('is_active', true)->count('*'),
-            totalOrders: (int) OrderModel::query()->count('*'),
+            totalOrders: (int) OrderModel::query()->where('order_status', '!=', 'cancelled')->count('*'),
             totalProducts: (int) ProductModel::query()->count('*'),
             activeProducts: (int) ProductModel::query()->where('is_active', true)->count('*'),
-            revenue: (float) OrderModel::query()->whereNotIn('order_status', ['cancelled'])->sum('total_amount'),
+            revenue: (float) OrderModel::query()->where('order_status', '!=', 'cancelled')->sum('total_amount'),
         );
     }
 }

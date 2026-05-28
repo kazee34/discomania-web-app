@@ -21,54 +21,6 @@ final class OrderPayment
         private DateTimeImmutable $processedAt,
     ) {}
 
-    public static function create(
-        int $orderId,
-        ?int $paymentMethodId,
-        PaymentMethodType $paymentType,
-        string $paymentSummary,
-        float $amount,
-        string $mockTransactionId,
-    ): self {
-        return new self(
-            id: null,
-            orderId: $orderId,
-            paymentMethodId: $paymentMethodId,
-            paymentType: $paymentType,
-            paymentSummary: $paymentSummary,
-            status: PaymentStatus::Completed,
-            mockTransactionId: $mockTransactionId,
-            amount: $amount,
-            currency: 'EUR',
-            processedAt: new DateTimeImmutable,
-        );
-    }
-
-    public static function fromPrimitives(
-        int $id,
-        int $orderId,
-        ?int $paymentMethodId,
-        string $paymentType,
-        string $paymentSummary,
-        string $status,
-        string $mockTransactionId,
-        float $amount,
-        string $currency,
-        string $processedAt,
-    ): self {
-        return new self(
-            id: $id,
-            orderId: $orderId,
-            paymentMethodId: $paymentMethodId,
-            paymentType: PaymentMethodType::from($paymentType),
-            paymentSummary: $paymentSummary,
-            status: PaymentStatus::from($status),
-            mockTransactionId: $mockTransactionId,
-            amount: $amount,
-            currency: $currency,
-            processedAt: new DateTimeImmutable($processedAt),
-        );
-    }
-
     public function id(): ?int
     {
         return $this->id;
@@ -123,4 +75,58 @@ final class OrderPayment
     {
         $this->id = $id;
     }
+
+    public static function create(
+        int $orderId,
+        ?int $paymentMethodId,
+        PaymentMethodType $paymentType,
+        string $paymentSummary,
+        float $amount,
+        string $mockTransactionId,
+    ): self {
+        return new self(
+            id: null,
+            orderId: $orderId,
+            paymentMethodId: $paymentMethodId,
+            paymentType: $paymentType,
+            paymentSummary: $paymentSummary,
+            status: PaymentStatus::Completed,
+            mockTransactionId: $mockTransactionId,
+            amount: $amount,
+            currency: 'EUR',
+            processedAt: new DateTimeImmutable,
+        );
+    }
+
+    public static function fromPrimitives(
+        int $id,
+        int $orderId,
+        ?int $paymentMethodId,
+        string $paymentType,
+        string $paymentSummary,
+        string $status,
+        string $mockTransactionId,
+        float $amount,
+        string $currency,
+        string $processedAt,
+    ): self {
+        return new self(
+            id: $id,
+            orderId: $orderId,
+            paymentMethodId: $paymentMethodId,
+            paymentType: PaymentMethodType::from($paymentType),
+            paymentSummary: $paymentSummary,
+            status: PaymentStatus::from($status),
+            mockTransactionId: $mockTransactionId,
+            amount: $amount,
+            currency: $currency,
+            processedAt: new DateTimeImmutable($processedAt),
+        );
+    }
+
+    public function refund(): void
+    {
+        $this->status = PaymentStatus::Refunded;
+    }
+
 }

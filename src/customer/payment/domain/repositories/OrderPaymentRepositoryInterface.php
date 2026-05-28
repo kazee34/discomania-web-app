@@ -9,4 +9,5 @@ interface OrderPaymentRepositoryInterface
     public function save(OrderPayment $payment): int;
 
     public function findByOrderId(int $orderId): ?OrderPayment;
+
 }

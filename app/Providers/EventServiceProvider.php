@@ -9,6 +9,8 @@ use Src\admin\user\application\listeners\DeleteUserOnAdminDeletedListener;
 use Src\admin\user\application\listeners\LogoutUserOnAdminDeactivatedListener;
 use Src\admin\user\domain\events\AdminDeactivatedEvent;
 use Src\admin\user\domain\events\AdminDeletedEvent;
+use Src\customer\order\domain\events\OrderCancelledEvent;
+use Src\customer\payment\application\listeners\OrderPaymentRefundOnCancelledOrderListener;
 use Src\customer\user\domain\events\CustomerDeactivatedEvent;
 use Src\shared\domain\events\UserCreatedEvent;
 
@@ -27,6 +29,9 @@ class EventServiceProvider extends ServiceProvider
         UserCreatedEvent::class => [
             CreateAdminOnUserCreatedListener::class,
         ],
+        OrderCancelledEvent::class => [
+            OrderPaymentRefundOnCancelledOrderListener::class,
+        ]
     ];
 
     public function boot(): void

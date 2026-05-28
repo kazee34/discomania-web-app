@@ -174,7 +174,7 @@ class Order
         }
 
         $this->status = OrderStatus::Cancelled;
-        $this->recordEvent(new OrderCancelledEvent($this->customerId, $this->orderNumber));
+        $this->recordEvent(new OrderCancelledEvent((int) $this->id, $this->customerId, $this->orderNumber));
     }
 
     public function recordEvent(object $event): void
