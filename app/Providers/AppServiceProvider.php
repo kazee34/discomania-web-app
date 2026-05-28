@@ -6,8 +6,11 @@ use Carbon\CarbonImmutable;
 use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Event;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Validation\Rules\Password;
+use Symfony\Component\Mailer\Bridge\Brevo\Transport\BrevoTransportFactory;
+use Symfony\Component\Mailer\Transport\Dsn;
 use Src\admin\customer\application\listeners\LogoutUserOnCustomerDeactivatedListener;
 use Src\admin\user\application\listeners\CreateAdminOnUserCreatedListener;
 use Src\admin\user\application\listeners\DeleteUserOnAdminDeletedListener;
@@ -138,6 +141,16 @@ class AppServiceProvider extends ServiceProvider
     {
         $this->configureDefaults();
         $this->registerEventListeners();
+        $this->registerMailTransports();
+    }
+
+    private function registerMailTransports(): void
+    {
+        Mail::extend('brevo', function () {
+            return (new BrevoTransportFactory)->create(
+                new Dsn('brevo+api', 'default', config('services.brevo.key'))
+            );
+        });
     }
 
     private function registerEventListeners(): void
