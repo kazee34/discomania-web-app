@@ -3,6 +3,7 @@
 namespace Src\customer\order\infrastructure\controllers;
 
 use App\Http\Controllers\Controller;
+use App\Rules\NoSpecialCharacters;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -29,12 +30,12 @@ final class POST_CheckoutController extends Controller
 
         $request->validate([
             'cart_token' => ['required', 'string'],
-            'customer_notes' => ['nullable', 'string', 'max:500'],
+            'customer_notes' => ['nullable', 'string', 'max:500', new NoSpecialCharacters],
             'payment_method_id' => ['nullable', 'integer', 'exists:payment_methods,id'],
             'payment_type' => ['required_without:payment_method_id', 'nullable', 'in:credit_card,sepa_debit'],
             'card_number' => ['required_if:payment_type,credit_card', 'nullable', 'string'],
             'card_brand' => ['required_if:payment_type,credit_card', 'nullable', 'in:visa,mastercard'],
-            'card_holder' => ['required_if:payment_type,credit_card', 'nullable', 'string', 'max:100'],
+            'card_holder' => ['required_if:payment_type,credit_card', 'nullable', 'string', 'max:100', new NoSpecialCharacters],
             'expiry_month' => [
                 'required_if:payment_type,credit_card', 'nullable', 'integer', 'min:1', 'max:12',
                 function ($_attribute, $value, $fail) use ($currentYear, $currentMonth, $request) {
@@ -47,8 +48,8 @@ final class POST_CheckoutController extends Controller
             'expiry_year' => ['required_if:payment_type,credit_card', 'nullable', 'integer', 'min:'.$currentYear],
             'cvv' => ['required_if:payment_type,credit_card', 'nullable', 'string', 'regex:/^\d{3}$/'],
             'iban' => ['required_if:payment_type,sepa_debit', 'nullable', 'string', 'regex:/^ES\d{22}$/i'],
-            'account_holder' => ['required_if:payment_type,sepa_debit', 'nullable', 'string', 'max:100'],
-            'bank_name' => ['nullable', 'string', 'max:100'],
+            'account_holder' => ['required_if:payment_type,sepa_debit', 'nullable', 'string', 'max:100', new NoSpecialCharacters],
+            'bank_name' => ['nullable', 'string', 'max:100', new NoSpecialCharacters],
             'set_as_default' => ['boolean'],
         ], [
             'cart_token.required' => 'El token del carrito es obligatorio.',

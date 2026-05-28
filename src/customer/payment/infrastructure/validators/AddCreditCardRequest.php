@@ -2,6 +2,7 @@
 
 namespace Src\customer\payment\infrastructure\validators;
 
+use App\Rules\NoSpecialCharacters;
 use Illuminate\Foundation\Http\FormRequest;
 
 class AddCreditCardRequest extends FormRequest
@@ -19,7 +20,7 @@ class AddCreditCardRequest extends FormRequest
         return [
             'card_number' => ['required', 'string', 'regex:/^[\d\s]{13,19}$/'],
             'card_brand' => ['required', 'string', 'in:visa,mastercard'],
-            'card_holder' => ['required', 'string', 'min:2', 'max:100'],
+            'card_holder' => ['required', 'string', 'min:2', 'max:100', new NoSpecialCharacters],
             'expiry_month' => [
                 'required', 'integer', 'min:1', 'max:12',
                 function ($_attribute, $value, $fail) use ($currentYear, $currentMonth) {

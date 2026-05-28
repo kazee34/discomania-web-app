@@ -3,6 +3,7 @@
 namespace Src\admin\user\infrastructure\controllers;
 
 use App\Http\Controllers\Controller;
+use App\Rules\NoSpecialCharacters;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Src\admin\user\application\useCases\CreateUserUseCase;
@@ -21,7 +22,7 @@ final class POST_AdminAdminWebController extends Controller
         abort_unless(in_array($admin?->role()->value(), ['super_admin', 'admin']), 403);
 
         $data = $request->validate([
-            'name' => ['required', 'string', 'max:255'],
+            'name' => ['required', 'string', 'max:255', new NoSpecialCharacters],
             'email' => ['required', 'email', 'unique:users,email'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
             'role' => ['required', 'in:admin,editor'],

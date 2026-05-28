@@ -3,6 +3,7 @@
 namespace Src\customer\user\infrastructure\controllers;
 
 use App\Http\Controllers\Controller;
+use App\Rules\NoSpecialCharacters;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -17,18 +18,18 @@ final class PUT_UpdateProfileController extends Controller
     public function update(Request $request): RedirectResponse
     {
         $data = $request->validate([
-            'firstName' => ['required', 'string', 'min:3', 'max:100'],
-            'lastName' => ['required', 'string', 'min:3', 'max:100'],
-            'phone' => ['nullable', 'string', 'max:20'],
+            'firstName' => ['required', 'string', 'min:3', 'max:100', new NoSpecialCharacters],
+            'lastName' => ['required', 'string', 'min:3', 'max:100', new NoSpecialCharacters],
+            'phone' => ['nullable', 'string', 'max:20', new NoSpecialCharacters],
             'birthDate' => ['nullable', 'date', 'after_or_equal:1900-01-01', 'before_or_equal:'.now()->subYears(16)->format('Y-m-d')],
-            'dniNif' => ['nullable', 'string', 'max:20'],
-            'shippingStreet' => ['required', 'string', 'max:200'],
-            'shippingStreetNumber' => ['required', 'string', 'max:20'],
-            'shippingApartment' => ['nullable', 'string', 'max:50'],
-            'shippingCity' => ['required', 'string', 'regex:/^[\pL\s\-\.]+$/u', 'max:100'],
-            'shippingPostalCode' => ['required', 'string', 'max:20'],
-            'shippingStateProvince' => ['nullable', 'string', 'regex:/^[\pL\s\-\.]+$/u', 'max:100'],
-            'shippingCountry' => ['required', 'string', 'regex:/^[\pL\s\-\.]+$/u', 'max:100'],
+            'dniNif' => ['nullable', 'string', 'max:20', new NoSpecialCharacters],
+            'shippingStreet' => ['required', 'string', 'max:200', new NoSpecialCharacters],
+            'shippingStreetNumber' => ['required', 'string', 'max:20', new NoSpecialCharacters],
+            'shippingApartment' => ['nullable', 'string', 'max:50', new NoSpecialCharacters],
+            'shippingCity' => ['required', 'string', 'regex:/^[\pL\s\-\.]+$/u', 'max:100', new NoSpecialCharacters],
+            'shippingPostalCode' => ['required', 'string', 'max:20', new NoSpecialCharacters],
+            'shippingStateProvince' => ['nullable', 'string', 'regex:/^[\pL\s\-\.]+$/u', 'max:100', new NoSpecialCharacters],
+            'shippingCountry' => ['required', 'string', 'regex:/^[\pL\s\-\.]+$/u', 'max:100', new NoSpecialCharacters],
         ]);
 
         $this->updateProfile->execute(

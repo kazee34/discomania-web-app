@@ -11,6 +11,7 @@ use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\RateLimiter;
+use Illuminate\Validation\ValidationException;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Str;
 use Inertia\Inertia;
@@ -67,8 +68,16 @@ class FortifyServiceProvider extends ServiceProvider
                 ->where('is_active', false)
                 ->exists();
 
-            if ($isDeactivatedAdmin || $isDeactivatedCustomer) {
-                return null;
+            if ($isDeactivatedCustomer) {
+                throw ValidationException::withMessages([
+                    Fortify::username() => 'Esta cuenta ha sido desactivada por un administrador.',
+                ]);
+            }
+
+            if ($isDeactivatedAdmin) {
+                throw ValidationException::withMessages([
+                    Fortify::username() => 'Esta cuenta de administrador ha sido desactivada.',
+                ]);
             }
 
             return $user;

@@ -2,6 +2,7 @@
 
 namespace Src\customer\payment\infrastructure\validators;
 
+use App\Rules\NoSpecialCharacters;
 use Illuminate\Foundation\Http\FormRequest;
 
 class AddBankAccountRequest extends FormRequest
@@ -15,8 +16,8 @@ class AddBankAccountRequest extends FormRequest
     {
         return [
             'iban' => ['required', 'string', 'regex:/^ES\d{22}$/i'],
-            'account_holder' => ['required', 'string', 'min:2', 'max:100'],
-            'bank_name' => ['nullable', 'string', 'max:100'],
+            'account_holder' => ['required', 'string', 'min:2', 'max:100', new NoSpecialCharacters],
+            'bank_name' => ['nullable', 'string', 'max:100', new NoSpecialCharacters],
             'set_as_default' => ['boolean'],
         ];
     }

@@ -18,6 +18,15 @@ final class GET_AdminDashboardWebController extends Controller
     {
         $stats = $this->useCase->execute($request->user()->id);
 
-        return Inertia::render('Dashboard', compact('stats'));
+        return Inertia::render('Dashboard', [
+            'stats' => $stats ? [
+                'totalCustomers' => $stats->totalCustomers(),
+                'activeCustomers' => $stats->activeCustomers(),
+                'totalOrders'    => $stats->totalOrders(),
+                'totalProducts'  => $stats->totalProducts(),
+                'activeProducts' => $stats->activeProducts(),
+                'revenue'        => $stats->revenue(),
+            ] : null,
+        ]);
     }
 }

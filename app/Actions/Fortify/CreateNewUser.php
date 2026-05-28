@@ -3,6 +3,7 @@
 namespace App\Actions\Fortify;
 
 use App\Concerns\PasswordValidationRules;
+use App\Rules\NoSpecialCharacters;
 use App\Models\UserModel;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
@@ -25,19 +26,19 @@ class CreateNewUser implements CreatesNewUsers
     public function create(array $input): UserModel
     {
         Validator::make($input, [
-            'first_name' => ['required', 'string', 'min:3', 'max:100'],
-            'last_name' => ['required', 'string', 'min:3', 'max:100'],
+            'first_name' => ['required', 'string', 'min:3', 'max:100', new NoSpecialCharacters],
+            'last_name' => ['required', 'string', 'min:3', 'max:100', new NoSpecialCharacters],
             'email' => ['required', 'string', 'email', 'max:255', Rule::unique(UserModel::class, 'email')],
             'password' => ['required', 'string', Password::min(8)->mixedCase()->numbers(), 'confirmed'],
-            'phone' => ['nullable', 'string', 'max:50'],
+            'phone' => ['nullable', 'string', 'max:50', new NoSpecialCharacters],
             'birth_date' => ['nullable', 'date', 'before:-16 years'],
-            'dni_nif' => ['nullable', 'string', 'max:20'],
-            'shipping_street' => ['required', 'string', 'max:255'],
-            'shipping_street_number' => ['required', 'string', 'max:20'],
-            'shipping_apartment' => ['nullable', 'string', 'max:50'],
-            'shipping_city' => ['required', 'string', 'regex:/^[\pL\s\-\.]+$/u', 'max:100'],
-            'shipping_postal_code' => ['required', 'string', 'max:20'],
-            'shipping_state_province' => ['nullable', 'string', 'regex:/^[\pL\s\-\.]+$/u', 'max:100'],
+            'dni_nif' => ['nullable', 'string', 'max:20', new NoSpecialCharacters],
+            'shipping_street' => ['required', 'string', 'max:255', new NoSpecialCharacters],
+            'shipping_street_number' => ['required', 'string', 'max:20', new NoSpecialCharacters],
+            'shipping_apartment' => ['nullable', 'string', 'max:50', new NoSpecialCharacters],
+            'shipping_city' => ['required', 'string', 'regex:/^[\pL\s\-\.]+$/u', 'max:100', new NoSpecialCharacters],
+            'shipping_postal_code' => ['required', 'string', 'max:20', new NoSpecialCharacters],
+            'shipping_state_province' => ['nullable', 'string', 'regex:/^[\pL\s\-\.]+$/u', 'max:100', new NoSpecialCharacters],
         ])->validate();
 
         return DB::transaction(function () use ($input) {

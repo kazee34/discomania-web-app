@@ -3,6 +3,7 @@
 namespace Src\admin\customer\infrastructure\controllers;
 
 use App\Http\Controllers\Controller;
+use App\Rules\NoSpecialCharacters;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -21,19 +22,19 @@ final class POST_AdminCreateCustomerWebController extends Controller
     public function store(Request $request): RedirectResponse
     {
         $data = $request->validate([
-            'first_name' => ['required', 'string', 'min:2', 'max:100'],
-            'last_name' => ['required', 'string', 'min:2', 'max:100'],
+            'first_name' => ['required', 'string', 'min:2', 'max:100', new NoSpecialCharacters],
+            'last_name' => ['required', 'string', 'min:2', 'max:100', new NoSpecialCharacters],
             'email' => ['required', 'email', Rule::unique('users', 'email')],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
-            'phone' => ['nullable', 'string', 'max:50'],
+            'phone' => ['nullable', 'string', 'max:50', new NoSpecialCharacters],
             'birth_date' => ['nullable', 'date', 'before:-16 years'],
-            'dni_nif' => ['nullable', 'string', 'max:20'],
-            'shipping_street' => ['required', 'string', 'max:255'],
-            'shipping_street_number' => ['required', 'string', 'max:20'],
-            'shipping_apartment' => ['nullable', 'string', 'max:50'],
-            'shipping_city' => ['required', 'string', 'max:100'],
-            'shipping_postal_code' => ['required', 'string', 'max:20'],
-            'shipping_state_province' => ['nullable', 'string', 'max:100'],
+            'dni_nif' => ['nullable', 'string', 'max:20', new NoSpecialCharacters],
+            'shipping_street' => ['required', 'string', 'max:255', new NoSpecialCharacters],
+            'shipping_street_number' => ['required', 'string', 'max:20', new NoSpecialCharacters],
+            'shipping_apartment' => ['nullable', 'string', 'max:50', new NoSpecialCharacters],
+            'shipping_city' => ['required', 'string', 'max:100', new NoSpecialCharacters],
+            'shipping_postal_code' => ['required', 'string', 'max:20', new NoSpecialCharacters],
+            'shipping_state_province' => ['nullable', 'string', 'max:100', new NoSpecialCharacters],
             'is_vip' => ['nullable', 'boolean'],
         ]);
 
