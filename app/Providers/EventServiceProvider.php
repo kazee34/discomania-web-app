@@ -9,8 +9,14 @@ use Src\admin\user\application\listeners\DeleteUserOnAdminDeletedListener;
 use Src\admin\user\application\listeners\LogoutUserOnAdminDeactivatedListener;
 use Src\admin\user\domain\events\AdminDeactivatedEvent;
 use Src\admin\user\domain\events\AdminDeletedEvent;
+use Src\customer\order\application\listeners\SendOrderConfirmationEmailOnOrderCreatedListener;
+use Src\customer\order\application\listeners\SendOrderStatusUpdateEmailListener;
 use Src\customer\order\domain\events\OrderCancelledEvent;
+use Src\customer\order\domain\events\OrderCreatedEvent;
+use Src\customer\order\domain\events\OrderStatusUpdatedEvent;
 use Src\customer\payment\application\listeners\OrderPaymentRefundOnCancelledOrderListener;
+use Src\customer\user\application\listeners\SendWelcomeEmailOnCustomerCreatedListener;
+use Src\customer\user\domain\events\CustomerCreatedEvent;
 use Src\customer\user\domain\events\CustomerDeactivatedEvent;
 use Src\shared\domain\events\UserCreatedEvent;
 
@@ -31,7 +37,16 @@ class EventServiceProvider extends ServiceProvider
         ],
         OrderCancelledEvent::class => [
             OrderPaymentRefundOnCancelledOrderListener::class,
-        ]
+        ],
+        CustomerCreatedEvent::class => [
+            SendWelcomeEmailOnCustomerCreatedListener::class,
+        ],
+        OrderCreatedEvent::class => [
+            SendOrderConfirmationEmailOnOrderCreatedListener::class,
+        ],
+        OrderStatusUpdatedEvent::class => [
+            SendOrderStatusUpdateEmailListener::class,
+        ],
     ];
 
     public function boot(): void

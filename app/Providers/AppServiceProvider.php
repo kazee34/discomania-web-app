@@ -27,7 +27,11 @@ use Src\customer\payment\infrastructure\repositories\EloquentOrderPaymentReposit
 use Src\customer\payment\infrastructure\repositories\EloquentPaymentMethodRepository;
 use Src\customer\product\domain\repositories\ProductRepositoryInterface as CustomerProductRepositoryInterface;
 use Src\customer\product\infrastructure\repositories\EloquentProductRepository as CustomerEloquentProductRepository;
+use Src\customer\order\domain\notifications\OrderEmailNotifierInterface;
+use Src\customer\order\infrastructure\notifications\LaravelOrderEmailNotifier;
+use Src\customer\user\domain\notifications\CustomerEmailNotifierInterface;
 use Src\customer\user\domain\repositories\CustomerRepositoryInterface;
+use Src\customer\user\infrastructure\notifications\LaravelCustomerEmailNotifier;
 use Src\customer\user\infrastructure\repositories\EloquentCustomerRepository;
 use Src\shared\domain\repositories\EventPublisher;
 use Src\shared\domain\repositories\UserRepositoryInterface;
@@ -95,8 +99,18 @@ class AppServiceProvider extends ServiceProvider
         );
 
         $this->app->bind(
-            DashboardStatsRepositoryInterface::class, 
+            DashboardStatsRepositoryInterface::class,
             EloquentDashboardStatsRepository::class
+        );
+
+        $this->app->bind(
+            CustomerEmailNotifierInterface::class,
+            LaravelCustomerEmailNotifier::class
+        );
+
+        $this->app->bind(
+            OrderEmailNotifierInterface::class,
+            LaravelOrderEmailNotifier::class
         );
     }
 

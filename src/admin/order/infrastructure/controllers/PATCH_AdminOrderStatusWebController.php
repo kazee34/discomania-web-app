@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Src\customer\order\domain\events\OrderCancelledEvent;
+use Src\customer\order\domain\events\OrderStatusUpdatedEvent;
 use Src\customer\order\domain\repositories\OrderRepositoryInterface;
 use Src\customer\order\domain\valueObjects\OrderStatus;
 use Src\shared\domain\repositories\EventPublisher;
@@ -38,6 +39,13 @@ final class PATCH_AdminOrderStatusWebController extends Controller
                 orderNumber: $order->orderNumber(),
             ));
         }
+
+        $this->eventPublisher->publish(new OrderStatusUpdatedEvent(
+            customerId: $order->customerId(),
+            orderNumber: $order->orderNumber(),
+            newStatus: $newStatus,
+            totalAmount: $order->totalAmount(),
+        ));
 
         $this->repository->updateStatus($order->id(), $newStatus->value);
 
