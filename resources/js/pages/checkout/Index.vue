@@ -1,11 +1,12 @@
 <script setup lang="ts">
 import { Head, useForm, router } from '@inertiajs/vue3';
-import { computed, ref } from 'vue';
+import { computed, onMounted, ref } from 'vue';
 import { CreditCard, Building2, ChevronLeft } from 'lucide-vue-next';
 import ShopNavbar from '@/components/shop/ShopNavbar.vue';
 import CreditCardForm from '@/components/payment/CreditCardForm.vue';
 import SepaForm from '@/components/payment/SepaForm.vue';
 import { Button } from '@/components/ui/button';
+import { useCart } from '@/composables/useCart';
 
 interface SavedMethod {
     id: number;
@@ -18,6 +19,20 @@ const props = defineProps<{
     cartToken: string;
     savedMethods: SavedMethod[];
 }>();
+
+const { cart, fetchCart } = useCart();
+
+const TAX_RATE = 0.21;
+const SHIPPING_THRESHOLD = 60;
+const SHIPPING_COST = 6.99;
+
+const cartSubtotal = computed(() => cart.value?.totalAmount ?? 0);
+const cartItemCount = computed(() => cart.value?.items.reduce((s, i) => s + i.quantity, 0) ?? 0);
+const iva = computed(() => Math.round(cartSubtotal.value * TAX_RATE * 100) / 100);
+const shipping = computed(() => cartSubtotal.value >= SHIPPING_THRESHOLD ? 0 : SHIPPING_COST);
+const total = computed(() => Math.round((cartSubtotal.value + iva.value + shipping.value) * 100) / 100);
+
+onMounted(fetchCart);
 
 // Payment selection state
 type PaymentMode = 'saved' | 'new_card' | 'new_sepa';
@@ -200,10 +215,63 @@ function goBack() {
                 <!-- Resumen + botón -->
                 <div class="flex flex-col gap-4">
                     <div class="rounded-xl border bg-card p-5 sticky top-6">
-                        <h2 class="text-base font-semibold mb-4">Resumen</h2>
-                        <p class="text-sm text-muted-foreground mb-6">
-                            Revisa tu carrito antes de confirmar el pedido.
-                        </p>
+                        <h2 class="text-base font-semibold mb-4">
+                            Resumen
+                            <span v-if="cartItemCount > 0" class="ml-1 text-sm font-normal text-muted-foreground">
+                                ({{ cartItemCount }} {{ cartItemCount === 1 ? 'artículo' : 'artículos' }})
+                            </span>
+                        </h2>
+
+                        <!-- Lista de productos -->
+                        <div v-if="cart && cart.items.length > 0" class="flex flex-col gap-3 mb-5">
+                            <div
+                                v-for="item in cart.items"
+                                :key="item.id"
+                                class="flex items-center gap-3"
+                            >
+                                <div class="h-12 w-12 shrink-0 overflow-hidden rounded-lg bg-muted">
+                                    <img
+                                        v-if="item.productCoverImageUrl"
+                                        :src="item.productCoverImageUrl"
+                                        :alt="item.productAlbumTitle ?? ''"
+                                        class="h-full w-full object-cover"
+                                        loading="lazy"
+                                    />
+                                    <div v-else class="h-full w-full bg-muted" />
+                                </div>
+                                <div class="flex-1 min-w-0">
+                                    <p class="truncate text-sm font-medium">{{ item.productAlbumTitle ?? `Producto #${item.productId}` }}</p>
+                                    <p class="truncate text-xs text-muted-foreground">{{ item.productArtist }}</p>
+                                </div>
+                                <div class="shrink-0 text-right">
+                                    <p class="text-sm font-semibold">{{ item.subtotal.toFixed(2) }} €</p>
+                                    <p class="text-xs text-muted-foreground">× {{ item.quantity }}</p>
+                                </div>
+                            </div>
+                        </div>
+                        <p v-else class="text-sm text-muted-foreground mb-5">Cargando productos...</p>
+
+                        <!-- Desglose de precios -->
+                        <div class="border-t pt-4 flex flex-col gap-2 mb-5">
+                            <div class="flex justify-between text-sm">
+                                <span class="text-muted-foreground">Subtotal</span>
+                                <span class="font-medium">{{ cartSubtotal.toFixed(2) }} €</span>
+                            </div>
+                            <div class="flex justify-between text-sm">
+                                <span class="text-muted-foreground">IVA (21%)</span>
+                                <span class="font-medium">{{ iva.toFixed(2) }} €</span>
+                            </div>
+                            <div class="flex justify-between text-sm">
+                                <span class="text-muted-foreground">Envío</span>
+                                <span :class="shipping === 0 ? 'text-green-600 font-medium' : 'font-medium'">
+                                    {{ shipping === 0 ? 'Gratis' : shipping.toFixed(2) + ' €' }}
+                                </span>
+                            </div>
+                            <div class="flex justify-between font-bold pt-2 border-t">
+                                <span>Total</span>
+                                <span>{{ total.toFixed(2) }} €</span>
+                            </div>
+                        </div>
 
                         <div v-if="form.errors.cart_token" class="mb-4 rounded-md bg-destructive/10 p-3 text-xs text-destructive">
                             {{ form.errors.cart_token }}
