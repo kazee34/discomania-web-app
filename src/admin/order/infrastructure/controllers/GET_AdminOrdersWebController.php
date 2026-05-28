@@ -60,6 +60,7 @@ final class GET_AdminOrdersWebController extends Controller
                 'subtotal' => $order->subtotal(),
                 'shippingCost' => $order->shippingCost(),
                 'taxAmount' => $order->taxAmount(),
+                'discountAmount' => $order->discountAmount(),
                 'totalAmount' => $order->totalAmount(),
                 'status' => $order->status()->value,
                 'trackingNumber' => $order->trackingNumber(),

@@ -9,9 +9,9 @@ const { updateQuantity, removeItem } = useCart();
 </script>
 
 <template>
-    <div class="flex items-center gap-4 py-4 border-b last:border-0">
+    <div class="flex items-center gap-5 py-6 border-b last:border-0">
         <!-- Portada -->
-        <div class="h-16 w-16 shrink-0 overflow-hidden rounded-lg bg-muted">
+        <div class="h-24 w-24 shrink-0 overflow-hidden rounded-xl bg-muted">
             <img
                 v-if="item.productCoverImageUrl"
                 :src="item.productCoverImageUrl"
@@ -25,34 +25,34 @@ const { updateQuantity, removeItem } = useCart();
 
         <!-- Info -->
         <div class="flex-1 min-w-0">
-            <p class="truncate text-sm font-semibold">{{ item.productAlbumTitle ?? `Producto #${item.productId}` }}</p>
-            <p class="truncate text-xs text-muted-foreground">{{ item.productArtist }}</p>
-            <p class="text-xs text-muted-foreground">{{ item.price.toFixed(2) }} € / ud.</p>
+            <p class="truncate text-base font-semibold">{{ item.productAlbumTitle ?? `Producto #${item.productId}` }}</p>
+            <p class="truncate text-sm text-muted-foreground">{{ item.productArtist }}</p>
+            <p class="text-sm text-muted-foreground">{{ item.price.toFixed(2) }} € / ud.</p>
         </div>
 
         <!-- Controles cantidad -->
-        <div class="flex items-center gap-1">
+        <div class="flex items-center gap-2">
             <Button
                 size="icon"
                 variant="outline"
-                class="h-7 w-7 text-base"
+                class="h-9 w-9 text-base"
                 :disabled="item.quantity <= 1"
                 @click="updateQuantity(item.id, item.quantity - 1)"
             >−</Button>
-            <span class="w-6 text-center text-sm font-medium">{{ item.quantity }}</span>
+            <span class="w-8 text-center text-base font-medium">{{ item.quantity }}</span>
             <Button
                 size="icon"
                 variant="outline"
-                class="h-7 w-7 text-base"
+                class="h-9 w-9 text-base"
                 @click="updateQuantity(item.id, item.quantity + 1)"
             >+</Button>
         </div>
 
         <!-- Subtotal + eliminar -->
         <div class="flex flex-col items-end gap-1 shrink-0">
-            <span class="text-sm font-bold">{{ item.subtotal.toFixed(2) }} €</span>
+            <span class="text-base font-bold">{{ item.subtotal.toFixed(2) }} €</span>
             <button
-                class="text-xs text-muted-foreground hover:text-destructive transition-colors"
+                class="text-sm text-muted-foreground hover:text-destructive transition-colors"
                 @click="removeItem(item.id)"
             >
                 Eliminar

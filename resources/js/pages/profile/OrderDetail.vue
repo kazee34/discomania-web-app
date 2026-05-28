@@ -23,6 +23,7 @@ interface Order {
     subtotal: number;
     shippingCost: number;
     taxAmount: number;
+    discountAmount: number;
     totalAmount: number;
     status: string;
     trackingNumber: string | null;
@@ -129,6 +130,10 @@ function formatDate(iso: string) {
                 <div class="flex justify-between text-sm">
                     <span class="text-muted-foreground">Subtotal</span>
                     <span>{{ order.subtotal.toFixed(2) }} €</span>
+                </div>
+                <div v-if="order.discountAmount > 0" class="flex justify-between text-sm text-green-600">
+                    <span>Descuento VIP (15%)</span>
+                    <span>-{{ order.discountAmount.toFixed(2) }} €</span>
                 </div>
                 <div class="flex justify-between text-sm">
                     <span class="text-muted-foreground">Envío</span>

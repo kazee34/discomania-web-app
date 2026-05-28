@@ -106,6 +106,7 @@ final class POST_CheckoutController extends Controller
                     customerId: $customer->id(),
                     shippingAddress: $customer->shippingAddress(),
                     customerNotes: $request->input('customer_notes'),
+                    isVip: $customer->isVip() ?? false,
                 );
 
                 $payment = $this->processPayment->execute(

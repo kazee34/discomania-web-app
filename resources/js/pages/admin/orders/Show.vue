@@ -31,6 +31,7 @@ interface Order {
     subtotal: number;
     shippingCost: number;
     taxAmount: number;
+    discountAmount: number;
     totalAmount: number;
     status: string;
     trackingNumber: string | null;
@@ -169,6 +170,10 @@ function changeStatus(newStatus: string) {
                         <p class="text-xs text-muted-foreground">Total</p>
                         <p class="font-bold text-lg mt-1">{{ order.totalAmount.toFixed(2) }} €</p>
                     </div>
+                </div>
+                <div v-if="order.discountAmount > 0" class="p-4 flex justify-between text-sm text-green-600">
+                    <span>Descuento VIP (15%)</span>
+                    <span>-{{ order.discountAmount.toFixed(2) }} €</span>
                 </div>
                 <div v-if="order.trackingNumber" class="p-4">
                     <p class="text-xs text-muted-foreground">Nº seguimiento</p>

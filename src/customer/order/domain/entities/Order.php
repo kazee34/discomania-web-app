@@ -20,6 +20,7 @@ class Order
         private readonly float $subtotal,
         private readonly float $shippingCost,
         private readonly float $taxAmount,
+        private readonly float $discountAmount,
         private readonly float $totalAmount,
         private OrderStatus $status,
         private readonly ?string $trackingNumber,
@@ -36,10 +37,11 @@ class Order
         array $items,
         float $shippingCost = 0.0,
         float $taxAmount = 0.0,
+        float $discountAmount = 0.0,
         ?string $customerNotes = null,
     ): self {
         $subtotal = round(array_sum(array_map(fn (OrderItem $i) => $i->subtotal(), $items)), 2);
-        $totalAmount = round($subtotal + $shippingCost + $taxAmount, 2);
+        $totalAmount = round($subtotal - $discountAmount + $shippingCost + $taxAmount, 2);
 
         $order = new self(
             id: null,
@@ -49,6 +51,7 @@ class Order
             subtotal: $subtotal,
             shippingCost: $shippingCost,
             taxAmount: $taxAmount,
+            discountAmount: $discountAmount,
             totalAmount: $totalAmount,
             status: OrderStatus::Pending,
             trackingNumber: null,
@@ -71,6 +74,7 @@ class Order
         float $subtotal,
         float $shippingCost,
         float $taxAmount,
+        float $discountAmount,
         float $totalAmount,
         string $status,
         ?string $trackingNumber,
@@ -87,6 +91,7 @@ class Order
             subtotal: $subtotal,
             shippingCost: $shippingCost,
             taxAmount: $taxAmount,
+            discountAmount: $discountAmount,
             totalAmount: $totalAmount,
             status: OrderStatus::from($status),
             trackingNumber: $trackingNumber,
@@ -130,6 +135,11 @@ class Order
     public function taxAmount(): float
     {
         return $this->taxAmount;
+    }
+
+    public function discountAmount(): float
+    {
+        return $this->discountAmount;
     }
 
     public function totalAmount(): float

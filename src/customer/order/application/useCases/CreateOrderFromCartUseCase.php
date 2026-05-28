@@ -23,6 +23,7 @@ class CreateOrderFromCartUseCase
         int $customerId,
         ShippingAddress $shippingAddress,
         ?string $customerNotes = null,
+        bool $isVip = false,
     ): OrderResult {
         $cart = $this->cartRepository->findByToken($cartToken);
 
@@ -62,15 +63,17 @@ class CreateOrderFromCartUseCase
 
         $subtotal = array_sum(array_map(fn ($item) => $item->subtotal(), $orderItems));
 
+        $discountAmount = $isVip ? round($subtotal * 0.15, 2) : 0.0;
         $shippingCost = $subtotal >= 60.0 ? 0.0 : 6.99;
         $taxRate = $this->taxRate($shippingAddress);
-        $taxAmount = round($subtotal * $taxRate, 2);
+        $taxAmount = round(($subtotal - $discountAmount) * $taxRate, 2);
 
         $order = Order::create(
             customerId: $customerId,
             items: $orderItems,
             shippingCost: $shippingCost,
             taxAmount: $taxAmount,
+            discountAmount: $discountAmount,
             customerNotes: $customerNotes,
         );
 

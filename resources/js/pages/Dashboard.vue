@@ -20,8 +20,8 @@ const breadcrumbs: BreadcrumbItem[] = [
 ];
 
 const quickLinks = [
-    { href: '/shop',  title: 'Tienda',   description: 'Explora nuestro catálogo de discos.' },
-    { href: '/cart',  title: 'Carrito',  description: 'Revisa los artículos que tienes pendientes.' },
+    { href: '/',       title: 'Inicio' },
+    { href: '/about',  title: 'Acerca de nosotros' },
 ];
 </script>
 
@@ -72,10 +72,9 @@ const quickLinks = [
                         v-for="card in quickLinks"
                         :key="card.href"
                         :href="card.href"
-                        class="rounded-xl border bg-card p-5 flex flex-col gap-2 hover:bg-muted/50 transition-colors"
+                        class="rounded-xl border bg-card p-5 flex flex-col hover:bg-muted/50 transition-colors"
                     >
                         <p class="font-semibold">{{ card.title }}</p>
-                        <p class="text-xs text-muted-foreground">{{ card.description }}</p>
                     </Link>
                 </div>
             </div>
