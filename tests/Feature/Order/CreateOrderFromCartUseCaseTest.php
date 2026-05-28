@@ -8,6 +8,7 @@ use App\Models\CustomerModel;
 use App\Models\ProductModel;
 use App\Models\UserModel;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\Event;
 use Src\customer\order\application\useCases\CreateOrderFromCartUseCase;
 use Src\customer\user\domain\valueObjects\ShippingAddress;
 use Tests\TestCase;
@@ -15,6 +16,12 @@ use Tests\TestCase;
 class CreateOrderFromCartUseCaseTest extends TestCase
 {
     use RefreshDatabase;
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+        Event::fake();
+    }
 
     private function makeCustomer(): CustomerModel
     {

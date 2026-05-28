@@ -4,6 +4,7 @@ namespace Src\customer\order\domain\entities;
 
 use Src\customer\order\domain\events\OrderCancelledEvent;
 use Src\customer\order\domain\events\OrderCreatedEvent;
+use Src\customer\order\domain\events\OrderStatusUpdatedEvent;
 use Src\customer\order\domain\valueObjects\OrderStatus;
 
 class Order
@@ -185,6 +186,7 @@ class Order
 
         $this->status = OrderStatus::Cancelled;
         $this->recordEvent(new OrderCancelledEvent((int) $this->id, $this->customerId, $this->orderNumber));
+        $this->recordEvent(new OrderStatusUpdatedEvent($this->customerId, $this->orderNumber, OrderStatus::Cancelled, $this->totalAmount));
     }
 
     public function recordEvent(object $event): void

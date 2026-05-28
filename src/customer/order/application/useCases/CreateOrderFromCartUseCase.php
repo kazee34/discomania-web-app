@@ -9,6 +9,7 @@ use Src\customer\order\domain\entities\OrderItem;
 use Src\customer\order\domain\repositories\OrderRepositoryInterface;
 use Src\customer\product\domain\repositories\ProductRepositoryInterface;
 use Src\customer\user\domain\valueObjects\ShippingAddress;
+use Src\shared\domain\repositories\EventPublisher;
 
 class CreateOrderFromCartUseCase
 {
@@ -16,6 +17,7 @@ class CreateOrderFromCartUseCase
         private CartRepositoryInterface $cartRepository,
         private ProductRepositoryInterface $productRepository,
         private OrderRepositoryInterface $orderRepository,
+        private EventPublisher $eventPublisher,
     ) {}
 
     public function execute(
@@ -78,6 +80,10 @@ class CreateOrderFromCartUseCase
         );
 
         $this->orderRepository->save($order);
+
+        foreach ($order->releaseEvents() as $event) {
+            $this->eventPublisher->publish($event);
+        }
 
         foreach ($cart->items() as $cartItem) {
             $this->productRepository->decrementStock($cartItem->productId(), $cartItem->quantity());

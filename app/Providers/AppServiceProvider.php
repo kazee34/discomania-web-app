@@ -5,8 +5,25 @@ namespace App\Providers;
 use Carbon\CarbonImmutable;
 use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Event;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Validation\Rules\Password;
+use Src\admin\customer\application\listeners\LogoutUserOnCustomerDeactivatedListener;
+use Src\admin\user\application\listeners\CreateAdminOnUserCreatedListener;
+use Src\admin\user\application\listeners\DeleteUserOnAdminDeletedListener;
+use Src\admin\user\application\listeners\LogoutUserOnAdminDeactivatedListener;
+use Src\admin\user\domain\events\AdminDeactivatedEvent;
+use Src\admin\user\domain\events\AdminDeletedEvent;
+use Src\customer\order\application\listeners\SendOrderConfirmationEmailOnOrderCreatedListener;
+use Src\customer\order\application\listeners\SendOrderStatusUpdateEmailListener;
+use Src\customer\order\domain\events\OrderCancelledEvent;
+use Src\customer\order\domain\events\OrderCreatedEvent;
+use Src\customer\order\domain\events\OrderStatusUpdatedEvent;
+use Src\customer\payment\application\listeners\OrderPaymentRefundOnCancelledOrderListener;
+use Src\customer\user\application\listeners\SendWelcomeEmailOnCustomerCreatedListener;
+use Src\customer\user\domain\events\CustomerCreatedEvent;
+use Src\customer\user\domain\events\CustomerDeactivatedEvent;
+use Src\shared\domain\events\UserCreatedEvent;
 use Src\admin\customer\domain\repositories\AdminCustomerRepositoryInterface;
 use Src\admin\customer\infrastructure\repositories\EloquentAdminCustomerRepository;
 use Src\admin\dashboard\domain\repositories\DashboardStatsRepositoryInterface;
@@ -120,6 +137,19 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         $this->configureDefaults();
+        $this->registerEventListeners();
+    }
+
+    private function registerEventListeners(): void
+    {
+        Event::listen(AdminDeletedEvent::class, DeleteUserOnAdminDeletedListener::class);
+        Event::listen(AdminDeactivatedEvent::class, LogoutUserOnAdminDeactivatedListener::class);
+        Event::listen(CustomerDeactivatedEvent::class, LogoutUserOnCustomerDeactivatedListener::class);
+        Event::listen(UserCreatedEvent::class, CreateAdminOnUserCreatedListener::class);
+        Event::listen(OrderCancelledEvent::class, OrderPaymentRefundOnCancelledOrderListener::class);
+        Event::listen(CustomerCreatedEvent::class, SendWelcomeEmailOnCustomerCreatedListener::class);
+        Event::listen(OrderCreatedEvent::class, SendOrderConfirmationEmailOnOrderCreatedListener::class);
+        Event::listen(OrderStatusUpdatedEvent::class, SendOrderStatusUpdateEmailListener::class);
     }
 
     /**

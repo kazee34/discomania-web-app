@@ -63,10 +63,10 @@ const maskedPreview = computed(() => {
             <Label for="iban">IBAN</Label>
             <Input
                 id="iban"
-                :value="modelValue.iban"
+                :modelValue="modelValue.iban"
                 placeholder="ES91 2100 0418 4502 0005 1332"
                 class="mt-1 font-mono tracking-wider"
-                @input="update('iban', ($event.target as HTMLInputElement).value)"
+                @update:modelValue="update('iban', $event)"
             />
             <div class="mt-1 flex items-center justify-between">
                 <p
@@ -84,10 +84,10 @@ const maskedPreview = computed(() => {
             <Label for="account_holder">Titular de la cuenta</Label>
             <Input
                 id="account_holder"
-                :value="modelValue.account_holder"
+                :modelValue="modelValue.account_holder"
                 placeholder="Nombre completo del titular"
                 class="mt-1"
-                @input="update('account_holder', ($event.target as HTMLInputElement).value)"
+                @update:modelValue="update('account_holder', $event)"
             />
             <p v-if="errors?.account_holder" class="mt-1 text-xs text-destructive">{{ errors.account_holder }}</p>
         </div>
@@ -97,10 +97,10 @@ const maskedPreview = computed(() => {
             <Label for="bank_name">Nombre del banco <span class="text-muted-foreground text-xs">(opcional)</span></Label>
             <Input
                 id="bank_name"
-                :value="modelValue.bank_name"
+                :modelValue="modelValue.bank_name"
                 placeholder="CaixaBank, BBVA..."
                 class="mt-1"
-                @input="update('bank_name', ($event.target as HTMLInputElement).value)"
+                @update:modelValue="update('bank_name', $event)"
             />
         </div>
 

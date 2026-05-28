@@ -17,23 +17,23 @@ class SendOrderConfirmationEmailUseCase
 
     public function execute(int $customerId, string $orderNumber, float $totalAmount): void
     {
-        $customer = $this->customerRepository->findById($customerId);
-
-        if (! $customer) {
-            Log::warning('SendOrderConfirmationEmail: customer not found', ['customerId' => $customerId]);
-
-            return;
-        }
-
-        $user = $this->userRepository->findById($customer->userId());
-
-        if (! $user) {
-            Log::warning('SendOrderConfirmationEmail: user not found', ['userId' => $customer->userId()]);
-
-            return;
-        }
-
         try {
+            $customer = $this->customerRepository->findById($customerId);
+
+            if (! $customer) {
+                Log::warning('SendOrderConfirmationEmail: customer not found', ['customerId' => $customerId]);
+
+                return;
+            }
+
+            $user = $this->userRepository->findById($customer->userId());
+
+            if (! $user) {
+                Log::warning('SendOrderConfirmationEmail: user not found', ['userId' => $customer->userId()]);
+
+                return;
+            }
+
             $this->notifier->sendOrderConfirmation(
                 $user->email()->value(),
                 "{$customer->firstName()->value()} {$customer->lastName()->value()}",

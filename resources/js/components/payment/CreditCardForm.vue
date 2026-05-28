@@ -31,10 +31,8 @@ function formatCardNumber(raw: string): string {
     return raw.replace(/\D/g, '').slice(0, 16).replace(/(.{4})/g, '$1 ').trim();
 }
 
-function onCardNumberInput(e: Event) {
-    const formatted = formatCardNumber((e.target as HTMLInputElement).value);
-    (e.target as HTMLInputElement).value = formatted;
-    update('card_number', formatted);
+function onCardNumberUpdate(value: string) {
+    update('card_number', formatCardNumber(value));
 }
 
 function luhn(number: string): boolean {
@@ -113,11 +111,11 @@ const years = Array.from({ length: 15 }, (_, i) => currentYear + i);
             <div class="relative mt-1">
                 <Input
                     id="card_number"
-                    :value="modelValue.card_number"
+                    :modelValue="modelValue.card_number"
                     inputmode="numeric"
                     placeholder="0000 0000 0000 0000"
                     maxlength="19"
-                    @input="onCardNumberInput"
+                    @update:modelValue="onCardNumberUpdate"
                 />
                 <span
                     v-if="modelValue.card_number.replace(/\s/g, '').length === 16"
@@ -138,10 +136,10 @@ const years = Array.from({ length: 15 }, (_, i) => currentYear + i);
             <Label for="card_holder">Titular</Label>
             <Input
                 id="card_holder"
-                :value="modelValue.card_holder"
+                :modelValue="modelValue.card_holder"
                 placeholder="Nombre tal como aparece en la tarjeta"
                 class="mt-1"
-                @input="update('card_holder', ($event.target as HTMLInputElement).value)"
+                @update:modelValue="update('card_holder', $event)"
             />
             <p v-if="errors?.card_holder" class="mt-1 text-xs text-destructive">{{ errors.card_holder }}</p>
         </div>
@@ -176,12 +174,12 @@ const years = Array.from({ length: 15 }, (_, i) => currentYear + i);
                 <Label for="cvv">CVV <span class="text-destructive">*</span></Label>
                 <Input
                     id="cvv"
-                    :value="modelValue.cvv"
+                    :modelValue="modelValue.cvv"
                     inputmode="numeric"
                     placeholder="123"
                     maxlength="3"
                     class="mt-1"
-                    @input="update('cvv', ($event.target as HTMLInputElement).value.replace(/\D/g, '').slice(0, 3))"
+                    @update:modelValue="update('cvv', String($event).replace(/\D/g, '').slice(0, 3))"
                 />
                 <p v-if="errors?.cvv" class="mt-1 text-xs text-destructive">{{ errors.cvv }}</p>
             </div>

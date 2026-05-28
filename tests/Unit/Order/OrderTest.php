@@ -84,10 +84,14 @@ class OrderTest extends TestCase
         $order->cancel();
         $events = $order->releaseEvents();
 
-        $this->assertCount(1, $events);
+        $this->assertCount(2, $events);
         $this->assertInstanceOf(
             \Src\customer\order\domain\events\OrderCancelledEvent::class,
             $events[0]
+        );
+        $this->assertInstanceOf(
+            \Src\customer\order\domain\events\OrderStatusUpdatedEvent::class,
+            $events[1]
         );
     }
 }

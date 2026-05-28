@@ -15,15 +15,15 @@ class SendCustomerWelcomeEmailUseCase
 
     public function execute(int $userId, string $firstName, string $lastName): void
     {
-        $user = $this->userRepository->findById($userId);
-
-        if (! $user) {
-            Log::warning('SendCustomerWelcomeEmail: user not found', ['userId' => $userId]);
-
-            return;
-        }
-
         try {
+            $user = $this->userRepository->findById($userId);
+
+            if (! $user) {
+                Log::warning('SendCustomerWelcomeEmail: user not found', ['userId' => $userId]);
+
+                return;
+            }
+
             $this->notifier->sendWelcome($user->email()->value(), $firstName, $lastName);
         } catch (\Throwable $e) {
             Log::error('SendCustomerWelcomeEmail failed', [

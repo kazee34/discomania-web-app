@@ -18,23 +18,23 @@ class SendOrderStatusUpdateEmailUseCase
 
     public function execute(int $customerId, string $orderNumber, OrderStatus $newStatus, float $totalAmount): void
     {
-        $customer = $this->customerRepository->findById($customerId);
-
-        if (! $customer) {
-            Log::warning('SendOrderStatusUpdateEmail: customer not found', ['customerId' => $customerId]);
-
-            return;
-        }
-
-        $user = $this->userRepository->findById($customer->userId());
-
-        if (! $user) {
-            Log::warning('SendOrderStatusUpdateEmail: user not found', ['userId' => $customer->userId()]);
-
-            return;
-        }
-
         try {
+            $customer = $this->customerRepository->findById($customerId);
+
+            if (! $customer) {
+                Log::warning('SendOrderStatusUpdateEmail: customer not found', ['customerId' => $customerId]);
+
+                return;
+            }
+
+            $user = $this->userRepository->findById($customer->userId());
+
+            if (! $user) {
+                Log::warning('SendOrderStatusUpdateEmail: user not found', ['userId' => $customer->userId()]);
+
+                return;
+            }
+
             $this->notifier->sendOrderStatusUpdated(
                 $user->email()->value(),
                 "{$customer->firstName()->value()} {$customer->lastName()->value()}",
