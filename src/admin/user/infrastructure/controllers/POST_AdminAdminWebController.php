@@ -31,7 +31,7 @@ final class POST_AdminAdminWebController extends Controller
         $this->useCase->execute(
             name: $data['name'],
             email: $data['email'],
-            password: bcrypt($data['password']),
+            password: $data['password'],
             role: $data['role'],
         );
 
