@@ -57,9 +57,20 @@ function clearAll() {
 <template>
     <div class="flex flex-col gap-1">
         <!-- Search -->
-        <div class="mb-4">
+        <div class="mb-2">
             <Input v-model="search" placeholder="Buscar artista o álbum..." class="w-full" />
         </div>
+
+        <!-- Clear filters -->
+        <button
+            v-if="activeFilters() > 0"
+            class="mb-3 flex items-center gap-2 rounded-lg bg-violet-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-violet-700 transition-colors"
+            @click="clearAll"
+        >
+            <X class="h-4 w-4 shrink-0" />
+            Limpiar filtros ({{ activeFilters() }})
+        </button>
+        <div v-else class="mb-3" />
 
         <!-- Precio -->
         <div class="border-t pt-3">
@@ -87,16 +98,6 @@ function clearAll() {
                 </div>
             </div>
         </div>
-
-        <!-- Clear filters -->
-        <button
-            v-if="activeFilters() > 0"
-            class="mb-3 flex items-center gap-2 rounded-lg bg-violet-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-violet-700 transition-colors"
-            @click="clearAll"
-        >
-            <X class="h-4 w-4 shrink-0" />
-            Limpiar filtros ({{ activeFilters() }})
-        </button>
 
         <!-- Género -->
         <div class="border-t pt-3">

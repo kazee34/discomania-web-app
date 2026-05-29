@@ -34,10 +34,38 @@ const priceMax        = ref<number | ''>('');
 const currentPage     = ref(1);
 const PER_PAGE        = 20;
 
-onMounted(() => {
-    const params = new URLSearchParams(window.location.search);
-    const page = parseInt(params.get('page') ?? '1');
+function syncFromUrl(): void {
+    const p = new URLSearchParams(window.location.search);
+    const page = parseInt(p.get('page') ?? '1');
     if (!isNaN(page) && page > 1) currentPage.value = page;
+    if (p.get('q'))       search.value          = p.get('q')!;
+    if (p.get('genre'))   selectedGenre.value   = p.get('genre')!;
+    if (p.get('country')) selectedCountry.value = p.get('country')!;
+    if (p.get('decade'))  selectedDecade.value  = parseInt(p.get('decade')!);
+    if (p.get('sort'))    sortBy.value           = p.get('sort')!;
+    if (p.get('pmin'))    priceMin.value         = parseFloat(p.get('pmin')!);
+    if (p.get('pmax'))    priceMax.value         = parseFloat(p.get('pmax')!);
+}
+
+function syncToUrl(): void {
+    const url = new URL(window.location.href);
+    const set = (k: string, v: string | number | '') => {
+        if (v !== '' && v !== 'default' && v !== null) url.searchParams.set(k, String(v));
+        else url.searchParams.delete(k);
+    };
+    set('page', currentPage.value > 1 ? currentPage.value : '');
+    set('q',       search.value);
+    set('genre',   selectedGenre.value);
+    set('country', selectedCountry.value);
+    set('decade',  selectedDecade.value);
+    set('sort',    sortBy.value);
+    set('pmin',    priceMin.value);
+    set('pmax',    priceMax.value);
+    history.replaceState({}, '', url.toString());
+}
+
+onMounted(() => {
+    syncFromUrl();
     fetchCart();
 });
 
@@ -101,13 +129,12 @@ const paginated = computed(() => {
 
 function onFilterChange() {
     currentPage.value = 1;
+    syncToUrl();
 }
 
 function goToPage(page: number) {
     currentPage.value = Math.max(1, Math.min(page, totalPages.value));
-    const url = new URL(window.location.href);
-    url.searchParams.set('page', String(currentPage.value));
-    history.replaceState({}, '', url.toString());
+    syncToUrl();
     window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 </script>
@@ -138,6 +165,7 @@ function goToPage(page: number) {
                         @update:selected-genre="onFilterChange"
                         @update:selected-country="onFilterChange"
                         @update:selected-decade="onFilterChange"
+                        @update:sort-by="onFilterChange"
                         @update:price-min="onFilterChange"
                         @update:price-max="onFilterChange"
                     />
