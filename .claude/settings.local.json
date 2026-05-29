@@ -1,7 +1,9 @@
 {
   "permissions": {
     "allow": [
-      "WebFetch(domain:coverartarchive.org)"
+      "WebFetch(domain:coverartarchive.org)",
+      "WebFetch(domain:musicbrainz.org)",
+      "Bash(php artisan tinker '--execute= *)"
     ]
   }
 }

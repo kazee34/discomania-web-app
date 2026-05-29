@@ -4,10 +4,11 @@ import { computed, ref } from 'vue';
 import Slider from '@/components/ui/slider/Slider.vue';
 import { Input } from '@/components/ui/input';
 
-defineProps<{
+const props = defineProps<{
     genres: string[];
     countries: string[];
     decades: number[];
+    maxPrice: number;
 }>();
 
 const search          = defineModel<string>('search',          { default: '' });
@@ -19,16 +20,15 @@ const priceMin        = defineModel<number | ''>('priceMin',   { default: '' });
 const priceMax        = defineModel<number | ''>('priceMax',   { default: '' });
 
 const PRICE_MIN = 0;
-const PRICE_MAX = 150;
 
 const sliderValue = computed({
     get: () => [
         priceMin.value === '' ? PRICE_MIN : Number(priceMin.value),
-        priceMax.value === '' ? PRICE_MAX : Number(priceMax.value),
+        priceMax.value === '' ? props.maxPrice : Number(priceMax.value),
     ],
     set: ([min, max]: number[]) => {
         priceMin.value = min === PRICE_MIN ? '' : min;
-        priceMax.value = max === PRICE_MAX ? '' : max;
+        priceMax.value = max === props.maxPrice ? '' : max;
     },
 });
 
@@ -77,7 +77,7 @@ function clearAll() {
                 <Slider
                     v-model="sliderValue"
                     :min="PRICE_MIN"
-                    :max="PRICE_MAX"
+                    :max="props.maxPrice"
                     :step="1"
                     class="mb-3"
                 />

@@ -48,6 +48,10 @@ const stockLabel = computed(() => {
     return              { text: 'En stock',            class: 'text-green-600' };
 });
 
+function goBack() {
+    window.history.back();
+}
+
 async function handleAddToCart() {
     if (!canAdd.value) return;
     await addItem(props.product.id, props.product.price);
@@ -63,12 +67,12 @@ async function handleAddToCart() {
         <ShopNavbar />
 
         <main class="mx-auto max-w-5xl px-4 py-10 sm:px-6">
-            <Link
-                href="/shop"
+            <button
                 class="mb-8 inline-block text-sm text-muted-foreground hover:text-foreground"
+                @click="goBack"
             >
                 ← Volver al catálogo
-            </Link>
+            </button>
 
             <div class="grid gap-10 md:grid-cols-2">
                 <!-- Portada -->

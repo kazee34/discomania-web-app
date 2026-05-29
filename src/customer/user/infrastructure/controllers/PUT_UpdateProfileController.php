@@ -20,7 +20,7 @@ final class PUT_UpdateProfileController extends Controller
         $data = $request->validate([
             'firstName' => ['required', 'string', 'min:3', 'max:100', new NoSpecialCharacters],
             'lastName' => ['required', 'string', 'min:3', 'max:100', new NoSpecialCharacters],
-            'phone' => ['nullable', 'string', 'max:20', new NoSpecialCharacters],
+            'phone' => ['nullable', 'string', 'regex:/^\+?[\d\s\-]{6,20}$/'],
             'birthDate' => ['nullable', 'date', 'after_or_equal:1900-01-01', 'before_or_equal:'.now()->subYears(16)->format('Y-m-d')],
             'dniNif' => ['nullable', 'string', 'max:20', new NoSpecialCharacters],
             'shippingStreet' => ['required', 'string', 'max:200', new NoSpecialCharacters],

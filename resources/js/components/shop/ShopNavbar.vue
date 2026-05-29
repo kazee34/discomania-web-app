@@ -41,28 +41,28 @@ function isActive(path: string, exact = false): boolean {
                 <Link
                     v-if="!isActive('/', true)"
                     href="/"
-                    class="hidden text-sm text-white/70 transition-colors hover:text-white sm:block"
+                    class="hidden text-sm font-medium text-white/80 transition-colors hover:text-white sm:block"
                 >
                     Inicio
                 </Link>
                 <Link
                     v-if="!isActive('/shop')"
                     href="/shop"
-                    class="hidden text-sm text-white/70 transition-colors hover:text-white sm:block"
+                    class="hidden text-sm font-medium text-white/80 transition-colors hover:text-white sm:block"
                 >
                     Tienda
                 </Link>
                 <Link
                     v-if="!isActive('/acerca')"
                     href="/acerca"
-                    class="hidden text-sm text-white/70 transition-colors hover:text-white sm:block"
+                    class="hidden text-sm font-medium text-white/80 transition-colors hover:text-white sm:block"
                 >
                     Acerca de nosotros
                 </Link>
                 <Link
                     v-if="$page.props.isAdmin && !isActive('/dashboard') && !isActive('/admin')"
                     href="/dashboard"
-                    class="hidden text-sm text-white/70 transition-colors hover:text-white sm:block"
+                    class="hidden text-sm font-bold text-white/80 transition-colors hover:text-white sm:block"
                 >
                     Admin Panel
                 </Link>

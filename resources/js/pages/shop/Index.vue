@@ -34,7 +34,12 @@ const priceMax        = ref<number | ''>('');
 const currentPage     = ref(1);
 const PER_PAGE        = 20;
 
-onMounted(() => fetchCart());
+onMounted(() => {
+    const params = new URLSearchParams(window.location.search);
+    const page = parseInt(params.get('page') ?? '1');
+    if (!isNaN(page) && page > 1) currentPage.value = page;
+    fetchCart();
+});
 
 const genres = computed(() => {
     const all = props.products.map((p) => p.genre).filter(Boolean);
@@ -85,6 +90,8 @@ const filtered = computed(() => {
     }
 });
 
+const maxPrice = computed(() => Math.ceil(Math.max(...props.products.map(p => p.price))));
+
 const totalPages = computed(() => Math.max(1, Math.ceil(filtered.value.length / PER_PAGE)));
 
 const paginated = computed(() => {
@@ -98,6 +105,9 @@ function onFilterChange() {
 
 function goToPage(page: number) {
     currentPage.value = Math.max(1, Math.min(page, totalPages.value));
+    const url = new URL(window.location.href);
+    url.searchParams.set('page', String(currentPage.value));
+    history.replaceState({}, '', url.toString());
     window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 </script>
@@ -123,6 +133,7 @@ function goToPage(page: number) {
                         :genres="genres"
                         :countries="countries"
                         :decades="decades"
+                        :max-price="maxPrice"
                         @update:search="onFilterChange"
                         @update:selected-genre="onFilterChange"
                         @update:selected-country="onFilterChange"
@@ -164,6 +175,14 @@ function goToPage(page: number) {
                             variant="outline"
                             size="sm"
                             :disabled="currentPage === 1"
+                            @click="goToPage(1)"
+                        >
+                            «
+                        </Button>
+                        <Button
+                            variant="outline"
+                            size="sm"
+                            :disabled="currentPage === 1"
                             @click="goToPage(currentPage - 1)"
                         >
                             Anterior
@@ -193,6 +212,14 @@ function goToPage(page: number) {
                             @click="goToPage(currentPage + 1)"
                         >
                             Siguiente
+                        </Button>
+                        <Button
+                            variant="outline"
+                            size="sm"
+                            :disabled="currentPage === totalPages"
+                            @click="goToPage(totalPages)"
+                        >
+                            »
                         </Button>
                     </div>
                 </div>

@@ -30,7 +30,7 @@ class CreateNewUser implements CreatesNewUsers
             'last_name' => ['required', 'string', 'min:3', 'max:100', new NoSpecialCharacters],
             'email' => ['required', 'string', 'email', 'max:255', Rule::unique(UserModel::class, 'email')],
             'password' => ['required', 'string', Password::min(8)->mixedCase()->numbers(), 'confirmed'],
-            'phone' => ['nullable', 'string', 'max:50', new NoSpecialCharacters],
+            'phone' => ['nullable', 'string', 'regex:/^\+?[\d\s\-]{6,20}$/'],
             'birth_date' => ['nullable', 'date', 'before:-16 years'],
             'dni_nif' => ['nullable', 'string', 'max:20', new NoSpecialCharacters],
             'shipping_street' => ['required', 'string', 'max:255', new NoSpecialCharacters],

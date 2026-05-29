@@ -13,11 +13,14 @@ class CustomerPhone
 
     private function validate(): void
     {
-        if ($this->phone !== null && empty($this->phone)) {
+        if ($this->phone === null) {
+            return;
+        }
+        if (empty($this->phone)) {
             throw new InvalidArgumentException('Phone cannot be empty string');
         }
-        if ($this->phone !== null && strlen($this->phone) > 50) {
-            throw new InvalidArgumentException('Phone cannot exceed 50 characters');
+        if (!preg_match('/^\+?[\d\s\-]{6,20}$/', $this->phone)) {
+            throw new InvalidArgumentException('Phone must contain only digits, spaces, hyphens or a leading +');
         }
     }
 

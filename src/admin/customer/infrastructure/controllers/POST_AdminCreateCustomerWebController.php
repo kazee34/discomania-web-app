@@ -26,7 +26,7 @@ final class POST_AdminCreateCustomerWebController extends Controller
             'last_name' => ['required', 'string', 'min:2', 'max:100', new NoSpecialCharacters],
             'email' => ['required', 'email', Rule::unique('users', 'email')],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
-            'phone' => ['nullable', 'string', 'max:50', new NoSpecialCharacters],
+            'phone' => ['nullable', 'string', 'regex:/^\+?[\d\s\-]{6,20}$/'],
             'birth_date' => ['nullable', 'date', 'before:-16 years'],
             'dni_nif' => ['nullable', 'string', 'max:20', new NoSpecialCharacters],
             'shipping_street' => ['required', 'string', 'max:255', new NoSpecialCharacters],
