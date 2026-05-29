@@ -72,7 +72,7 @@ class ProductSeeder extends Seeder
                 'cover' => 'https://coverartarchive.org/release/ec116461-5b0d-4c98-bb44-a4de5de63076/12639807914-500.jpg',
             ],
             [
-                'artist' => 'Aphex Twin', 'album_title' => 'Selected Ambient Works 85-92',
+                'artist' => 'Aphex Twin', 'album_title' => 'Selected Ambient Works 85–92',
                 'genre' => 'Electronic', 'release_year' => 1992, 'country' => 'Reino Unido',
                 'label' => 'Apollo', 'price' => 33.99, 'stock' => 4,
                 'cover' => 'https://coverartarchive.org/release/8e102a2b-1955-4346-873a-c11f14626f45/front-500',
