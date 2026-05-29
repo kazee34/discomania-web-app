@@ -27,4 +27,6 @@ interface ProductRepositoryInterface
     public function searchBetweenYears(int $startYear, int $endYear): array;
 
     public function decrementStock(int $productId, int $quantity): void;
+
+    public function incrementStock(int $productId, int $quantity): void;
 }

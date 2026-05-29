@@ -3,14 +3,17 @@
 namespace Tests\Feature\Order;
 
 use App\Models\CustomerModel;
+use App\Models\OrderItemModel;
 use App\Models\OrderModel;
 use App\Models\OrderPaymentModel;
+use App\Models\ProductModel;
 use App\Models\UserModel;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Event;
 use Src\customer\order\application\useCases\CancelOrderUseCase;
 use Src\customer\order\domain\events\OrderCancelledEvent;
 use Src\customer\payment\application\listeners\OrderPaymentRefundOnCancelledOrderListener;
+use Src\customer\product\application\listeners\RestoreProductStockOnOrderCancelledListener;
 use Tests\TestCase;
 
 class CancelOrderUseCaseTest extends TestCase
@@ -89,6 +92,39 @@ class CancelOrderUseCaseTest extends TestCase
                     && $event->orderId === $order->id;
             });
         });
+    }
+
+    public function test_cancel_restores_product_stock_via_event_listener(): void
+    {
+        $product = ProductModel::create([
+            'artist' => 'The Beatles',
+            'album_title' => 'Abbey Road',
+            'slug' => 'abbey-road',
+            'price' => 25.00,
+            'stock_quantity' => 10,
+            'is_active' => true,
+        ]);
+
+        $product->decrement('stock_quantity', 2);
+
+        [$order] = $this->makeOrderWithPayment();
+
+        OrderItemModel::create([
+            'order_id' => $order->id,
+            'product_id' => $product->id,
+            'product_snapshot' => ['artist' => 'The Beatles', 'album_title' => 'Abbey Road', 'slug' => 'abbey-road', 'genre' => null, 'cover_image_url' => null],
+            'quantity' => 2,
+            'price_per_unit' => 25.00,
+            'subtotal' => 50.00,
+        ]);
+
+        $event = new OrderCancelledEvent($order->id, $order->customer_id, $order->order_number);
+        app(RestoreProductStockOnOrderCancelledListener::class)->handle($event);
+
+        $this->assertDatabaseHas('products', [
+            'id' => $product->id,
+            'stock_quantity' => 10,
+        ]);
     }
 
     public function test_cancel_refunds_payment_via_event_listener(): void

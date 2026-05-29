@@ -27,15 +27,6 @@
                     $info = $statusMessages[$newStatus->value] ?? ['title' => 'Estado actualizado', 'desc' => 'El estado de tu pedido ha cambiado.', 'color' => '#6b7280'];
                 @endphp
 
-                <!-- Status badge -->
-                <tr>
-                    <td style="padding:24px 40px 0;text-align:center;">
-                        <span style="display:inline-block;background-color:{{ $info['color'] }};color:#fff;border-radius:20px;padding:6px 20px;font-size:13px;font-weight:bold;text-transform:uppercase;letter-spacing:1px;">
-                            {{ $newStatus->value }}
-                        </span>
-                    </td>
-                </tr>
-
                 <!-- Body -->
                 <tr>
                     <td style="padding:24px 40px 40px;">
@@ -78,7 +69,7 @@
                 <tr>
                     <td style="background-color:#f8f8f8;padding:20px 40px;text-align:center;border-top:1px solid #e8e8e8;">
                         <p style="color:#999;font-size:12px;margin:0;">
-                            © {{ date('Y') }} Discomania. Todos los derechos reservados.
+                            © {{ date('Y') }} Discomania — Vinilos & Música. Todos los derechos reservados.
                         </p>
                     </td>
                 </tr>

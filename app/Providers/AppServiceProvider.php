@@ -23,6 +23,7 @@ use Src\customer\order\domain\events\OrderCancelledEvent;
 use Src\customer\order\domain\events\OrderCreatedEvent;
 use Src\customer\order\domain\events\OrderStatusUpdatedEvent;
 use Src\customer\payment\application\listeners\OrderPaymentRefundOnCancelledOrderListener;
+use Src\customer\product\application\listeners\RestoreProductStockOnOrderCancelledListener;
 use Src\customer\user\application\listeners\SendWelcomeEmailOnCustomerCreatedListener;
 use Src\customer\user\domain\events\CustomerCreatedEvent;
 use Src\customer\user\domain\events\CustomerDeactivatedEvent;
@@ -160,6 +161,7 @@ class AppServiceProvider extends ServiceProvider
         Event::listen(CustomerDeactivatedEvent::class, LogoutUserOnCustomerDeactivatedListener::class);
         Event::listen(UserCreatedEvent::class, CreateAdminOnUserCreatedListener::class);
         Event::listen(OrderCancelledEvent::class, OrderPaymentRefundOnCancelledOrderListener::class);
+        Event::listen(OrderCancelledEvent::class, RestoreProductStockOnOrderCancelledListener::class);
         Event::listen(CustomerCreatedEvent::class, SendWelcomeEmailOnCustomerCreatedListener::class);
         Event::listen(OrderCreatedEvent::class, SendOrderConfirmationEmailOnOrderCreatedListener::class);
         Event::listen(OrderStatusUpdatedEvent::class, SendOrderStatusUpdateEmailListener::class);

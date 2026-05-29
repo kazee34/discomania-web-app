@@ -42,7 +42,7 @@
                 <tr>
                     <td style="background-color:#f8f8f8;padding:20px 40px;text-align:center;border-top:1px solid #e8e8e8;">
                         <p style="color:#999;font-size:12px;margin:0;">
-                            © {{ date('Y') }} Discomania. Todos los derechos reservados.
+                            © {{ date('Y') }} Discomania — Vinilos & Música. Todos los derechos reservados.
                         </p>
                     </td>
                 </tr>

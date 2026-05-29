@@ -102,6 +102,12 @@ class EloquentProductRepository implements ProductRepositoryInterface
             ->decrement('stock_quantity', $quantity);
     }
 
+    public function incrementStock(int $productId, int $quantity): void
+    {
+        ProductModel::where('id', $productId)
+            ->increment('stock_quantity', $quantity);
+    }
+
     private static function toProduct(ProductModel $model): Product
     {
         return new Product(
