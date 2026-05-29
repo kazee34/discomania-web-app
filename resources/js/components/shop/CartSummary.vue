@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Link, router } from '@inertiajs/vue3';
+import { Link, router, usePage } from '@inertiajs/vue3';
 import { computed } from 'vue';
 import { Button } from '@/components/ui/button';
 import { login, register } from '@/routes';
@@ -12,10 +12,15 @@ const props = defineProps<{
 const TAX_RATE = 0.21;
 const SHIPPING_THRESHOLD = 60;
 const SHIPPING_COST = 6.99;
+const VIP_DISCOUNT_RATE = 0.15;
 
-const iva      = computed(() => Math.round(props.subtotal * TAX_RATE * 100) / 100);
-const shipping = computed(() => props.subtotal >= SHIPPING_THRESHOLD ? 0 : SHIPPING_COST);
-const total    = computed(() => Math.round((props.subtotal + iva.value + shipping.value) * 100) / 100);
+const page = usePage();
+const isVip = computed(() => !!page.props.auth?.isVip);
+const discount = computed(() => isVip.value ? Math.round(props.subtotal * VIP_DISCOUNT_RATE * 100) / 100 : 0);
+const discountedSubtotal = computed(() => props.subtotal - discount.value);
+const iva      = computed(() => Math.round(discountedSubtotal.value * TAX_RATE * 100) / 100);
+const shipping = computed(() => discountedSubtotal.value >= SHIPPING_THRESHOLD ? 0 : SHIPPING_COST);
+const total    = computed(() => Math.round((discountedSubtotal.value + iva.value + shipping.value) * 100) / 100);
 
 function checkout() {
     const cartToken = localStorage.getItem('discomania_cart_token') ?? '';
@@ -30,6 +35,10 @@ function checkout() {
         <div class="flex justify-between text-sm">
             <span class="text-muted-foreground">Subtotal ({{ itemCount }} {{ itemCount === 1 ? 'artículo' : 'artículos' }})</span>
             <span class="font-medium">{{ subtotal.toFixed(2) }} €</span>
+        </div>
+        <div v-if="discount > 0" class="flex justify-between text-sm text-green-600">
+            <span>Descuento VIP (15%)</span>
+            <span class="font-medium">-{{ discount.toFixed(2) }} €</span>
         </div>
         <div class="flex justify-between text-sm">
             <span class="text-muted-foreground">IVA (21%)</span>

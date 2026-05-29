@@ -22,6 +22,33 @@ const form = useForm({
 });
 
 function submit() {
+    form.clearErrors();
+    let ok = true;
+
+    if (!form.name.trim()) {
+        form.setError('name', 'El nombre es obligatorio.');
+        ok = false;
+    }
+    if (!form.email.trim()) {
+        form.setError('email', 'El correo electrónico es obligatorio.');
+        ok = false;
+    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email)) {
+        form.setError('email', 'El formato del correo electrónico no es válido.');
+        ok = false;
+    }
+    if (!form.password) {
+        form.setError('password', 'La contraseña es obligatoria.');
+        ok = false;
+    } else if (form.password.length < 8) {
+        form.setError('password', 'La contraseña debe tener al menos 8 caracteres.');
+        ok = false;
+    }
+    if (form.password && form.password !== form.password_confirmation) {
+        form.setError('password_confirmation', 'La confirmación de contraseña no coincide.');
+        ok = false;
+    }
+
+    if (!ok) return;
     form.post('/admin/admins');
 }
 </script>
@@ -73,6 +100,7 @@ function submit() {
                 <div class="flex flex-col gap-1.5">
                     <Label for="password_confirmation">Confirmar contraseña</Label>
                     <InputPassword id="password_confirmation" v-model="form.password_confirmation" />
+                    <p v-if="form.errors.password_confirmation" class="text-xs text-destructive">{{ form.errors.password_confirmation }}</p>
                 </div>
 
                 <Button type="submit" :disabled="form.processing" class="mt-2">

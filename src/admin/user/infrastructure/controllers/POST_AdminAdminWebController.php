@@ -26,6 +26,17 @@ final class POST_AdminAdminWebController extends Controller
             'email' => ['required', 'email', 'unique:users,email'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
             'role' => ['required', 'in:admin,editor'],
+        ], [
+            'name.required'     => 'El nombre es obligatorio.',
+            'name.max'          => 'El nombre no puede superar los 255 caracteres.',
+            'email.required'    => 'El correo electrónico es obligatorio.',
+            'email.email'       => 'El formato del correo electrónico no es válido.',
+            'email.unique'      => 'Este correo electrónico ya está en uso.',
+            'password.required' => 'La contraseña es obligatoria.',
+            'password.min'      => 'La contraseña debe tener al menos 8 caracteres.',
+            'password.confirmed'=> 'La confirmación de contraseña no coincide.',
+            'role.required'     => 'El rol es obligatorio.',
+            'role.in'           => 'El rol seleccionado no es válido.',
         ]);
 
         $this->useCase->execute(

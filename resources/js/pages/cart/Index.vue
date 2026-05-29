@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Head } from '@inertiajs/vue3';
+import { Head, Link } from '@inertiajs/vue3';
 import { onMounted } from 'vue';
 import CartItemRow from '@/components/shop/CartItemRow.vue';
 import CartSummary from '@/components/shop/CartSummary.vue';

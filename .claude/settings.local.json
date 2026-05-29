@@ -3,7 +3,13 @@
     "allow": [
       "WebFetch(domain:coverartarchive.org)",
       "WebFetch(domain:musicbrainz.org)",
-      "Bash(php artisan tinker '--execute= *)"
+      "Bash(php artisan tinker '--execute= *)",
+      "Bash(php -l src/admin/product/infrastructure/validators/CreateProductRequest.php)",
+      "Bash(php -l src/admin/product/infrastructure/validators/UpdateProductRequest.php)",
+      "Bash(php -l src/admin/product/infrastructure/controllers/POST_AdminProductWebController.php)",
+      "Bash(php -l src/admin/product/infrastructure/controllers/PUT_AdminProductWebController.php)",
+      "Bash(npx tsc *)",
+      "Bash(php -l src/admin/product/domain/entities/Product.php)"
     ]
   }
 }

@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { Form, Head } from '@inertiajs/vue3';
+import { ref } from 'vue';
 import InputError from '@/components/InputError.vue';
 import TextLink from '@/components/TextLink.vue';
 import { Button } from '@/components/ui/button';
@@ -13,6 +14,8 @@ import { email } from '@/routes/password';
 defineProps<{
     status?: string;
 }>();
+
+const emailValue = ref('');
 </script>
 
 <template>
@@ -40,6 +43,7 @@ defineProps<{
                         autocomplete="off"
                         autofocus
                         placeholder="correo@ejemplo.com"
+                        v-model="emailValue"
                     />
                     <InputError :message="errors.email" />
                 </div>

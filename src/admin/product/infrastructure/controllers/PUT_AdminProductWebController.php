@@ -22,7 +22,6 @@ final class PUT_AdminProductWebController extends Controller
             albumTitle: $request->input('album_title'),
             price: $request->input('price') !== null ? (float) $request->input('price') : null,
             stock: $request->input('stock') !== null ? (int) $request->input('stock') : null,
-            slug: $request->input('slug'),
             genre: $request->input('genre'),
             releaseYear: $request->input('release_year') ? (int) $request->input('release_year') : null,
             country: $request->input('country'),

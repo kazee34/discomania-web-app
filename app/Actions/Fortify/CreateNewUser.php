@@ -39,6 +39,25 @@ class CreateNewUser implements CreatesNewUsers
             'shipping_city' => ['required', 'string', 'regex:/^[\pL\s\-\.]+$/u', 'max:100', new NoSpecialCharacters],
             'shipping_postal_code' => ['required', 'string', 'max:20', new NoSpecialCharacters],
             'shipping_state_province' => ['nullable', 'string', 'regex:/^[\pL\s\-\.]+$/u', 'max:100', new NoSpecialCharacters],
+        ], [
+            'first_name.required'             => 'El nombre es obligatorio.',
+            'first_name.min'                  => 'El nombre debe tener al menos 3 caracteres.',
+            'first_name.max'                  => 'El nombre no puede superar los 100 caracteres.',
+            'last_name.required'              => 'Los apellidos son obligatorios.',
+            'last_name.min'                   => 'Los apellidos deben tener al menos 3 caracteres.',
+            'last_name.max'                   => 'Los apellidos no pueden superar los 100 caracteres.',
+            'email.required'                  => 'El correo electrónico es obligatorio.',
+            'email.email'                     => 'El formato del correo electrónico no es válido.',
+            'email.unique'                    => 'Este correo electrónico ya está registrado.',
+            'password.required'               => 'La contraseña es obligatoria.',
+            'password.confirmed'              => 'La confirmación de contraseña no coincide.',
+            'phone.regex'                     => 'El formato del teléfono no es válido.',
+            'birth_date.before'               => 'Debes tener al menos 16 años para registrarte.',
+            'shipping_street.required'        => 'La calle es obligatoria.',
+            'shipping_street_number.required' => 'El número de la calle es obligatorio.',
+            'shipping_city.required'          => 'La ciudad es obligatoria.',
+            'shipping_city.regex'             => 'La ciudad solo puede contener letras y guiones.',
+            'shipping_postal_code.required'   => 'El código postal es obligatorio.',
         ])->validate();
 
         return DB::transaction(function () use ($input) {

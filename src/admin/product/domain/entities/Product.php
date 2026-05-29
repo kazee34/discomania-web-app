@@ -135,8 +135,8 @@ class Product
         int $releaseYear,
         string $country,
         string $label,
-        string $description,
-        string $coverImageUrl,
+        ?string $description,
+        ?string $coverImageUrl,
     ): self {
         $product = new self(
             id: null,

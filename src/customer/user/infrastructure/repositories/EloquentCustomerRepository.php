@@ -3,6 +3,7 @@
 namespace Src\customer\user\infrastructure\repositories;
 
 use App\Models\CustomerModel;
+use App\Models\UserModel;
 use Src\customer\user\domain\entities\Customer;
 use Src\customer\user\domain\exceptions\CustomerNotFoundException;
 use Src\customer\user\domain\repositories\CustomerRepositoryInterface;
@@ -45,6 +46,10 @@ class EloquentCustomerRepository implements CustomerRepositoryInterface
         $model = CustomerModel::query()->findOrFail($customer->id());
         $this->hydrateModel($model, $customer);
         $model->save();
+
+        UserModel::query()->where('id', $customer->userId())->update([
+            'name' => $customer->firstName()->value().' '.$customer->lastName()->value(),
+        ]);
     }
 
     public function delete(int $id): void

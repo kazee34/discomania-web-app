@@ -34,6 +34,59 @@ const form = useForm({
 });
 
 function submit() {
+    form.clearErrors();
+    let ok = true;
+
+    if (!form.first_name.trim()) {
+        form.setError('first_name', 'El nombre es obligatorio.');
+        ok = false;
+    } else if (form.first_name.trim().length < 2) {
+        form.setError('first_name', 'El nombre debe tener al menos 2 caracteres.');
+        ok = false;
+    }
+    if (!form.last_name.trim()) {
+        form.setError('last_name', 'Los apellidos son obligatorios.');
+        ok = false;
+    } else if (form.last_name.trim().length < 2) {
+        form.setError('last_name', 'Los apellidos deben tener al menos 2 caracteres.');
+        ok = false;
+    }
+    if (!form.email.trim()) {
+        form.setError('email', 'El correo electrónico es obligatorio.');
+        ok = false;
+    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email)) {
+        form.setError('email', 'El formato del correo electrónico no es válido.');
+        ok = false;
+    }
+    if (!form.password) {
+        form.setError('password', 'La contraseña es obligatoria.');
+        ok = false;
+    } else if (form.password.length < 8) {
+        form.setError('password', 'La contraseña debe tener al menos 8 caracteres.');
+        ok = false;
+    }
+    if (form.password && form.password !== form.password_confirmation) {
+        form.setError('password_confirmation', 'La confirmación de contraseña no coincide.');
+        ok = false;
+    }
+    if (!form.shipping_street.trim()) {
+        form.setError('shipping_street', 'La calle es obligatoria.');
+        ok = false;
+    }
+    if (!form.shipping_street_number.trim()) {
+        form.setError('shipping_street_number', 'El número de la calle es obligatorio.');
+        ok = false;
+    }
+    if (!form.shipping_city.trim()) {
+        form.setError('shipping_city', 'La ciudad es obligatoria.');
+        ok = false;
+    }
+    if (!form.shipping_postal_code.trim()) {
+        form.setError('shipping_postal_code', 'El código postal es obligatorio.');
+        ok = false;
+    }
+
+    if (!ok) return;
     form.post('/admin/customers');
 }
 </script>

@@ -24,6 +24,9 @@ use Src\customer\order\domain\events\OrderCreatedEvent;
 use Src\customer\order\domain\events\OrderStatusUpdatedEvent;
 use Src\customer\payment\application\listeners\OrderPaymentRefundOnCancelledOrderListener;
 use Src\customer\product\application\listeners\RestoreProductStockOnOrderCancelledListener;
+use Illuminate\Auth\Events\Logout;
+use Src\customer\cart\application\listeners\ClearCartOnUserLogoutListener;
+use Src\customer\user\application\listeners\IncrementCustomerTotalOrdersOnOrderCreatedListener;
 use Src\customer\user\application\listeners\SendWelcomeEmailOnCustomerCreatedListener;
 use Src\customer\user\domain\events\CustomerCreatedEvent;
 use Src\customer\user\domain\events\CustomerDeactivatedEvent;
@@ -164,6 +167,8 @@ class AppServiceProvider extends ServiceProvider
         Event::listen(OrderCancelledEvent::class, RestoreProductStockOnOrderCancelledListener::class);
         Event::listen(CustomerCreatedEvent::class, SendWelcomeEmailOnCustomerCreatedListener::class);
         Event::listen(OrderCreatedEvent::class, SendOrderConfirmationEmailOnOrderCreatedListener::class);
+        Event::listen(OrderCreatedEvent::class, IncrementCustomerTotalOrdersOnOrderCreatedListener::class);
+        Event::listen(Logout::class, ClearCartOnUserLogoutListener::class);
         Event::listen(OrderStatusUpdatedEvent::class, SendOrderStatusUpdateEmailListener::class);
     }
 

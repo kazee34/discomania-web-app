@@ -3,6 +3,7 @@
 namespace App\Http\Middleware;
 
 use App\Models\AdminModel;
+use App\Models\CustomerModel;
 use Illuminate\Http\Request;
 use Inertia\Middleware;
 
@@ -41,6 +42,9 @@ class HandleInertiaRequests extends Middleware
             'name' => config('app.name'),
             'auth' => [
                 'user' => $request->user(),
+                'isVip' => $request->user()
+                    ? CustomerModel::where('user_id', $request->user()->id)->value('is_vip')
+                    : null,
             ],
             'isAdmin' => $request->user()
                 ? AdminModel::where('user_id', $request->user()->id)->where('is_active', true)->exists()

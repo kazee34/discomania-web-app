@@ -41,7 +41,8 @@ const openPrice   = ref(false);
 const activeFilters = () =>
     [selectedGenre.value, selectedCountry.value, selectedDecade.value, search.value,
      priceMin.value !== '' ? priceMin.value : null,
-     priceMax.value !== '' ? priceMax.value : null].filter(Boolean).length;
+     priceMax.value !== '' ? priceMax.value : null,
+     sortBy.value !== 'default' ? sortBy.value : null].filter(Boolean).length;
 
 function clearAll() {
     search.value          = '';

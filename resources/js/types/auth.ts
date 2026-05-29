@@ -11,6 +11,7 @@ export type User = {
 
 export type Auth = {
     user: User;
+    isVip?: boolean | null;
 };
 
 export type TwoFactorConfigContent = {

@@ -66,7 +66,7 @@ class CreateOrderFromCartUseCase
         $subtotal = array_sum(array_map(fn ($item) => $item->subtotal(), $orderItems));
 
         $discountAmount = $isVip ? round($subtotal * 0.15, 2) : 0.0;
-        $shippingCost = $subtotal >= 60.0 ? 0.0 : 6.99;
+        $shippingCost = ($subtotal - $discountAmount) >= 60.0 ? 0.0 : 6.99;
         $taxRate = $this->taxRate($shippingAddress);
         $taxAmount = round(($subtotal - $discountAmount) * $taxRate, 2);
 

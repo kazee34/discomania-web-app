@@ -21,7 +21,6 @@ final class POST_AdminProductWebController extends Controller
             albumTitle: $request->input('album_title'),
             price: (float) $request->input('price'),
             stock: (int) $request->input('stock'),
-            slug: $request->input('slug'),
             genre: $request->input('genre'),
             releaseYear: $request->input('release_year') ? (int) $request->input('release_year') : null,
             country: $request->input('country'),

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Head, useForm, router } from '@inertiajs/vue3';
+import { Head, useForm, router, usePage } from '@inertiajs/vue3';
 import { computed, onMounted, ref } from 'vue';
 import { CreditCard, Building2, ChevronLeft } from 'lucide-vue-next';
 import ShopNavbar from '@/components/shop/ShopNavbar.vue';
@@ -25,12 +25,17 @@ const { cart, fetchCart } = useCart();
 const TAX_RATE = 0.21;
 const SHIPPING_THRESHOLD = 60;
 const SHIPPING_COST = 6.99;
+const VIP_DISCOUNT_RATE = 0.15;
 
+const page = usePage();
+const isVip = computed(() => !!page.props.auth?.isVip);
 const cartSubtotal = computed(() => cart.value?.totalAmount ?? 0);
 const cartItemCount = computed(() => cart.value?.items.reduce((s, i) => s + i.quantity, 0) ?? 0);
-const iva = computed(() => Math.round(cartSubtotal.value * TAX_RATE * 100) / 100);
-const shipping = computed(() => cartSubtotal.value >= SHIPPING_THRESHOLD ? 0 : SHIPPING_COST);
-const total = computed(() => Math.round((cartSubtotal.value + iva.value + shipping.value) * 100) / 100);
+const discount = computed(() => isVip.value ? Math.round(cartSubtotal.value * VIP_DISCOUNT_RATE * 100) / 100 : 0);
+const discountedSubtotal = computed(() => cartSubtotal.value - discount.value);
+const iva = computed(() => Math.round(discountedSubtotal.value * TAX_RATE * 100) / 100);
+const shipping = computed(() => discountedSubtotal.value >= SHIPPING_THRESHOLD ? 0 : SHIPPING_COST);
+const total = computed(() => Math.round((discountedSubtotal.value + iva.value + shipping.value) * 100) / 100);
 
 onMounted(fetchCart);
 
@@ -257,6 +262,10 @@ function goBack() {
                             <div class="flex justify-between text-sm">
                                 <span class="text-muted-foreground">Subtotal</span>
                                 <span class="font-medium">{{ cartSubtotal.toFixed(2) }} €</span>
+                            </div>
+                            <div v-if="discount > 0" class="flex justify-between text-sm text-green-600">
+                                <span>Descuento VIP (15%)</span>
+                                <span class="font-medium">-{{ discount.toFixed(2) }} €</span>
                             </div>
                             <div class="flex justify-between text-sm">
                                 <span class="text-muted-foreground">IVA (21%)</span>
