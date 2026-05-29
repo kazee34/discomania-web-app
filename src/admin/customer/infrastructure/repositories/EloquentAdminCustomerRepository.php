@@ -17,6 +17,7 @@ class EloquentAdminCustomerRepository implements AdminCustomerRepositoryInterfac
     public function searchAll(): array
     {
         return CustomerModel::query()
+            ->withCount('orders')
             ->orderByDesc('created_at')
             ->get()
             ->map(fn ($model) => $this->toCustomer($model))
@@ -25,7 +26,7 @@ class EloquentAdminCustomerRepository implements AdminCustomerRepositoryInterfac
 
     public function findById(int $id): ?Customer
     {
-        $model = CustomerModel::query()->find($id);
+        $model = CustomerModel::query()->withCount('orders')->find($id);
 
         return $model ? $this->toCustomer($model) : null;
     }
@@ -64,7 +65,7 @@ class EloquentAdminCustomerRepository implements AdminCustomerRepositoryInterfac
                 $model->tax_name,
                 $model->tax_vat_number,
             ),
-            totalOrders: $model->total_orders,
+            totalOrders: $model->orders_count ?? $model->total_orders,
             preferences: new CustomerPreferences(
                 $model->preferred_language ?? 'es',
                 $model->preferred_currency ?? 'EUR',

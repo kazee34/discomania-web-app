@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
  * @property int $id
@@ -102,5 +103,10 @@ class CustomerModel extends Model
     public function user(): BelongsTo
     {
         return $this->belongsTo(UserModel::class, 'user_id');
+    }
+
+    public function orders(): HasMany
+    {
+        return $this->hasMany(OrderModel::class, 'customer_id');
     }
 }

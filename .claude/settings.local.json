@@ -9,7 +9,9 @@
       "Bash(php -l src/admin/product/infrastructure/controllers/POST_AdminProductWebController.php)",
       "Bash(php -l src/admin/product/infrastructure/controllers/PUT_AdminProductWebController.php)",
       "Bash(npx tsc *)",
-      "Bash(php -l src/admin/product/domain/entities/Product.php)"
+      "Bash(php -l src/admin/product/domain/entities/Product.php)",
+      "Bash(Get-ChildItem -Path \"c:\\\\xampp\\\\htdocs\\\\laravel\\\\discomania-app\" -Directory)",
+      "Bash(Select-Object Name)"
     ]
   }
 }
