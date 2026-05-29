@@ -140,8 +140,8 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         $this->configureDefaults();
-        $this->registerEventListeners();
         $this->registerMailTransports();
+        $this->registerEventListeners();
     }
 
     private function registerMailTransports(): void
